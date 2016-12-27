@@ -1,0 +1,87 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.swamphacks.swamphacks_android.countdown.CountdownFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/margin_countdown_text_groupoffset"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/countdown_toptitle_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_countdown_normaltitles"
+            />
+
+        <TextView
+            android:id="@+id/countdown_toptitle_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_countdown_normaltitles"
+            />
+
+    </LinearLayout>
+
+    <!-- ViewGroup for top titles -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/margin_countdown_text_groupoffset"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/countdown_bottomtitle_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_countdown_normaltitles"
+            />
+
+        <TextView
+            android:id="@+id/countdown_bottomtitle_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_countdown_normaltitles"
+            />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressbar_counter"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/progressbar_circular_progressdraw"
+        android:background="@drawable/progressbar_circular_background"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:progress="0" />
+
+    <TextView
+        android:id="@+id/timer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dip"
+        android:text="@string/countdown_timer_default"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_countdown_timertext"
+        />
+
+</FrameLayout>

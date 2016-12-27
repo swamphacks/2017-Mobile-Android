@@ -1,0 +1,66 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.swamphacks.swamphacks_android.profile.HackerProfileFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="361dp"
+        android:id="@+id/fragment_hacker_profile">
+
+        <ImageView
+            android:layout_width="248dp"
+            android:layout_height="234dp"
+            app:srcCompat="@android:drawable/picture_frame"
+            android:id="@+id/qr_image"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentLeft="false"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentEnd="false" />
+
+        <Button
+            android:text="Add to Google Wallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/google_wallet_button"
+            android:layout_below="@+id/qr_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="7dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="113dp"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/profile_name"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:id="@+id/profile_email"
+            android:layout_below="@+id/profile_name"
+            android:layout_alignLeft="@+id/profile_name"
+            android:layout_alignStart="@+id/profile_name"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+</FrameLayout>

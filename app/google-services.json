@@ -1,0 +1,113 @@
+{
+  "project_info": {
+    "project_number": "1008919618491",
+    "firebase_url": "https://swamphacks-confirmed-attendees.firebaseio.com",
+    "project_id": "swamphacks-confirmed-attendees",
+    "storage_bucket": "swamphacks-confirmed-attendees.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008919618491:android:68db01bb24ea7c3c",
+        "android_client_info": {
+          "package_name": "com.swamphacks.swamphacks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1008919618491-2s8pf909d4ltppogg6l0equvtd3stpd1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swamphacks.swamphacks",
+            "certificate_hash": "FD48B90C5ABD501F151B4D48638CE6DB4BAC8DE5"
+          }
+        },
+        {
+          "client_id": "1008919618491-fomhvm0muv2tfilat2bisev5gjt521ff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJSq6kiuLVWJfis_k8bF3rxVWoaj0PBmc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1008919618491-lsua908a0a0kns330v2mso535gr3h0gm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.swamphacks.SwampHacks"
+              }
+            },
+            {
+              "client_id": "1008919618491-fomhvm0muv2tfilat2bisev5gjt521ff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008919618491:android:033455f3e09e98de",
+        "android_client_info": {
+          "package_name": "com.swamphacks.swamphacks_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1008919618491-dhaadd262gm131hl9j93gs17cbp7qb4h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swamphacks.swamphacks_android",
+            "certificate_hash": "FD48B90C5ABD501F151B4D48638CE6DB4BAC8DE5"
+          }
+        },
+        {
+          "client_id": "1008919618491-fomhvm0muv2tfilat2bisev5gjt521ff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJSq6kiuLVWJfis_k8bF3rxVWoaj0PBmc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1008919618491-lsua908a0a0kns330v2mso535gr3h0gm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.swamphacks.SwampHacks"
+              }
+            },
+            {
+              "client_id": "1008919618491-fomhvm0muv2tfilat2bisev5gjt521ff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
