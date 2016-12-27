@@ -1,188 +1,189 @@
 package com.swamphacks.swamphacks_android.announcements;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.net.Uri;
-import android.os.Bundle;
+
 import android.app.Fragment;
-import android.os.CountDownTimer;
+import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.swamphacks.swamphacks_android.R;
+import com.swamphacks.swamphacks_android.models.Announcement;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.List;
 
 public class AnnouncementsFragment extends Fragment {
-    private static final String TAG = "MD/AnnouncementsFrag";
+    private static final String TAG = "MD/Announcements";
 
-    // Countdown views
-    private ProgressBar mCircularProgress;
-    private TextView mCountdownTextView;
+    //Local datastore pin title.
+    public static final String ANNOUNCEMENT_PIN = "announcementPin";
 
-    // Title textViews
-    TextView mTopTitleText, mTopTimeText, mBottomTitleText, mBottomTimeText;
+    // Caches all the Announcements found
+    ArrayList<Announcement> mAnnouncementsList;
 
-    // For testing the countdown timer
-    private final long countdownLength = 10 * 1000;
-    private final long countdownUpdateIntervals = 1 * 750;
+    // Caches the listView layout
+    RecyclerView mRecyclerView;
+    // Adapter for the listView
+    MainNavAdapter mListAdapter;
 
-    private Date startDate;
-    private long duration;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_announcements, container, false);
-
-        // Cache the views that need to be edited later on
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.list_cards);
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // TODO cancel active requests
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Start everything off by getting the parse data
-        //getLatestParseData();
+        // Only reset this if we need to
+        if(mAnnouncementsList == null) {
+            mAnnouncementsList = new ArrayList<Announcement>();
+        }
+
+        // Initialize the test ListView
+        initList();
+
+        // Get Parse data of announcements for the first time
+        getAnnouncements();
     }
 
-    /**
-     * Initializes the countdown based off of the start date and duration if necessary
-     *
-     * @param startDate - Date(+time) this countdown is supposed to start
-     * @param duration  - How long from this start date this countdown timer should end, in milliseconds
-     */
-    private void initCountdownIfNecessary(Date startDate, long duration) {
-        // Get the local date+time
-        DateTime localDateTime = new DateTime();
+    // Set up the test listView for displaying announcements
+    private void initList() {
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
 
-        // Get the local date time zone to convert DT's to local times
-        String localTZID = TimeZone.getDefault().getID();
-        DateTimeZone localDTZ = DateTimeZone.forID(localTZID);
+        // use a linear layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
 
-        // Get the start date in local time zone
-        DateTime localStartDT = new DateTime(startDate); // Get the startDate in joda time library in EST tz
-        localStartDT.toDateTime(localDTZ);
-
-        // Get the endDT in local time
-        DateTime localEndDT = new DateTime(localStartDT);
-        localEndDT = localEndDT.plus(duration - 10800000);
-
-        // Get the current, start, and end times in millis
-        long curTime = localDateTime.getMillis();
-        long startTime = startDate.getTime();
-        long endTime = startTime + duration;
-
-        Log.d(TAG, "Start Date Orig: " + startDate.toString() + " | " + startDate.getTime() + " | Duration: " + duration);
-        Log.d(TAG, "Joda Start Date: " + localStartDT.toString() + " | " + localStartDT.getMillis());
-        Log.d(TAG, "Joda End Date: " + localEndDT.toString() + " | " + localEndDT.getMillis() + " | Supposed: " + endTime);
-
-        // Get a resources reference, to get the necessary display strings
-        Resources res = getActivity().getResources();
-        // Holds the strings to display
-        String topTitle, topTime = null, bottomTitle, bottomTime = null;
-
-        // Returns date times in the format similar to "DayName, MonthName DD, YYYY at HH:MM AM/PM."
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEEE, MMMM d, yyyy 'at' hh:mm a.");
-
-        if (curTime < startTime) {
-            // If so, it's not hack time just yet
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
-        } else if (curTime < endTime) {
-            // If so, hacking already started
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
-
-            // Calculate the time remaining and the total time of hacking
-            long timeRemaining = endTime - curTime;
-            long totalHackingTime = endTime - startTime;
-
-        } else {
-            // Otherwise, hacking already ended =<
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
-
-            // Set the counter to its "finished" state
-            mCircularProgress.setProgress(100);
-            mCountdownTextView.setText("Done!");
-        }
-
-        // Display the Strings in their respective TextViews
-        mBottomTimeText.setText(bottomTime);
+        // Create and set the adapter for this recyclerView
+        mListAdapter = new MainNavAdapter(getActivity());
+        mRecyclerView.setAdapter(mListAdapter);
     }
 
-    private class HackingCountdownTimer extends CountDownTimer {
-        // Used to display the time remaining prettily
-        DateFormat outFormat;
-        // Cached total amount of hacking time in milliseconds, to update the progress circle
-        long totalHackingTimeInMillis;
+    private void getAnnouncements() {
+        //Todo: Get announcements from firebase
+    }
 
-        /**
-         * DEPRECATED but here for reference
-         *
-         * @param millisInFuture The number of millis in the future from the call
-         *                       to {@link #start()} until the countdown is done and {@link #onFinish()}
-         *                       is called.
-         *                       param countDownInterval The interval along the way to receive
-         *                       {@link #onTick(long)} callbacks.
-         */
-//        public HackingCountdownTimer(long millisInFuture, long countDownInterval) {
-//            super(millisInFuture, countDownInterval);
-//        }
-        public HackingCountdownTimer(long millisInFuture, long totalHackingTimeInMillis) {
-            super(millisInFuture, countdownUpdateIntervals);
+    // Update the announcements shown
+    private void updateAnnouncements() {
+        // Notify the adapter that the data changed
+        mListAdapter.notifyDataSetChanged();
+    }
 
-            // Cache the total hacking time to determine progress later
-            this.totalHackingTimeInMillis = totalHackingTimeInMillis;
+    class MainNavAdapter extends RecyclerView.Adapter<MainNavAdapter.ViewHolder> {
+        Context mContext;
 
-            // Set up the formatter, to display the time remaining prettily later
-            outFormat = new SimpleDateFormat("HH:mm:ss");
-            outFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        // Default constructor
+        MainNavAdapter(Context context) {
+            this.mContext = context;
         }
 
-        @Override
-        public void onTick(long millisUntilFinished) {
-            long hours = millisUntilFinished / 3600000;
-            long minutes = (millisUntilFinished - (hours * 3600000)) / 60000;
-            long seconds = (millisUntilFinished - (hours * 3600000) - (minutes * 60000));
+        // Simple class that holds all the views that need to be reused
+        class ViewHolder extends RecyclerView.ViewHolder{
+            public TextView titleView;
+            public TextView dateView;
+            public TextView descriptionView;
+            public FrameLayout colorView;
 
-            // Padding hrs, mins, and secs to prevent out of range on substring & to improve ux
-            String hrs, min, sec;
-            hrs = (hours < 10) ? "0" + String.valueOf(hours) : String.valueOf(hours);
-            min = (minutes < 10) ? "0" + String.valueOf(minutes) : String.valueOf(minutes);
-            sec = (seconds < 10) ? "0" + String.valueOf(seconds) : String.valueOf(seconds);
+            // Default constructor, itemView holds all the views that need to be saved
+            public ViewHolder(View itemView) {
+                super(itemView);
 
-            // Update the countdown timer textView
-            mCountdownTextView.setText(hrs + ":" + min + (":" + sec).substring(0, 3));
-
-            // Update the progress [maxProgressInt - maxProgressInt*timeRemaining/total time]
-            int progress = (int) (100 - 100 * millisUntilFinished / totalHackingTimeInMillis);
-            mCircularProgress.setProgress(progress);
+                // Save the TextViews
+                this.titleView = (TextView) itemView.findViewById(R.id.info_title);
+                this.dateView = (TextView) itemView.findViewById(R.id.info_date);
+                this.descriptionView = (TextView) itemView.findViewById(R.id.info_description);
+                this.colorView = (FrameLayout) itemView.findViewById(R.id.announcement_color);
+            }
         }
 
+        // Create new views (invoked by the layout manager)
         @Override
-        public void onFinish() {
-            mCircularProgress.setProgress(100);
-            mCountdownTextView.setText("Done!");
+        public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            // Create the view for this row
+            View row = LayoutInflater.from(mContext)
+                    .inflate(R.layout.announcement_list_item, viewGroup, false);
+
+            // Create a new viewHolder which caches all the views that needs to be saved
+            ViewHolder viewHolder = new ViewHolder(row);
+
+            return viewHolder;
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(ViewHolder viewHolder, int i) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+
+            // Get the current announcement item
+            Announcement announcement = mAnnouncementsList.get(i);
+
+            // Set this item's views based off of the announcement data
+            viewHolder.titleView.setText(announcement.getTitle());
+            viewHolder.descriptionView.setText(announcement.getInfo());
+
+            int category = announcement.getCategory();
+            int current = 1;
+            for (int a = 0; a < 5; ++a) {
+                current = 1 << a;
+                if ((category & current) != 0) break;
+            }
+            switch (current) {
+                case 1:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_red));
+                    break;
+                case 2:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_blue));
+                    break;
+                case 4:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_yellow));
+                    break;
+                case 8:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_green));
+                    break;
+                case 16:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_purple));
+                    break;
+                case 32:
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                    break;
+            }
+
+            // Get the date from this announcement and set it as a relative date
+            Date date = new Date(announcement.getBroadcastAt());
+            CharSequence relativeDate = DateUtils.getRelativeTimeSpanString(date.getTime());
+            viewHolder.dateView.setText(relativeDate);
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mAnnouncementsList.size();
         }
     }
 }

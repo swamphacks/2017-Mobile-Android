@@ -1,13 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.swamphacks.swamphacks_android.announcements.AnnouncementsFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/container_base"
+    android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:animateLayoutChanges="true" android:layout_marginLeft="10dp" android:layout_marginRight="10dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_cards"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        />
 
-</FrameLayout>
+</LinearLayout>
