@@ -8,18 +8,23 @@
             android:id="@+id/nav_countdown"
             android:title="Countdown"
             android:enabled="true"
-            android:checked="true" />
+            android:checked="true"
+            android:icon="@drawable/ic_alarm_on_black_24dp" />
         <item
             android:id="@+id/nav_events"
-            android:title="Events" />
+            android:title="Events"
+            android:icon="@drawable/ic_date_range_black_24dp" />
         <item
             android:id="@+id/nav_announcements"
-            android:title="Announcements" />
+            android:title="Announcements"
+            android:icon="@drawable/ic_router_black_24dp" />
         <item android:title="Sponsors"
-            android:id="@+id/nav_sponsors" />
+            android:id="@+id/nav_sponsors"
+            android:icon="@drawable/ic_attach_money_black_24dp" />
         <item
             android:id="@+id/nav_profile"
-            android:title="Profile" />
+            android:title="Profile"
+            android:icon="@drawable/ic_account_circle_black_24dp" />
     </group>
 
 </menu>

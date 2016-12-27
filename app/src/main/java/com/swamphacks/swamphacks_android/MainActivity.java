@@ -135,15 +135,17 @@ public class MainActivity extends AppCompatActivity
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(true);
 
-            //Todo: Get icons for eventsMap, filter, and logout and apply them as so
-//            Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.common_full_open_on_phone);
-//            toolbar.setOverflowIcon(drawable);
+            Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_place_black_24dp);
+            toolbar.setOverflowIcon(drawable);
         } else if (id == R.id.nav_announcements) {
             updateFragment(announcementsFragment, true);
             toolbar.setTitle("Announcements");
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(true);
             toolbar.getMenu().getItem(2).setVisible(false);
+
+            Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_filter_list_black_24dp);
+            toolbar.setOverflowIcon(drawable);
         } else if (id == R.id.nav_sponsors) {
             updateFragment(sponsorsFragment, true);
             toolbar.setTitle("Sponsors");
@@ -156,6 +158,9 @@ public class MainActivity extends AppCompatActivity
             toolbar.getMenu().getItem(0).setVisible(true);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(false);
+
+            Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_more_horiz_black_24dp);
+            toolbar.setOverflowIcon(drawable);
         }
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
