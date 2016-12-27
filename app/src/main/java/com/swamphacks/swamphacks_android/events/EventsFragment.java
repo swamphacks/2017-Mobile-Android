@@ -1,188 +1,247 @@
 package com.swamphacks.swamphacks_android.events;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.net.Uri;
+import android.app.FragmentTransaction;
+import android.graphics.Color;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.CountDownTimer;
-import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.swamphacks.swamphacks_android.R;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import com.alamkanak.weekview.*;
+import com.swamphacks.swamphacks_android.models.Event;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
 
-public class EventsFragment extends Fragment {
-    private static final String TAG = "MD/EventsFragment";
+public class EventsFragment extends Fragment implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener {
 
-    // Countdown views
-    private ProgressBar mCircularProgress;
-    private TextView mCountdownTextView;
+    public static final String TAG = "ScheduleFragment";
 
-    // Title textViews
-    TextView mTopTitleText, mTopTimeText, mBottomTitleText, mBottomTimeText;
+    // network manager
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    // For testing the countdown timer
-    private final long countdownLength = 10 * 1000;
-    private final long countdownUpdateIntervals = 1 * 750;
+    // Declaring Views
+    private LinearLayout mScheduleContainer;
+    private WeekView mWeekView;
 
-    private Date startDate;
-    private long duration;
+    // Event data structures
+    private ArrayList<Event> mEvents;
+    private ArrayList<WeekViewEvent> weekViewEvents;
 
-    @Nullable
+    // Booleans
+    private boolean eventDetailsOpen = false; //Prevents multiple EventDetailFragments from opening.
+
+    // Declares the EventDetailsFragment
+    private EventDetailFragment eventDetailFragment;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater,
+                             final ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
-        // Cache the views that need to be edited later on
+        mScheduleContainer = (LinearLayout) view.findViewById(R.id.schedule_container);
+        mWeekView = (WeekView) view.findViewById(R.id.week_view);
+        setUpWeekView();
 
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private void setUpWeekView() {
+        //Set listeners
+        mWeekView.setOnEventClickListener(this);
+        mWeekView.setMonthChangeListener(this);
+        mWeekView.setEventLongPressListener(this);
+        //Set up visuals of the calendar
+        mWeekView.setBackgroundColor(Color.WHITE);
+        mWeekView.setEventTextColor(Color.WHITE);
+        mWeekView.setNumberOfVisibleDays(1);
+        mWeekView.setTextSize(22);
+        mWeekView.setHourHeight(120);
+        mWeekView.setHeaderColumnPadding(8);
+        mWeekView.setHeaderRowPadding(16);
+        mWeekView.setColumnGap(8);
+        mWeekView.setHourSeparatorColor(Color.WHITE);
+        mWeekView.setHourSeparatorHeight(4);
+        mWeekView.setHeaderColumnBackgroundColor(Color.WHITE);
+        mWeekView.setHeaderColumnBackgroundColor(Color.BLACK);
+        mWeekView.setOverlappingEventGap(2);
+    }
 
-        // Start everything off by getting the parse data
-        //getLatestParseData();
+    public void getEvents() {
+        //Todo: Network call for events
+    }
+
+    public ArrayList<WeekViewEvent> createWeekViewEvents(ArrayList<Event> events, int month) {
+        weekViewEvents = new ArrayList<WeekViewEvent>();
+
+        long id = 0;
+
+        for (Event event : events) {
+            // Create start event.
+            GregorianCalendar startTime = new GregorianCalendar(TimeZone.getDefault());
+            startTime.setTime(new Date(event.getStart()));
+
+            // Create end event.
+            GregorianCalendar endTime = (GregorianCalendar) startTime.clone();
+            endTime.add(Calendar.SECOND, (int) event.getDuration());
+
+            // Set color based on EventType (Category).
+            int color = getEventColor(event.getCategory());
+
+            // Create a WeekViewEvent
+            WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getName(), startTime, endTime);
+            weekViewEvent.setColor(color);
+
+            // Add the WeekViewEvent to the list.
+            if (startTime.get(Calendar.MONTH) == month) weekViewEvents.add(weekViewEvent);
+
+            // Increment the id
+            id++;
+        }
+
+        Log.d(TAG, "created " + weekViewEvents.size() + " events");
+        return weekViewEvents;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     /**
-     * Initializes the countdown based off of the start date and duration if necessary
+     * Takes the event type based on the EventType class in Parse and returns the corresponding
+     * color of the event.
      *
-     * @param startDate - Date(+time) this countdown is supposed to start
-     * @param duration  - How long from this start date this countdown timer should end, in milliseconds
+     * @param eventType Event type/category.
+     * @return color of the event.
      */
-    private void initCountdownIfNecessary(Date startDate, long duration) {
-        // Get the local date+time
-        DateTime localDateTime = new DateTime();
-
-        // Get the local date time zone to convert DT's to local times
-        String localTZID = TimeZone.getDefault().getID();
-        DateTimeZone localDTZ = DateTimeZone.forID(localTZID);
-
-        // Get the start date in local time zone
-        DateTime localStartDT = new DateTime(startDate); // Get the startDate in joda time library in EST tz
-        localStartDT.toDateTime(localDTZ);
-
-        // Get the endDT in local time
-        DateTime localEndDT = new DateTime(localStartDT);
-        localEndDT = localEndDT.plus(duration - 10800000);
-
-        // Get the current, start, and end times in millis
-        long curTime = localDateTime.getMillis();
-        long startTime = startDate.getTime();
-        long endTime = startTime + duration;
-
-        Log.d(TAG, "Start Date Orig: " + startDate.toString() + " | " + startDate.getTime() + " | Duration: " + duration);
-        Log.d(TAG, "Joda Start Date: " + localStartDT.toString() + " | " + localStartDT.getMillis());
-        Log.d(TAG, "Joda End Date: " + localEndDT.toString() + " | " + localEndDT.getMillis() + " | Supposed: " + endTime);
-
-        // Get a resources reference, to get the necessary display strings
-        Resources res = getActivity().getResources();
-        // Holds the strings to display
-        String topTitle, topTime = null, bottomTitle, bottomTime = null;
-
-        // Returns date times in the format similar to "DayName, MonthName DD, YYYY at HH:MM AM/PM."
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEEE, MMMM d, yyyy 'at' hh:mm a.");
-
-        if (curTime < startTime) {
-            // If so, it's not hack time just yet
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
-        } else if (curTime < endTime) {
-            // If so, hacking already started
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
-
-            // Calculate the time remaining and the total time of hacking
-            long timeRemaining = endTime - curTime;
-            long totalHackingTime = endTime - startTime;
-
-        } else {
-            // Otherwise, hacking already ended =<
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
-
-            // Set the counter to its "finished" state
-            mCircularProgress.setProgress(100);
-            mCountdownTextView.setText("Done!");
+    public int getEventColor(int eventType) {
+        switch (eventType) {
+            case 0: // Logistics - GO BLUE
+                return ContextCompat.getColor(getActivity(), R.color.event_blue);
+            case 1: // Social - Red
+                return ContextCompat.getColor(getActivity(), R.color.event_red);
+            case 2: // Food - MAIZE
+                return ContextCompat.getColor(getActivity(), R.color.event_yellow);
+            case 3: // Tech Talk - Purple
+                return ContextCompat.getColor(getActivity(), R.color.event_purple);
+            case 4: // Other - Green
+                return ContextCompat.getColor(getActivity(), R.color.event_green);
+            default:
+                return ContextCompat.getColor(getActivity(), R.color.event_blue);
         }
-
-        // Display the Strings in their respective TextViews
-        mBottomTimeText.setText(bottomTime);
     }
 
-    private class HackingCountdownTimer extends CountDownTimer {
-        // Used to display the time remaining prettily
-        DateFormat outFormat;
-        // Cached total amount of hacking time in milliseconds, to update the progress circle
-        long totalHackingTimeInMillis;
+    public boolean getEventDetailsOpened() {
+        return eventDetailsOpen;
+    }
 
-        /**
-         * DEPRECATED but here for reference
-         *
-         * @param millisInFuture The number of millis in the future from the call
-         *                       to {@link #start()} until the countdown is done and {@link #onFinish()}
-         *                       is called.
-         *                       param countDownInterval The interval along the way to receive
-         *                       {@link #onTick(long)} callbacks.
-         */
-//        public HackingCountdownTimer(long millisInFuture, long countDownInterval) {
-//            super(millisInFuture, countDownInterval);
-//        }
-        public HackingCountdownTimer(long millisInFuture, long totalHackingTimeInMillis) {
-            super(millisInFuture, countdownUpdateIntervals);
+    public void setEventDetailsOpened(Boolean bool) {
+        eventDetailsOpen = bool;
+    }
 
-            // Cache the total hacking time to determine progress later
-            this.totalHackingTimeInMillis = totalHackingTimeInMillis;
 
-            // Set up the formatter, to display the time remaining prettily later
-            outFormat = new SimpleDateFormat("HH:mm:ss");
-            outFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  HANDLES BUTTON CICKS FOR ScheduleFragment AND EventDetailsFragment
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Gets clicked view in the ScheduleFragment and the EventDetailsFragment and handles them
+     * appropriately.
+     *
+     * @param v View that was clicked
+     */
+    public void scheduleFragmentClick(View v) {
+        //Switch the id of the clicked view.
+        switch (v.getId()) {
+            case R.id.event_close_button:
+                closeEventDetails();
+                break;
+            default:
+                break;
         }
+    }
 
-        @Override
-        public void onTick(long millisUntilFinished) {
-            long hours = millisUntilFinished / 3600000;
-            long minutes = (millisUntilFinished - (hours * 3600000)) / 60000;
-            long seconds = (millisUntilFinished - (hours * 3600000) - (minutes * 60000));
+    /**
+     * Refresh all the events from the Parse database and call the onMonthChange listener to
+     * re-draw the new events on the calendar.
+     */
+    public void refreshEvents() {
+        getEvents();
+    }
 
-            // Padding hrs, mins, and secs to prevent out of range on substring & to improve ux
-            String hrs, min, sec;
-            hrs = (hours < 10) ? "0" + String.valueOf(hours) : String.valueOf(hours);
-            min = (minutes < 10) ? "0" + String.valueOf(minutes) : String.valueOf(minutes);
-            sec = (seconds < 10) ? "0" + String.valueOf(seconds) : String.valueOf(seconds);
+    /**
+     * Finds the instance of the EventDetails fragment that is in the R.id.drawer_layout and closes
+     * it. Uses findFragmentById because the MainActivity can create an EventDetailsFragment from
+     * a push notification when the ScheduleFragment itself is not open, (ie eventDetailsFragment
+     * has not yet been declared or instantiated).
+     */
+    public void closeEventDetails() {
+        //Close the EventDetailsFragment
+        getActivity().getFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
+        setEventDetailsOpened(false);
 
-            // Update the countdown timer textView
-            mCountdownTextView.setText(hrs + ":" + min + (":" + sec).substring(0, 3));
 
-            // Update the progress [maxProgressInt - maxProgressInt*timeRemaining/total time]
-            int progress = (int) (100 - 100 * millisUntilFinished / totalHackingTimeInMillis);
-            mCircularProgress.setProgress(progress);
+    }
+
+    @Override
+    public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        if (!eventDetailsOpen) {
+            eventDetailFragment =
+                    EventDetailFragment.newInstance(mEvents.get((int) event.getId()), event.getColor());
+            eventDetailFragment.setParent(this);
+            getActivity().getFragmentManager()
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
+                    .add(R.id.drawer_layout, eventDetailFragment)
+                    .commit();
+            //Hide the toolbar so the event details are full screen.
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+            //Prevents other events from being clicked while one event's details are being shown.
+            setEventDetailsOpened(true);
         }
+    }
 
-        @Override
-        public void onFinish() {
-            mCircularProgress.setProgress(100);
-            mCountdownTextView.setText("Done!");
+    @Override
+    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+        if (mEvents == null || mEvents.size() == 0) {
+            getEvents();
+            return new ArrayList<WeekViewEvent>();
+        } else {
+            // NOTE: WeekView indexes at 1, Calendar indexes at 0.
+            return createWeekViewEvents(mEvents, newMonth - 1);
         }
+    }
+
+    @Override
+    public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+
     }
 }

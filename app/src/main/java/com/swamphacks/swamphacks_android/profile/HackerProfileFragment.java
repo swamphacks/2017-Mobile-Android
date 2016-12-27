@@ -33,21 +33,19 @@ public class HackerProfileFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         hackerProfileFragmentView = inflater.inflate(R.layout.fragment_hacker_profile, container, false);
 
         ImageView qrCode = (ImageView) hackerProfileFragmentView.findViewById(R.id.qr_image);
         final TextView nameView = (TextView) hackerProfileFragmentView.findViewById(R.id.profile_name);
-        TextView emailView = (TextView) hackerProfileFragmentView.findViewById(R.id.profile_email);
+        final TextView emailView = (TextView) hackerProfileFragmentView.findViewById(R.id.profile_email);
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        String email = user.getEmail();
+        final String email = user.getEmail();
         String dbKey = email.replace("@", "").replace(".", "");
 
         DatabaseReference myRef = database.getReference().child("confirmed").child(dbKey).child("name");
@@ -56,6 +54,7 @@ public class HackerProfileFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 nameView.setText(dataSnapshot.getValue(String.class));
+                emailView.setText(email);
             }
 
             @Override
@@ -67,7 +66,6 @@ public class HackerProfileFragment extends Fragment {
         Bitmap qr = QRCode.from(user.getEmail()).bitmap();
 
         qrCode.setImageBitmap(qr);
-        emailView.setText(email);
 
         return hackerProfileFragmentView;
     }

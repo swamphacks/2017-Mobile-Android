@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        initView();
+    }
+
+    public void initView(){
         updateFragment(countdownFragment, false);
     }
 
@@ -78,15 +82,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    public boolean onPrepareOptionsMenu(Menu menu){
-//        menu.getItem(0).setVisible(false);
-//        menu.getItem(1).setVisible(false);
-//        menu.getItem(2).setVisible(false);
+        toolbar.getMenu().getItem(0).setVisible(false);
+        toolbar.getMenu().getItem(1).setVisible(false);
+        toolbar.getMenu().getItem(2).setVisible(false);
         return true;
     }
 
@@ -123,25 +122,15 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        MenuItem logout = (MenuItem) findViewById(R.id.action_logout);
-        MenuItem filter = (MenuItem) findViewById(R.id.action_filter);
-        MenuItem map = (MenuItem) findViewById(R.id.action_map);
-
-        Log.d("yee", (String) toolbar.getMenu().getItem(0).getTitle());
-        Log.d("yee", (String) toolbar.getMenu().getItem(1).getTitle());
-        Log.d("yee", (String) toolbar.getMenu().getItem(2).getTitle());
-
         if (id == R.id.nav_countdown) {
             updateFragment(countdownFragment, true);
             toolbar.setTitle("Countdown");
-//            logout.setVisible(false);
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(false);
         } else if (id == R.id.nav_events) {
             updateFragment(eventsFragment, true);
             toolbar.setTitle("Events");
-//            logout.setVisible(false);
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(true);
@@ -152,21 +141,18 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_announcements) {
             updateFragment(announcementsFragment, true);
             toolbar.setTitle("Announcements");
-//            logout.setVisible(false);
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(true);
             toolbar.getMenu().getItem(2).setVisible(false);
         } else if (id == R.id.nav_sponsors) {
             updateFragment(sponsorsFragment, true);
             toolbar.setTitle("Sponsors");
-//            logout.setVisible(false);
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(false);
         } else if (id == R.id.nav_profile) {
             updateFragment(hackerProfileFragment, true);
             toolbar.setTitle("Profile");
-//            logout.setVisible(true);
             toolbar.getMenu().getItem(0).setVisible(true);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(false);

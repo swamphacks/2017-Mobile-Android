@@ -52,24 +52,12 @@ public class CountdownFragment extends Fragment {
         mCircularProgress = (ProgressBar) view.findViewById(R.id.progressbar_counter);
         mCountdownTextView = (TextView) view.findViewById(R.id.timer_text);
 
-        mTopTitleText = (TextView) view.findViewById(R.id.countdown_toptitle_intro);
-        mTopTimeText = (TextView) view.findViewById(R.id.countdown_toptitle_time);
-        mBottomTitleText = (TextView) view.findViewById(R.id.countdown_bottomtitle_intro);
-        mBottomTimeText = (TextView) view.findViewById(R.id.countdown_bottomtitle_time);
-
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.action_logout);
-        item.setVisible(false);
-        //super.onPrepareOptionsMenu(menu);
     }
 
     private void initCountdownIfNecessary(Date startDate, long duration) {
