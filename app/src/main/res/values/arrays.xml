@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="announcements">
+        <item>Logistics</item>
+        <item>Social</item>
+        <item>Food</item>
+        <item>Tech Talk</item>
+        <item>Sponsor</item>
+        <item>Other</item>
+    </string-array>
+</resources>

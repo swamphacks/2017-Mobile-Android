@@ -15,19 +15,25 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.swamphacks.swamphacks_android.MainActivity;
 import com.swamphacks.swamphacks_android.R;
 import com.swamphacks.swamphacks_android.models.Announcement;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 
 public class AnnouncementsFragment extends Fragment {
     private static final String TAG = "MD/Announcements";
 
-    //Local datastore pin title.
-    public static final String ANNOUNCEMENT_PIN = "announcementPin";
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     // Caches all the Announcements found
     ArrayList<Announcement> mAnnouncementsList;
@@ -37,6 +43,7 @@ public class AnnouncementsFragment extends Fragment {
     // Adapter for the listView
     MainNavAdapter mListAdapter;
 
+    boolean[] filterList = MainActivity.filterList;
 
     @Nullable
     @Override
@@ -57,12 +64,10 @@ public class AnnouncementsFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Only reset this if we need to
         if(mAnnouncementsList == null) {
             mAnnouncementsList = new ArrayList<Announcement>();
         }
 
-        // Initialize the test ListView
         initList();
 
         // Get Parse data of announcements for the first time
@@ -84,8 +89,51 @@ public class AnnouncementsFragment extends Fragment {
         mRecyclerView.setAdapter(mListAdapter);
     }
 
-    private void getAnnouncements() {
-        //Todo: Get announcements from firebase
+    public void getAnnouncements() {
+        DatabaseReference myRef = database.getReference().child("announcements");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mAnnouncementsList = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Announcement announcement = postSnapshot.getValue(Announcement.class);
+                    int numType = convertTypeToInt(announcement.getType());
+                    if(filterList[numType] == true)
+                        mAnnouncementsList.add(announcement);
+                    updateAnnouncements();
+                }
+                Collections.sort(mAnnouncementsList, new Comparator<Announcement>() {
+                    @Override
+                    public int compare(Announcement a1, Announcement a2) {
+                        return (int) (a2.getTime() - a1.getTime());
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    public int convertTypeToInt(String s){
+        switch(s){
+            case "logistics":
+                return 0;
+            case "social":
+                return 1;
+            case "food":
+                return 2;
+            case "tech talk":
+                return 3;
+            case "sponsor":
+                return 4;
+            case "other":
+                return 5;
+        }
+        return -1;
     }
 
     // Update the announcements shown
@@ -144,40 +192,36 @@ public class AnnouncementsFragment extends Fragment {
             Announcement announcement = mAnnouncementsList.get(i);
 
             // Set this item's views based off of the announcement data
-            viewHolder.titleView.setText(announcement.getTitle());
-            viewHolder.descriptionView.setText(announcement.getInfo());
+            viewHolder.titleView.setText(announcement.getName());
+            viewHolder.descriptionView.setText(announcement.getDescription());
 
-            int category = announcement.getCategory();
-            int current = 1;
-            for (int a = 0; a < 5; ++a) {
-                current = 1 << a;
-                if ((category & current) != 0) break;
-            }
-            switch (current) {
-                case 1:
+            String category = announcement.getType();
+
+            switch (category) {
+                case "logistics":
                     viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_red));
                     break;
-                case 2:
+                case "social":
                     viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_blue));
                     break;
-                case 4:
+                case "food":
                     viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_yellow));
                     break;
-                case 8:
+                case "tech talk":
                     viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_green));
                     break;
-                case 16:
-                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_purple));
+                case "sponsor":
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_orange));
                     break;
-                case 32:
-                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                case "other":
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_purple));
                     break;
             }
 
             // Get the date from this announcement and set it as a relative date
-            Date date = new Date(announcement.getBroadcastAt());
-            CharSequence relativeDate = DateUtils.getRelativeTimeSpanString(date.getTime());
-            viewHolder.dateView.setText(relativeDate);
+            Date date = new Date(announcement.getTime() * 1000);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+            viewHolder.dateView.setText(simpleDateFormat.format(date));
         }
 
         // Return the size of your dataset (invoked by the layout manager)

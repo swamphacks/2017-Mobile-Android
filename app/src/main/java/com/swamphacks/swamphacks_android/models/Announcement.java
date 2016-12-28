@@ -1,71 +1,59 @@
 package com.swamphacks.swamphacks_android.models;
 
 public class Announcement {
-    public String title;
-    public String info;
-    public long   broadcastAt;
+    public String name;
+    public String description;
+    public long time;
 
-    /*
-    Using bits:
-    1 - Emergency (red)
-    2- Logistics (blue)
-    4 - Food (maize mother fucker)
-    8 - Swag (green)
-    16 - Sponsor (purple)
-    32 - Other (brown)
-     */
-    public int     category;
-    public boolean approved;
-    public boolean deleted;
+    public String type;
+//    public boolean approved;
+//    public boolean deleted;
 
-    public Announcement() {
+    public String getName() {
+        return name;
     }
 
-    public String getTitle() {
-        return title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getDescription() {
+        return description;
     }
 
-    public String getInfo() {
-        return info;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public long getTime() {
+        return time;
     }
 
-    public long getBroadcastAt() {
-        return broadcastAt;
+    public void setTime(long date) {
+        this.time = date;
     }
 
-    public void setBroadcastAt(long date) {
-        this.broadcastAt = date;
+    public String getType() {
+        return type;
     }
 
-    public int getCategory() {
-        return category;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setCategory(int category) {
-        this.category = category;
-    }
-
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
+//    public boolean isApproved() {
+//        return approved;
+//    }
+//
+//    public void setApproved(boolean approved) {
+//        this.approved = approved;
+//    }
+//
+//    public boolean isDeleted() {
+//        return deleted;
+//    }
+//
+//    public void setDeleted(boolean deleted) {
+//        this.deleted = deleted;
+//    }
 }

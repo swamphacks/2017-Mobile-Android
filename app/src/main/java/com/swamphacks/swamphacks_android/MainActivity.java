@@ -5,9 +5,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -22,13 +19,16 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.swamphacks.swamphacks_android.announcements.AnnouncementsFragment;
+import com.swamphacks.swamphacks_android.announcements.FilterDialogFragment;
+import com.swamphacks.swamphacks_android.announcements.FilterListener;
 import com.swamphacks.swamphacks_android.countdown.CountdownFragment;
 import com.swamphacks.swamphacks_android.events.EventsFragment;
 import com.swamphacks.swamphacks_android.profile.HackerProfileFragment;
 import com.swamphacks.swamphacks_android.sponsors.SponsorsFragment;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FilterListener{
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity
     private SponsorsFragment sponsorsFragment;
     private HackerProfileFragment hackerProfileFragment;
 
-    private Fragment state;
+    //0 -> logistics, 1 -> social, 2 -> food, 3 -> tech talk, 4 -> sponsor, 5 -> other
+    public static boolean[] filterList = {true, true, true, true, true, true};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,16 +100,21 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+        if (id == R.id.action_filter) {
+            FilterDialogFragment filterDialogFragment = new FilterDialogFragment();
+            filterDialogFragment.setListener(this);
+            filterDialogFragment.show(getFragmentManager(), "filter");
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     private void updateFragment(Fragment fragment, boolean addToBackStack) {
-        state = fragment;
-
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        fragmentTransaction.replace(R.id.content_main, fragment);
+        fragmentTransaction.replace(R.id.content_main, fragment, fragment.getTag());
 
         if (addToBackStack)
             fragmentTransaction.addToBackStack(null);
@@ -166,5 +172,10 @@ public class MainActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void updateView(boolean success, Object message) {
+        announcementsFragment.getAnnouncements();
     }
 }
