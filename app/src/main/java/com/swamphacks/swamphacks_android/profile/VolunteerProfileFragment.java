@@ -1,7 +1,6 @@
 package com.swamphacks.swamphacks_android.profile;
 
 import android.content.Intent;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;

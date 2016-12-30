@@ -24,15 +24,8 @@ public class EventDetailFragment extends Fragment {
     // Decalre Views.
     private View mEventDetailFragView;
     private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV;
-    private View colorBlock; //Header color. Matches color of event in calendar.
+    private View colorBlock;
     private FrameLayout eventInfoFrame, eventLocationNameFrame;
-
-    // Date arrays
-    private final String[] dayOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
-            "Friday", "Saturday"};
-    private final String[] monthOfYear = {"January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November",
-            "December"};
 
     // Event Details
     private String eventName;
@@ -43,7 +36,7 @@ public class EventDetailFragment extends Fragment {
     private EventsFragment parent;
 
     public static EventDetailFragment newInstance(Event event, int color) {
-        EventDetailFragment f = new EventDetailFragment();
+        EventDetailFragment eventDetailFragment = new EventDetailFragment();
 
         Bundle args = new Bundle();
         args.putString("title", event.getName());
@@ -53,9 +46,9 @@ public class EventDetailFragment extends Fragment {
         args.putLong("startTime", event.getStart());
 //        args.putLong("duration", event.getDuration());
         args.putInt("color", color);
-        f.setArguments(args);
+        eventDetailFragment.setArguments(args);
 
-        return f;
+        return eventDetailFragment;
     }
 
     @Override
@@ -80,9 +73,7 @@ public class EventDetailFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mEventDetailFragView = inflater.inflate(R.layout.fragment_event_detail, container, false);
 
         //Instantiate TextViews
@@ -106,11 +97,7 @@ public class EventDetailFragment extends Fragment {
         return mEventDetailFragView;
     }
 
-    /**
-     * Method to use the Event object to populate the view using the appropriate description.
-     */
     public void setEventDetails() {
-        // These better exist...
         eventNameTV.setText(eventName);
         eventTimeTV.setText(formatDate(eventStartTime, eventEndTime));
 
@@ -125,11 +112,11 @@ public class EventDetailFragment extends Fragment {
     }
 
     public String formatDate (Date startTime, Date endTime) {
+        //Todo Redo
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE, MMM d", Locale.US);
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
 
-        return dayFormat.format(startTime) + "\n"
-                +  timeFormat.format(startTime) + " - " + timeFormat.format(endTime);
+        return dayFormat.format(startTime) + "\n" +  timeFormat.format(startTime) + " - " + timeFormat.format(endTime);
     }
 
     @Override

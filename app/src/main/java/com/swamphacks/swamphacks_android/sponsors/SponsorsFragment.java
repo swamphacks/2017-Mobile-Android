@@ -56,12 +56,6 @@ public class SponsorsFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // TODO cancel active requests
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -71,8 +65,8 @@ public class SponsorsFragment extends Fragment {
 
         initList();
 
-        // Get Parse data of announcements for the first time
-        getAnnouncements();
+        // Get Firebase data of sponsors for the first time
+        getSponsors();
     }
 
     // Set up the test listView for displaying announcements
@@ -90,7 +84,7 @@ public class SponsorsFragment extends Fragment {
         mRecyclerView.setAdapter(mListAdapter);
     }
 
-    public void getAnnouncements() {
+    public void getSponsors() {
         DatabaseReference myRef = database.getReference().child("sponsors");
 
         myRef.addValueEventListener(new ValueEventListener() {
@@ -111,7 +105,6 @@ public class SponsorsFragment extends Fragment {
         });
     }
 
-    // Update the announcements shown
     private void updateSponsors() {
         // Notify the adapter that the data changed
         mListAdapter.notifyDataSetChanged();
@@ -164,6 +157,7 @@ public class SponsorsFragment extends Fragment {
             // Set this item's views based off of the announcement data
             viewHolder.nameView.setText(sponsor.getName());
 
+            //Todo colors for different tiers
 //            switch (tier) {
 //                case "heron":
 //                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_red));

@@ -8,9 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -56,22 +54,16 @@ public class AnnouncementsFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // TODO cancel active requests
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         if(mAnnouncementsList == null) {
-            mAnnouncementsList = new ArrayList<Announcement>();
+            mAnnouncementsList = new ArrayList<>();
         }
 
         initList();
 
-        // Get Parse data of announcements for the first time
+        // Get Firebase data of announcements for the first time
         getAnnouncements();
     }
 
@@ -151,16 +143,12 @@ public class AnnouncementsFragment extends Fragment {
             this.mContext = context;
         }
 
-
-
-        // Simple class that holds all the views that need to be reused
         class ViewHolder extends RecyclerView.ViewHolder{
             public TextView titleView;
             public TextView dateView;
             public TextView descriptionView;
             public FrameLayout colorView;
 
-            // Default constructor, itemView holds all the views that need to be saved
             public ViewHolder(View itemView) {
                 super(itemView);
 

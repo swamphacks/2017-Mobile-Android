@@ -34,7 +34,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
 
     public static final String TAG = "EventsFragment";
 
-    // network manager
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     // Declaring Views
@@ -71,6 +70,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         //Set listeners
         mWeekView.setOnEventClickListener(this);
         mWeekView.setMonthChangeListener(this);
+
         //Set up visuals of the calendar
         mWeekView.setBackgroundColor(Color.WHITE);
         mWeekView.setEventTextColor(Color.WHITE);
@@ -198,16 +198,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  HANDLES BUTTON CICKS FOR ScheduleFragment AND EventDetailsFragment
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Gets clicked view in the ScheduleFragment and the EventDetailsFragment and handles them
-     * appropriately.
-     *
-     * @param v View that was clicked
-     */
     public void scheduleFragmentClick(View v) {
         //Switch the id of the clicked view.
         switch (v.getId()) {
@@ -223,12 +213,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         getEvents();
     }
 
-    /**
-     * Finds the instance of the EventDetails fragment that is in the R.id.drawer_layout and closes
-     * it. Uses findFragmentById because the MainActivity can create an EventDetailsFragment from
-     * a push notification when the ScheduleFragment itself is not open, (ie eventDetailsFragment
-     * has not yet been declared or instantiated).
-     */
     public void closeEventDetails() {
         //Close the EventDetailsFragment
         getActivity().getFragmentManager().beginTransaction()
@@ -262,9 +246,8 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         if (mEvents == null || mEvents.size() == 0) {
             getEvents();
-            return new ArrayList<WeekViewEvent>();
+            return new ArrayList<>();
         } else {
-            // NOTE: WeekView indexes at 1, Calendar indexes at 0.
             return createWeekViewEvents(mEvents, newMonth - 1);
         }
     }

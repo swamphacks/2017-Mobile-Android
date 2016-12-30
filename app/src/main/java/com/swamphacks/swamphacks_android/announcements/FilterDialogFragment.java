@@ -25,20 +25,17 @@ public class FilterDialogFragment extends DialogFragment{
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Log.d("filterlist", "" + selected[0] + " " + selected[1]);
-        mSelectedItems = new ArrayList();  // Where we track the selected items
+        mSelectedItems = new ArrayList();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Filter")
-                // Specify the list array, the items to be selected by default (null for none),
-                // and the listener through which to receive callbacks when items are selected
+                // Specify the list array, the items to be selected by default, and the listener through which to receive callbacks when items are selected
                 .setMultiChoiceItems(R.array.announcements, selected,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                 if (isChecked) {
-                                    // If the user checked the item, add it to the selected items
                                     selected[which] = true;
                                 } else if (mSelectedItems.contains(which)) {
-                                    // Else, if the item is already in the array, remove it
                                     selected[which] = false;
                                 }
                             }
@@ -49,8 +46,6 @@ public class FilterDialogFragment extends DialogFragment{
                     public void onClick(DialogInterface dialog, int id) {
                         MainActivity.filterList = selected;
                         listener.updateView(true, "Yaaas");
-//                        AnnouncementsFragment announcementsFragment = (AnnouncementsFragment) getFragmentManager().findFragmentByTag("announcements");
-//                        announcementsFragment.getAnnouncements();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
