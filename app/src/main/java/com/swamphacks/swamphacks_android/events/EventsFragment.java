@@ -74,7 +74,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         //Set up visuals of the calendar
         mWeekView.setBackgroundColor(Color.WHITE);
         mWeekView.setEventTextColor(Color.WHITE);
-        mWeekView.setNumberOfVisibleDays(1);
+        mWeekView.setNumberOfVisibleDays(2);
         mWeekView.setTextSize(22);
         mWeekView.setHourHeight(120);
         mWeekView.setHeaderColumnPadding(8);
@@ -85,6 +85,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         mWeekView.setHeaderColumnBackgroundColor(Color.WHITE);
         mWeekView.setHeaderColumnBackgroundColor(Color.BLACK);
         mWeekView.setOverlappingEventGap(2);
+
     }
 
     public void getEvents() {

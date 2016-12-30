@@ -1,190 +1,188 @@
 package com.swamphacks.swamphacks_android.sponsors;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.swamphacks.swamphacks_android.R;
-import com.swamphacks.swamphacks_android.countdown.CountdownFragment;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import data.models.Sponsor;
 
 
 public class SponsorsFragment extends Fragment {
-    private static final String TAG = "MD/SponsorsFrag";
+    private static final String TAG = "MD/Sponsors";
 
-    // Countdown views
-    private ProgressBar mCircularProgress;
-    private TextView mCountdownTextView;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    // Title textViews
-    TextView mTopTitleText, mTopTimeText, mBottomTitleText, mBottomTimeText;
+    ArrayList<Sponsor> mSponsorsList;
 
-    // For testing the countdown timer
-    private final long countdownLength = 10 * 1000;
-    private final long countdownUpdateIntervals = 1 * 750;
-
-    private Date startDate;
-    private long duration;
+    // Caches the listView layout
+    RecyclerView mRecyclerView;
+    // Adapter for the listView
+    SponsorsFragment.MainNavAdapter mListAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sponsors, container, false);
+        View view = inflater.inflate(R.layout.fragment_announcements, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.list_cards);
 
-        // Cache the views that need to be edited later on
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this.getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        TextView tv = (TextView) view.findViewById(R.id.sponsor_name);
+                        Log.d(""+tv.getText(), "SDLJKASLJALSKD"+position);
+                    }
+                })
+        );
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // TODO cancel active requests
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Start everything off by getting the parse data
-        //getLatestParseData();
-    }
-
-    /**
-     * Initializes the countdown based off of the start date and duration if necessary
-     *
-     * @param startDate - Date(+time) this countdown is supposed to start
-     * @param duration  - How long from this start date this countdown timer should end, in milliseconds
-     */
-    private void initCountdownIfNecessary(Date startDate, long duration) {
-        // Get the local date+time
-        DateTime localDateTime = new DateTime();
-
-        // Get the local date time zone to convert DT's to local times
-        String localTZID = TimeZone.getDefault().getID();
-        DateTimeZone localDTZ = DateTimeZone.forID(localTZID);
-
-        // Get the start date in local time zone
-        DateTime localStartDT = new DateTime(startDate); // Get the startDate in joda time library in EST tz
-        localStartDT.toDateTime(localDTZ);
-
-        // Get the endDT in local time
-        DateTime localEndDT = new DateTime(localStartDT);
-        localEndDT = localEndDT.plus(duration - 10800000);
-
-        // Get the current, start, and end times in millis
-        long curTime = localDateTime.getMillis();
-        long startTime = startDate.getTime();
-        long endTime = startTime + duration;
-
-        Log.d(TAG, "Start Date Orig: " + startDate.toString() + " | " + startDate.getTime() + " | Duration: " + duration);
-        Log.d(TAG, "Joda Start Date: " + localStartDT.toString() + " | " + localStartDT.getMillis());
-        Log.d(TAG, "Joda End Date: " + localEndDT.toString() + " | " + localEndDT.getMillis() + " | Supposed: " + endTime);
-
-        // Get a resources reference, to get the necessary display strings
-        Resources res = getActivity().getResources();
-        // Holds the strings to display
-        String topTitle, topTime = null, bottomTitle, bottomTime = null;
-
-        // Returns date times in the format similar to "DayName, MonthName DD, YYYY at HH:MM AM/PM."
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEEE, MMMM d, yyyy 'at' hh:mm a.");
-
-        if (curTime < startTime) {
-            // If so, it's not hack time just yet
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
-        } else if (curTime < endTime) {
-            // If so, hacking already started
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
-
-            // Calculate the time remaining and the total time of hacking
-            long timeRemaining = endTime - curTime;
-            long totalHackingTime = endTime - startTime;
-
-        } else {
-            // Otherwise, hacking already ended =<
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
-
-            // Set the counter to its "finished" state
-            mCircularProgress.setProgress(100);
-            mCountdownTextView.setText("Done!");
+        if(mSponsorsList == null) {
+            mSponsorsList = new ArrayList<Sponsor>();
         }
 
-        // Display the Strings in their respective TextViews
-        mBottomTimeText.setText(bottomTime);
+        initList();
+
+        // Get Parse data of announcements for the first time
+        getAnnouncements();
     }
 
-    private class HackingCountdownTimer extends CountDownTimer {
-        // Used to display the time remaining prettily
-        DateFormat outFormat;
-        // Cached total amount of hacking time in milliseconds, to update the progress circle
-        long totalHackingTimeInMillis;
+    // Set up the test listView for displaying announcements
+    private void initList() {
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
 
-        /**
-         * DEPRECATED but here for reference
-         *
-         * @param millisInFuture The number of millis in the future from the call
-         *                       to {@link #start()} until the countdown is done and {@link #onFinish()}
-         *                       is called.
-         *                       param countDownInterval The interval along the way to receive
-         *                       {@link #onTick(long)} callbacks.
-         */
-//        public HackingCountdownTimer(long millisInFuture, long countDownInterval) {
-//            super(millisInFuture, countDownInterval);
-//        }
-        public HackingCountdownTimer(long millisInFuture, long totalHackingTimeInMillis) {
-            super(millisInFuture, countdownUpdateIntervals);
+        // use a linear layout manager
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(layoutManager);
 
-            // Cache the total hacking time to determine progress later
-            this.totalHackingTimeInMillis = totalHackingTimeInMillis;
+        // Create and set the adapter for this recyclerView
+        mListAdapter = new SponsorsFragment.MainNavAdapter(getActivity());
+        mRecyclerView.setAdapter(mListAdapter);
+    }
 
-            // Set up the formatter, to display the time remaining prettily later
-            outFormat = new SimpleDateFormat("HH:mm:ss");
-            outFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    public void getAnnouncements() {
+        DatabaseReference myRef = database.getReference().child("sponsors");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mSponsorsList = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Sponsor sponsor = postSnapshot.getValue(Sponsor.class);
+                    mSponsorsList.add(sponsor);
+                }
+                updateSponsors();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    // Update the announcements shown
+    private void updateSponsors() {
+        // Notify the adapter that the data changed
+        mListAdapter.notifyDataSetChanged();
+    }
+
+    class MainNavAdapter extends RecyclerView.Adapter<SponsorsFragment.MainNavAdapter.ViewHolder> {
+        Context mContext;
+
+        // Default constructor
+        MainNavAdapter(Context context) {
+            this.mContext = context;
+        }
+
+        // Simple class that holds all the views that need to be reused
+        class ViewHolder extends RecyclerView.ViewHolder{
+            public TextView nameView;
+            public FrameLayout colorView;
+
+            // Default constructor, itemView holds all the views that need to be saved
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                // Save the TextViews
+                this.nameView = (TextView) itemView.findViewById(R.id.sponsor_name);
+                this.colorView = (FrameLayout) itemView.findViewById(R.id.sponsor_color);
+            }
         }
 
         @Override
-        public void onTick(long millisUntilFinished) {
-            long hours = millisUntilFinished / 3600000;
-            long minutes = (millisUntilFinished - (hours * 3600000)) / 60000;
-            long seconds = (millisUntilFinished - (hours * 3600000) - (minutes * 60000));
+        public SponsorsFragment.MainNavAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+            // Create the view for this row
+            View row = LayoutInflater.from(mContext)
+                    .inflate(R.layout.sponsor_list_item, viewGroup, false);
 
-            // Padding hrs, mins, and secs to prevent out of range on substring & to improve ux
-            String hrs, min, sec;
-            hrs = (hours < 10) ? "0" + String.valueOf(hours) : String.valueOf(hours);
-            min = (minutes < 10) ? "0" + String.valueOf(minutes) : String.valueOf(minutes);
-            sec = (seconds < 10) ? "0" + String.valueOf(seconds) : String.valueOf(seconds);
+            // Create a new viewHolder which caches all the views that needs to be saved
+            SponsorsFragment.MainNavAdapter.ViewHolder viewHolder = new SponsorsFragment.MainNavAdapter.ViewHolder(row);
 
-            // Update the countdown timer textView
-            mCountdownTextView.setText(hrs + ":" + min + (":" + sec).substring(0, 3));
+            return viewHolder;
+        }
 
-            // Update the progress [maxProgressInt - maxProgressInt*timeRemaining/total time]
-            int progress = (int) (100 - 100 * millisUntilFinished / totalHackingTimeInMillis);
-            mCircularProgress.setProgress(progress);
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(SponsorsFragment.MainNavAdapter.ViewHolder viewHolder, int i) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+
+            // Get the current announcement item
+            Sponsor sponsor = mSponsorsList.get(i);
+
+            // Set this item's views based off of the announcement data
+            viewHolder.nameView.setText(sponsor.getName());
+
+//            switch (tier) {
+//                case "heron":
+//                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_red));
+//                    break;
+//                case "turtle":
+//                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_blue));
+//                    break;
+//                case "lilypad":
+//                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_yellow));
+//                    break;
+//                case "other":
+//                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_purple));
+//                    break;
+//            }
         }
 
         @Override
-        public void onFinish() {
-            mCircularProgress.setProgress(100);
-            mCountdownTextView.setText("Done!");
+        public int getItemCount() {
+            return mSponsorsList.size();
         }
     }
 }

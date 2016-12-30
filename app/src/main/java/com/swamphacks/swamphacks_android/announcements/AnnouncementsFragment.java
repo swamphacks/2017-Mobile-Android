@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -149,6 +151,8 @@ public class AnnouncementsFragment extends Fragment {
             this.mContext = context;
         }
 
+
+
         // Simple class that holds all the views that need to be reused
         class ViewHolder extends RecyclerView.ViewHolder{
             public TextView titleView;
@@ -229,3 +233,4 @@ public class AnnouncementsFragment extends Fragment {
         }
     }
 }
+
