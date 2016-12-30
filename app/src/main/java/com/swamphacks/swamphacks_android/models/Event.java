@@ -1,27 +1,22 @@
 package com.swamphacks.swamphacks_android.models;
 
-import java.util.List;
+import android.graphics.Bitmap;
 
 public class Event {
-    public String   name;
-    public String   info;
-    public long     start;
-    public long     duration;
-    public List<String> locations;
+    public String name;
+    public String description;
+    public String location;
+    public long startTime;
+    public long endTime;
+    public String type;
 
-    /*
-    0 - Logistics (blue)
-        (opening ceremony, expo, buses etc.)
-    1 - Social (red)
-    2 - Food (maize mother fucker)
-    3 - Tech Talk (purple)
-    4 - Other (brown)
-     */
-    public int      category;
-    public boolean  approved;
+    //Todo Do image stuff with Bitmap,
+    public String map;
 
-    public Event() {
-    }
+    //Todo Do rating stuff with numAttendees and avgRating
+    public int numAttendees;
+    public double avgRating;
+//    public boolean  approved;
 
     public String getName() {
         return name;
@@ -31,51 +26,43 @@ public class Event {
         this.name = name;
     }
 
-    public String getInfo() {
-        return info;
+    public String getDescription() {
+        return description;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public long getStart() {
-        return start * 1000;
+        return startTime * 1000;
     }
 
     public void setStart(long start) {
-        this.start = start;
+        this.startTime = start;
     }
 
-    public long getDuration() {
-        return duration;
+    public long getEnd() {
+        return endTime;
     }
 
-    public void setDuration(long duration) {
-        this.duration = duration;
+    public void setEnd(long duration) {
+        this.endTime = duration;
     }
 
-    public List<String> getLocations() {
-        return locations;
+    public String getCategory() {
+        return type;
     }
 
-    public void setLocations(List<String> locations) {
-        this.locations = locations;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
-    }
-
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
+    public void setCategory(String category) {
+        this.type = category;
     }
 }

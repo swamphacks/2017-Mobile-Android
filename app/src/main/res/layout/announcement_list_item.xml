@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/info_description"
                     android:layout_margin="5dp"
-                    android:text="Event info goes here..." />
+                    android:text="Event description goes here..." />
 
             </LinearLayout>
 

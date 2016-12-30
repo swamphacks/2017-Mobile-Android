@@ -13,7 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.swamphacks.swamphacks_android.R;
 
 import com.alamkanak.weekview.*;
@@ -26,9 +30,9 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
-public class EventsFragment extends Fragment implements WeekView.EventClickListener, MonthLoader.MonthChangeListener, WeekView.EventLongPressListener {
+public class EventsFragment extends Fragment implements WeekView.EventClickListener, MonthLoader.MonthChangeListener {
 
-    public static final String TAG = "ScheduleFragment";
+    public static final String TAG = "EventsFragment";
 
     // network manager
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -53,9 +57,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater,
-                             final ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
         mScheduleContainer = (LinearLayout) view.findViewById(R.id.schedule_container);
@@ -69,7 +71,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         //Set listeners
         mWeekView.setOnEventClickListener(this);
         mWeekView.setMonthChangeListener(this);
-        mWeekView.setEventLongPressListener(this);
         //Set up visuals of the calendar
         mWeekView.setBackgroundColor(Color.WHITE);
         mWeekView.setEventTextColor(Color.WHITE);
@@ -87,11 +88,34 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     }
 
     public void getEvents() {
-        //Todo: Network call for events
+        DatabaseReference myRef = database.getReference().child("events");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mEvents = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    mEvents.add(event);
+                }
+                Log.d(TAG, "got " + mEvents.size() + " events");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mWeekView.notifyDatasetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 
     public ArrayList<WeekViewEvent> createWeekViewEvents(ArrayList<Event> events, int month) {
-        weekViewEvents = new ArrayList<WeekViewEvent>();
+        weekViewEvents = new ArrayList<>();
 
         long id = 0;
 
@@ -101,25 +125,40 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
             startTime.setTime(new Date(event.getStart()));
 
             // Create end event.
-            GregorianCalendar endTime = (GregorianCalendar) startTime.clone();
-            endTime.add(Calendar.SECOND, (int) event.getDuration());
+            GregorianCalendar endTime = new GregorianCalendar(TimeZone.getDefault());
+            endTime.setTime(new Date(event.getEnd()*1000));
 
             // Set color based on EventType (Category).
-            int color = getEventColor(event.getCategory());
+            int color = getEventColor(convertTypeToInt(event.getCategory()));
 
             // Create a WeekViewEvent
             WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getName(), startTime, endTime);
             weekViewEvent.setColor(color);
 
-            // Add the WeekViewEvent to the list.
-            if (startTime.get(Calendar.MONTH) == month) weekViewEvents.add(weekViewEvent);
+            if (startTime.get(Calendar.MONTH) == month)
+                weekViewEvents.add(weekViewEvent);
 
-            // Increment the id
             id++;
         }
 
         Log.d(TAG, "created " + weekViewEvents.size() + " events");
         return weekViewEvents;
+    }
+
+    public int convertTypeToInt(String s){
+        switch(s){
+            case "logistics":
+                return 0;
+            case "social":
+                return 1;
+            case "food":
+                return 2;
+            case "tech talk":
+                return 3;
+            case "other":
+                return 4;
+        }
+        return -1;
     }
 
     @Override
@@ -132,13 +171,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         super.onResume();
     }
 
-    /**
-     * Takes the event type based on the EventType class in Parse and returns the corresponding
-     * color of the event.
-     *
-     * @param eventType Event type/category.
-     * @return color of the event.
-     */
     public int getEventColor(int eventType) {
         switch (eventType) {
             case 0: // Logistics - GO BLUE
@@ -186,10 +218,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         }
     }
 
-    /**
-     * Refresh all the events from the Parse database and call the onMonthChange listener to
-     * re-draw the new events on the calendar.
-     */
     public void refreshEvents() {
         getEvents();
     }
@@ -238,10 +266,5 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
             // NOTE: WeekView indexes at 1, Calendar indexes at 0.
             return createWeekViewEvents(mEvents, newMonth - 1);
         }
-    }
-
-    @Override
-    public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-
     }
 }

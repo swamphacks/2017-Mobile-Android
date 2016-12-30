@@ -2,11 +2,9 @@ package com.swamphacks.swamphacks_android.events;
 
 import android.app.Fragment;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,6 @@ import com.swamphacks.swamphacks_android.models.Event;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class EventDetailFragment extends Fragment {
@@ -42,28 +39,21 @@ public class EventDetailFragment extends Fragment {
     // Event Details
     private String eventName;
     private String eventInfo;
-    private CharSequence[] eventLocationIds;
     private Date eventStartTime, eventEndTime;
     private int eventColor;
 
     private EventsFragment parent;
 
-    /**
-     * Creates a new instance of the EventDetailsFragment.
-     * @param event Event to display in detailed view.
-     * @param color Color of the event.
-     * @return An EventDetailsFragment with the passed Event and color.
-     */
     public static EventDetailFragment newInstance(Event event, int color) {
         EventDetailFragment f = new EventDetailFragment();
 
         Bundle args = new Bundle();
         args.putString("title", event.getName());
-        args.putString("info", event.getInfo());
-        args.putCharSequenceArray("locationIds", event.getLocations()
-                .toArray(new CharSequence[event.getLocations().size()]));
+        args.putString("description", event.getDescription());
+//        args.putCharSequenceArray("location", event.getLocations()
+//                .toArray(new CharSequence[event.getLocation().size()]));
         args.putLong("startTime", event.getStart());
-        args.putLong("duration", event.getDuration());
+//        args.putLong("duration", event.getDuration());
         args.putInt("color", color);
         f.setArguments(args);
 
@@ -77,10 +67,9 @@ public class EventDetailFragment extends Fragment {
         // Either has all of the keys or none, so only checking for the title.
         if (args.containsKey("title")) {
             eventName = args.getString("title");
-            eventInfo = args.getString("info");
-            eventLocationIds = args.getCharSequenceArray("locationIds");
+            eventInfo = args.getString("description");
             eventStartTime = new Date(args.getLong("startTime"));
-            eventEndTime = new Date(args.getLong("startTime") + (args.getLong("duration") * 1000));
+            eventEndTime = new Date(args.getLong("endTime"));
             eventColor = args.getInt("color");
         }
 
@@ -120,7 +109,7 @@ public class EventDetailFragment extends Fragment {
     }
 
     /**
-     * Method to use the Event object to populate the view using the appropriate info.
+     * Method to use the Event object to populate the view using the appropriate description.
      */
     public void setEventDetails() {
         // These better exist...
@@ -143,10 +132,6 @@ public class EventDetailFragment extends Fragment {
 
         return dayFormat.format(startTime) + "\n"
                 +  timeFormat.format(startTime) + " - " + timeFormat.format(endTime);
-    }
-
-    public ArrayList<Location> getLocations(String[] locationIds) {
-        return new ArrayList<Location>();
     }
 
     @Override

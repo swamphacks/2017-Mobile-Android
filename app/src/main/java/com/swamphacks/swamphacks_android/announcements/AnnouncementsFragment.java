@@ -224,7 +224,6 @@ public class AnnouncementsFragment extends Fragment {
             viewHolder.dateView.setText(simpleDateFormat.format(date));
         }
 
-        // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
             return mAnnouncementsList.size();

@@ -18,15 +18,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.swamphacks.swamphacks_android.announcements.AnnouncementsFragment;
 import com.swamphacks.swamphacks_android.announcements.FilterDialogFragment;
 import com.swamphacks.swamphacks_android.announcements.FilterListener;
 import com.swamphacks.swamphacks_android.countdown.CountdownFragment;
 import com.swamphacks.swamphacks_android.events.EventsFragment;
 import com.swamphacks.swamphacks_android.profile.HackerProfileFragment;
+import com.swamphacks.swamphacks_android.profile.VolunteerProfileFragment;
 import com.swamphacks.swamphacks_android.sponsors.SponsorsFragment;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FilterListener{
 
@@ -38,9 +43,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AnnouncementsFragment announcementsFragment;
     private SponsorsFragment sponsorsFragment;
     private HackerProfileFragment hackerProfileFragment;
+    private VolunteerProfileFragment volunteerProfileFragment;
 
     //0 -> logistics, 1 -> social, 2 -> food, 3 -> tech talk, 4 -> sponsor, 5 -> other
     public static boolean[] filterList = {true, true, true, true, true, true};
+    boolean isVolunteer = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +61,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         announcementsFragment = new AnnouncementsFragment();
         sponsorsFragment = new SponsorsFragment();
         hackerProfileFragment = new HackerProfileFragment();
+        volunteerProfileFragment = new VolunteerProfileFragment();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        final String email = user.getEmail();
+        String dbKey = email.replace("@", "").replace(".", "");
+
+        DatabaseReference myRef = database.getReference().child("confirmed").child(dbKey).child("volunteer");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                isVolunteer = dataSnapshot.getValue(Boolean.class);
+                Log.d("isvol", "" + isVolunteer);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Log.d("some error", error.toString());
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -159,7 +188,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(false);
         } else if (id == R.id.nav_profile) {
-            updateFragment(hackerProfileFragment, true);
+            Log.d("isvol", "" + isVolunteer);
+            if(!isVolunteer)
+                updateFragment(hackerProfileFragment, true);
+            else {
+                updateFragment(volunteerProfileFragment, true);
+                Log.d("didit", "" + isVolunteer);
+            }
+
             toolbar.setTitle("Profile");
             toolbar.getMenu().getItem(0).setVisible(true);
             toolbar.getMenu().getItem(1).setVisible(false);
