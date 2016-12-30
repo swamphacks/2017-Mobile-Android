@@ -101,7 +101,6 @@ public class VolunteerProfileFragment extends Fragment {
                 toast = "Scanned from fragment: " + result.getContents();
             }
 
-            // At this point we may or may not have a reference to the activity
             displayToast();
         }
     }

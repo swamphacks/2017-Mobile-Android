@@ -23,13 +23,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
-
     private FirebaseAuth mAuth = null;
     private FirebaseAuth.AuthStateListener mAuthListener = null;
 
     private static final String TAG = "LoginActivity";
 
-    // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -79,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+        showProgress(false);
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
@@ -86,30 +85,24 @@ public class LoginActivity extends AppCompatActivity {
 
     private void attemptLogin() {
         if (mAuth == null) {
-            Log.d("uhh", "lol");
             return;
         }
-        Log.d("attempt", " loggin");
 
-        // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -123,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
+            showProgress(true);
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -133,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.w(TAG, "signInWithEmail", task.getException());
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
+                                showProgress(false);
                             } else {
                                 //pushToMain();
                             }
@@ -149,10 +144,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean isEmailValid(String email) {
         return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        return password.length() > 4;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
