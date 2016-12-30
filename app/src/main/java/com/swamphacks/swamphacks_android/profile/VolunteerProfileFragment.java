@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.swamphacks.swamphacks_android.LoginActivity;
 import com.swamphacks.swamphacks_android.MainActivity;
 import com.swamphacks.swamphacks_android.R;
@@ -28,6 +31,7 @@ import com.swamphacks.swamphacks_android.camera.VolunteerCamera;
 public class VolunteerProfileFragment extends Fragment {
     private static final String TAG = "MD/VolunteerProfileFragment";
     private View volunteerProfileView;
+    private String toast;
 
     @Nullable
     @Override
@@ -74,7 +78,29 @@ public class VolunteerProfileFragment extends Fragment {
     }
 
     public void openVolunteerCameraView(){
-        
+        IntentIntegrator.forFragment(this).initiateScan();
+    }
+
+    private void displayToast() {
+        if(getActivity() != null && toast != null) {
+            Toast.makeText(getActivity(), toast, Toast.LENGTH_LONG).show();
+            toast = null;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                toast = "Cancelled from fragment";
+            } else {
+                toast = "Scanned from fragment: " + result.getContents();
+            }
+
+            // At this point we may or may not have a reference to the activity
+            displayToast();
+        }
     }
 
     @Override
