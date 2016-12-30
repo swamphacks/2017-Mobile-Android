@@ -173,15 +173,15 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
 
     public int getEventColor(int eventType) {
         switch (eventType) {
-            case 0: // Logistics - GO BLUE
+            case 0: // Logistics
                 return ContextCompat.getColor(getActivity(), R.color.event_blue);
-            case 1: // Social - Red
+            case 1: // Social
                 return ContextCompat.getColor(getActivity(), R.color.event_red);
-            case 2: // Food - MAIZE
+            case 2: // Food
                 return ContextCompat.getColor(getActivity(), R.color.event_yellow);
-            case 3: // Tech Talk - Purple
+            case 3: // Tech Talk
                 return ContextCompat.getColor(getActivity(), R.color.event_purple);
-            case 4: // Other - Green
+            case 4: // Other
                 return ContextCompat.getColor(getActivity(), R.color.event_green);
             default:
                 return ContextCompat.getColor(getActivity(), R.color.event_blue);

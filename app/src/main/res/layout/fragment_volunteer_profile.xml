@@ -6,15 +6,6 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="361dp"
-        android:id="@+id/fragment_hacker_profile">
-
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
         android:layout_height="113dp"
         android:layout_gravity="bottom">
 
@@ -38,6 +29,42 @@
             android:layout_alignLeft="@+id/profile_name"
             android:layout_alignStart="@+id/profile_name"
             android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="361dp"
+        android:id="@+id/fragment_volunteer_profile">
+
+        <Button
+            android:text="Camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="73dp"
+            android:id="@+id/volunteer_cam_button" />
+
+        <Button
+            android:text="Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/volunteer_email_confirm"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/volunteer_cam_button"
+            android:layout_alignStart="@+id/volunteer_cam_button"
+            android:layout_marginBottom="88dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:layout_above="@+id/volunteer_email_confirm"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="7dp"
+            android:id="@+id/volunteer_email_text"
+            android:hint="email address" />
     </RelativeLayout>
 
 </FrameLayout>
