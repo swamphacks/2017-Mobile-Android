@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.swamphacks.swamphacks_android.MainActivity;
 import com.swamphacks.swamphacks_android.R;
-import com.swamphacks.swamphacks_android.models.Announcement;
+import data.models.Announcement;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

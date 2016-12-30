@@ -1,4 +1,4 @@
-package com.swamphacks.swamphacks_android.models;
+package data.models;
 
 /**
  * Created by Nikhil on 12/27/16.

@@ -1,16 +1,15 @@
 package com.swamphacks.swamphacks_android.profile;
 
 import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,12 +20,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-import com.swamphacks.swamphacks_android.LoginActivity;
-import com.swamphacks.swamphacks_android.MainActivity;
+
 import com.swamphacks.swamphacks_android.R;
-import com.swamphacks.swamphacks_android.camera.VolunteerCamera;
 
 public class VolunteerProfileFragment extends Fragment {
     private static final String TAG = "MD/VolunteerProfileFragment";
@@ -78,7 +76,12 @@ public class VolunteerProfileFragment extends Fragment {
     }
 
     public void openVolunteerCameraView(){
-        IntentIntegrator.forFragment(this).initiateScan();
+        IntentIntegrator
+                .forFragment(this)
+                .setPrompt("Scan QR Code")
+                .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+                .setOrientationLocked(false)
+                .initiateScan();
     }
 
     private void displayToast() {

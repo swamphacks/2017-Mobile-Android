@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.swamphacks.swamphacks_android.R;
 
 import com.alamkanak.weekview.*;
-import com.swamphacks.swamphacks_android.models.Event;
+import data.models.Event;
 
 import java.util.ArrayList;
 import java.util.Calendar;

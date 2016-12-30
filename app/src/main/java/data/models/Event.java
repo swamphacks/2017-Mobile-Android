@@ -1,6 +1,4 @@
-package com.swamphacks.swamphacks_android.models;
-
-import android.graphics.Bitmap;
+package data.models;
 
 public class Event {
     public String name;

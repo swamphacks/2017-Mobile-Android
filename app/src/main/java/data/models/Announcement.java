@@ -1,4 +1,4 @@
-package com.swamphacks.swamphacks_android.models;
+package data.models;
 
 public class Announcement {
     public String name;

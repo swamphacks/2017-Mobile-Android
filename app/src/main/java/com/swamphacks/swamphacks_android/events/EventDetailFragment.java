@@ -1,7 +1,6 @@
 package com.swamphacks.swamphacks_android.events;
 
 import android.app.Fragment;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +11,9 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.swamphacks.swamphacks_android.R;
-import com.swamphacks.swamphacks_android.models.Event;
+import data.models.Event;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
