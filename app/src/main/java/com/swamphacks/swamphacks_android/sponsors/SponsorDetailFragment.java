@@ -130,6 +130,7 @@ public class SponsorDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        repList = new ArrayList<SponsorRep>();
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
