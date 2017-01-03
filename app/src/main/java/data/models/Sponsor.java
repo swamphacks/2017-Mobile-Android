@@ -1,9 +1,5 @@
 package data.models;
 
-import android.graphics.Bitmap;
-
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Sponsor {
@@ -13,7 +9,7 @@ public class Sponsor {
     String logo;
     String description;
     String tier;
-    Map<String, Map<String, Object>> reps;
+    Map<String, Map<String, String>> reps;
 
     public String getName() {
         return name;
@@ -55,11 +51,11 @@ public class Sponsor {
         this.description = description;
     }
 
-    public Map<String, Map<String, Object>> getReps() {
+    public Map<String, Map<String, String>> getReps() {
         return reps;
     }
 
-    public void setReps(Map<String, Map<String, Object>> reps) {
+    public void setReps(Map<String, Map<String, String>> reps) {
         this.reps = reps;
     }
 

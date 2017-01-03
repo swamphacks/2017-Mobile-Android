@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,15 +8,64 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_lock_lock"
+            android:layout_marginTop="16dp"
+            android:id="@+id/sponsor_logo"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:text="Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/sponsor_name" />
-    </FrameLayout>
+            android:id="@+id/sponsor_name"
+            android:layout_below="@+id/sponsor_logo"
+            android:layout_toLeftOf="@+id/sponsor_logo"
+            android:layout_toStartOf="@+id/sponsor_logo" />
+
+        <TextView
+            android:text="Location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sponsor_location"
+            android:layout_below="@+id/sponsor_logo"
+            android:layout_toRightOf="@+id/sponsor_logo"
+            android:layout_toEndOf="@+id/sponsor_logo" />
+
+        <TextView
+            android:text="Description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sponsor_description"
+            android:layout_below="@+id/sponsor_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp" />
+
+        <Button
+            android:text="Learn More"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sponsor_link"
+            android:layout_marginBottom="24dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/sponsor_description"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="114dp"
+            android:layout_above="@+id/sponsor_link"
+            android:id="@+id/list_reps" />
+
+    </RelativeLayout>
 
 </FrameLayout>

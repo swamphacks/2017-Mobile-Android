@@ -121,7 +121,7 @@ public class SponsorsFragment extends Fragment {
                 mSponsorsList = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Sponsor sponsor = postSnapshot.getValue(Sponsor.class);
-                    Log.d("reps",(String) sponsor.getReps().get("rep1").get("name"));
+                    Log.d("reps", sponsor.getReps().get("rep1").get("name"));
                     mSponsorsList.add(sponsor);
                 }
                 updateSponsors();
@@ -150,6 +150,8 @@ public class SponsorsFragment extends Fragment {
         // Simple class that holds all the views that need to be reused
         class ViewHolder extends RecyclerView.ViewHolder{
             public TextView nameView;
+            public TextView locationView;
+            public TextView descriptionView;
             public FrameLayout colorView;
 
             // Default constructor, itemView holds all the views that need to be saved
@@ -158,6 +160,8 @@ public class SponsorsFragment extends Fragment {
 
                 // Save the TextViews
                 this.nameView = (TextView) itemView.findViewById(R.id.sponsor_name);
+                this.locationView = (TextView) itemView.findViewById(R.id.sponsor_location);
+                this.descriptionView = (TextView) itemView.findViewById(R.id.sponsor_location);
                 this.colorView = (FrameLayout) itemView.findViewById(R.id.sponsor_color);
             }
         }
@@ -165,8 +169,7 @@ public class SponsorsFragment extends Fragment {
         @Override
         public SponsorsFragment.MainNavAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             // Create the view for this row
-            View row = LayoutInflater.from(mContext)
-                    .inflate(R.layout.sponsor_list_item, viewGroup, false);
+            View row = LayoutInflater.from(mContext).inflate(R.layout.sponsor_list_item, viewGroup, false);
 
             // Create a new viewHolder which caches all the views that needs to be saved
             SponsorsFragment.MainNavAdapter.ViewHolder viewHolder = new SponsorsFragment.MainNavAdapter.ViewHolder(row);
@@ -177,13 +180,8 @@ public class SponsorsFragment extends Fragment {
         // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(SponsorsFragment.MainNavAdapter.ViewHolder viewHolder, int i) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-
-            // Get the current announcement item
             Sponsor sponsor = mSponsorsList.get(i);
 
-            // Set this item's views based off of the announcement data
             viewHolder.nameView.setText(sponsor.getName());
 
             //Todo colors for different tiers
