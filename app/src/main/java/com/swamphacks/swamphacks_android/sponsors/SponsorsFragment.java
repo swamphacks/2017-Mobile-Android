@@ -76,17 +76,6 @@ public class SponsorsFragment extends Fragment {
         }
     }
 
-    public void sponsorsFragmentClick(View v) {
-        //Switch the id of the clicked view.
-        switch (v.getId()) {
-            case R.id.sponsor_close_button:
-                closeSponsorDetails();
-                break;
-            default:
-                break;
-        }
-    }
-
     public void closeSponsorDetails() {
         getActivity().getFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

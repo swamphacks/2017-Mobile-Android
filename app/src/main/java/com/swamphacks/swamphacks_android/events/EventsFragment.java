@@ -197,18 +197,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         eventDetailsOpen = bool;
     }
 
-
-    public void scheduleFragmentClick(View v) {
-        //Switch the id of the clicked view.
-        switch (v.getId()) {
-            case R.id.event_close_button:
-                closeEventDetails();
-                break;
-            default:
-                break;
-        }
-    }
-
     public void refreshEvents() {
         getEvents();
     }
@@ -219,8 +207,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
         setEventDetailsOpened(false);
-
-
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.swamphacks.swamphacks_android.R;
@@ -81,7 +82,6 @@ public class EventDetailFragment extends Fragment {
         eventLocationNameTV = (TextView) mEventDetailFragView.findViewById(R.id.details_location);
         eventInfoTV = (TextView) mEventDetailFragView.findViewById(R.id.details_description);
 
-
         //Instantiate color header block
         colorBlock = mEventDetailFragView.findViewById(R.id.header_color_block);
         colorBlock.setBackgroundColor(eventColor);
@@ -101,7 +101,6 @@ public class EventDetailFragment extends Fragment {
 
         // Can be empty
         if (eventInfo.length() != 0) eventInfoTV.setText(eventInfo);
-
         String locationName = "";
 
         if (!locationName.isEmpty()) eventLocationNameTV.setText(locationName);

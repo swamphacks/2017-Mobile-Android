@@ -22,15 +22,6 @@
             android:layout_marginRight="30dp"
             android:layout_marginStart="80dp"
             android:layout_marginTop="15dp"/>
-
-        <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:id="@+id/event_close_button"
-            android:background="@color/transparent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:onClick="scheduleFragmentClick"
-            android:contentDescription="Closes the event view and returns to the calendar."/>
     </FrameLayout>
 
     <RelativeLayout

@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SponsorsFragment sponsorsFragment;
     private HackerProfileFragment hackerProfileFragment;
     private VolunteerProfileFragment volunteerProfileFragment;
+
+    Fragment state;
 
     //0 -> logistics, 1 -> social, 2 -> food, 3 -> tech talk, 4 -> sponsor, 5 -> other
     public static boolean[] filterList = {true, true, true, true, true, true};
@@ -111,6 +114,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+        if(state == sponsorsFragment)
+            sponsorsFragment.closeSponsorDetails();
+        else if(state == eventsFragment)
+            eventsFragment.closeEventDetails();
     }
 
     @Override
@@ -143,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void updateFragment(Fragment fragment, boolean addToBackStack) {
+        state = fragment;
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
