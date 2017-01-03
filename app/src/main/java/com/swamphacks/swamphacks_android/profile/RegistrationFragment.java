@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -16,18 +17,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.swamphacks.swamphacks_android.R;
 
-import org.w3c.dom.Text;
-
 import data.models.Registrant;
 
 public class RegistrationFragment extends Fragment {
     private static final String TAG = "MD/RegistrationFragment";
     private View registrationView;
 
-    private String name, email, school;
+    private String name, email, school, dbKey;
     private TextView nameTV, emailTV, schoolTV;
+    private Button confirmButton;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    private VolunteerProfileFragment parent;
 
     public static RegistrationFragment newInstance(String email) {
         RegistrationFragment registrationFragment = new RegistrationFragment();
@@ -39,6 +41,10 @@ public class RegistrationFragment extends Fragment {
         return registrationFragment;
     }
 
+    public void setParent(VolunteerProfileFragment parent){
+        this.parent = parent;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Bundle args = getArguments();
@@ -47,7 +53,7 @@ public class RegistrationFragment extends Fragment {
             email = args.getString("email");
         }
 
-        String dbKey = email.replace("@", "").replace(".", "");
+        dbKey = email.replace("@", "").replace(".", "");
 
         DatabaseReference myRef = database.getReference().child("confirmed").child(dbKey);
 
@@ -81,6 +87,22 @@ public class RegistrationFragment extends Fragment {
         nameTV = (TextView) registrationView.findViewById(R.id.registrant_name);
         emailTV = (TextView) registrationView.findViewById(R.id.registrant_email);
         schoolTV = (TextView) registrationView.findViewById(R.id.registrant_school);
+
+        confirmButton = (Button) registrationView.findViewById(R.id.confirm_button);
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference myRef = database.getReference("attendees");
+                Registrant registrant = new Registrant();
+                registrant.setEmail(email);
+                registrant.setName(name);
+                registrant.setSchool(school);
+
+                myRef.child(dbKey).setValue(registrant);
+                parent.closeRegistrationConfirmation();
+            }
+        });
 
         return registrationView;
     }

@@ -137,6 +137,7 @@ public class VolunteerProfileFragment extends Fragment {
 
     public void confirmRegistration(String email){
         registrationFragment = RegistrationFragment.newInstance(email);
+        registrationFragment.setParent(this);
         getActivity().getFragmentManager()
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

@@ -7,21 +7,46 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:text="Name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/registrant_name" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:text="Email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/registrant_email" />
+        <Button
+            android:text="Confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/confirm_button"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="39dp" />
 
-    <TextView
-        android:text="School"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/registrant_school" />
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/registrant_name"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:text="School"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/registrant_school"
+            android:layout_marginTop="43dp"
+            android:layout_below="@+id/registrant_name"
+            android:layout_alignLeft="@+id/registrant_name"
+            android:layout_alignStart="@+id/registrant_name" />
+
+        <TextView
+            android:text="Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/registrant_email"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/registrant_school"
+            android:layout_alignRight="@+id/registrant_name"
+            android:layout_alignEnd="@+id/registrant_name" />
+    </RelativeLayout>
+
 </FrameLayout>
