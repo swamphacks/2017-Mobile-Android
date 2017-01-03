@@ -118,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             sponsorsFragment.closeSponsorDetails();
         else if(state == eventsFragment)
             eventsFragment.closeEventDetails();
+        else if(state == volunteerProfileFragment)
+            volunteerProfileFragment.closeRegistrationConfirmation();
     }
 
     @Override
