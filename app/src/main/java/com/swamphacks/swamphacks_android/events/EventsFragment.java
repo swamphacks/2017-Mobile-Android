@@ -1,10 +1,12 @@
 package com.swamphacks.swamphacks_android.events;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,12 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.swamphacks.swamphacks_android.R;
 
 import com.alamkanak.weekview.*;
@@ -33,6 +40,8 @@ import java.util.TimeZone;
 public class EventsFragment extends Fragment implements WeekView.EventClickListener, MonthLoader.MonthChangeListener {
 
     public static final String TAG = "EventsFragment";
+
+    String toast;
 
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -50,6 +59,8 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     // Declares the EventDetailsFragment
     private EventDetailFragment eventDetailFragment;
 
+    private FloatingActionButton checkinButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +70,106 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
+        checkinButton = (FloatingActionButton) view.findViewById(R.id.checkin_button);
+
+        checkinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openEventCheckinView();
+            }
+        });
+
         mScheduleContainer = (LinearLayout) view.findViewById(R.id.schedule_container);
         mWeekView = (WeekView) view.findViewById(R.id.week_view);
         setUpWeekView();
 
         return view;
+    }
+
+    public void openEventCheckinView(){
+        IntentIntegrator
+                .forFragment(this)
+                .setPrompt("Scan Event QR Code")
+                .setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES)
+                .setOrientationLocked(false)
+                .initiateScan();
+    }
+
+    private void displayToast() {
+        if(getActivity() != null && toast != null) {
+            Toast.makeText(getActivity(), toast, Toast.LENGTH_LONG).show();
+            toast = null;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                toast = "Cancelled from fragment";
+            } else if(isEvent(result.getContents())){
+                final String event = result.getContents();
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                final String email = user.getEmail();
+                String dbKey = email.replace("@", "").replace(".", "");
+
+                final DatabaseReference userEventsRef = database.getReference().child("confirmed").child(dbKey).child("events");
+
+                userEventsRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        boolean has = false;
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                            if(postSnapshot.getKey() == event){
+                                has = true;
+                                break;
+                            }
+                        }
+                        if(!has){
+                            userEventsRef.child(event).setValue(getPointValue(event));
+                        }
+                        else {
+                            toast = "Already checked into event!";
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        Log.d("some error", error.toString());
+                    }
+                });
+            } else {
+                toast = "Failed to scan event";
+            }
+
+            displayToast();
+        }
+    }
+
+    public boolean isEvent(String name){
+        switch (name){
+            case "":
+                return true;
+            case "a":
+                return  true;
+        }
+
+        return false;
+    }
+
+    public int getPointValue(String name){
+        switch (name){
+            case "":
+                return 10;
+            case "a":
+                return 20;
+        }
+
+        return 0;
     }
 
     private void setUpWeekView() {

@@ -1,12 +1,30 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/schedule_container"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/schedule_container"
     android:orientation="vertical"
     android:layout_width="fill_parent" android:layout_height="fill_parent"
     android:animateLayoutChanges="true" android:background="@color/white">
 
-    <com.alamkanak.weekview.WeekView
-        android:layout_height="match_parent"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:id="@+id/week_view"
-        />
+        android:layout_height="match_parent">
+
+        <com.alamkanak.weekview.WeekView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/week_view"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:fabSize="mini"
+            app:srcCompat="@android:drawable/ic_input_add"
+            android:id="@+id/checkin_button"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="57dp" />
+    </RelativeLayout>
 
 </LinearLayout>
