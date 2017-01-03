@@ -1,9 +1,11 @@
 package com.swamphacks.swamphacks_android.sponsors;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +29,8 @@ import data.models.Sponsor;
 
 public class SponsorsFragment extends Fragment {
     private static final String TAG = "MD/Sponsors";
+    private SponsorDetailFragment sponsorDetailFragment;
+    private boolean sponsorDetailOpen = false;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -39,13 +43,14 @@ public class SponsorsFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_announcements, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list_cards);
 
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this.getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
+                        pushToDetailView(position);
                         TextView tv = (TextView) view.findViewById(R.id.sponsor_name);
                         Log.d(""+tv.getText(), "SDLJKASLJALSKD"+position);
                     }
@@ -53,6 +58,40 @@ public class SponsorsFragment extends Fragment {
         );
 
         return view;
+    }
+
+    public void pushToDetailView(int position){
+        if(!sponsorDetailOpen) {
+            sponsorDetailFragment = SponsorDetailFragment.newInstance(mSponsorsList.get(position), 1);
+            sponsorDetailFragment.setParent(this);
+            getActivity().getFragmentManager()
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
+                    .add(R.id.drawer_layout, sponsorDetailFragment)
+                    .commit();
+            //Hide the toolbar so the event details are full screen.
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+            sponsorDetailOpen = true;
+        }
+    }
+
+    public void sponsorsFragmentClick(View v) {
+        //Switch the id of the clicked view.
+        switch (v.getId()) {
+            case R.id.sponsor_close_button:
+                closeSponsorDetails();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void closeSponsorDetails() {
+        getActivity().getFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
+        sponsorDetailOpen = false;
     }
 
     @Override

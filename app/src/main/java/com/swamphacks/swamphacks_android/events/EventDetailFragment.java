@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.swamphacks.swamphacks_android.R;
@@ -25,11 +24,11 @@ public class EventDetailFragment extends Fragment {
     private View mEventDetailFragView;
     private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV;
     private View colorBlock;
-    private FrameLayout eventInfoFrame, eventLocationNameFrame;
 
     // Event Details
     private String eventName;
     private String eventInfo;
+    private String eventLocation;
     private Date eventStartTime, eventEndTime;
     private int eventColor;
 
@@ -41,8 +40,7 @@ public class EventDetailFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString("title", event.getName());
         args.putString("description", event.getDescription());
-//        args.putCharSequenceArray("location", event.getLocations()
-//                .toArray(new CharSequence[event.getLocation().size()]));
+        args.putString("location", event.getLocation());
         args.putLong("startTime", event.getStart());
 //        args.putLong("duration", event.getDuration());
         args.putInt("color", color);
@@ -59,6 +57,7 @@ public class EventDetailFragment extends Fragment {
         if (args.containsKey("title")) {
             eventName = args.getString("title");
             eventInfo = args.getString("description");
+            eventLocation = args.getString("location");
             eventStartTime = new Date(args.getLong("startTime"));
             eventEndTime = new Date(args.getLong("endTime"));
             eventColor = args.getInt("color");
@@ -82,8 +81,6 @@ public class EventDetailFragment extends Fragment {
         eventLocationNameTV = (TextView) mEventDetailFragView.findViewById(R.id.details_location);
         eventInfoTV = (TextView) mEventDetailFragView.findViewById(R.id.details_description);
 
-        eventInfoFrame = (FrameLayout) mEventDetailFragView.findViewById(R.id.info_frame);
-        eventLocationNameFrame = (FrameLayout) mEventDetailFragView.findViewById(R.id.location_name_frame);
 
         //Instantiate color header block
         colorBlock = mEventDetailFragView.findViewById(R.id.header_color_block);
@@ -100,15 +97,14 @@ public class EventDetailFragment extends Fragment {
     public void setEventDetails() {
         eventNameTV.setText(eventName);
         eventTimeTV.setText(formatDate(eventStartTime, eventEndTime));
+        eventLocationNameTV.setText(eventLocation);
 
         // Can be empty
         if (eventInfo.length() != 0) eventInfoTV.setText(eventInfo);
-        else eventInfoFrame.setVisibility(View.GONE);
 
         String locationName = "";
 
         if (!locationName.isEmpty()) eventLocationNameTV.setText(locationName);
-        else eventLocationNameFrame.setVisibility(View.GONE);
     }
 
     public String formatDate (Date startTime, Date endTime) {
@@ -116,7 +112,7 @@ public class EventDetailFragment extends Fragment {
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE, MMM d", Locale.US);
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
 
-        return dayFormat.format(startTime) + "\n" +  timeFormat.format(startTime) + " - " + timeFormat.format(endTime);
+        return dayFormat.format(startTime) + "\n" +  timeFormat.format(startTime);
     }
 
     @Override
