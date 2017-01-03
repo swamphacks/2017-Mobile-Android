@@ -121,6 +121,7 @@ public class SponsorsFragment extends Fragment {
                 mSponsorsList = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Sponsor sponsor = postSnapshot.getValue(Sponsor.class);
+                    Log.d("reps",(String) sponsor.getReps().get("rep1").get("name"));
                     mSponsorsList.add(sponsor);
                 }
                 updateSponsors();
