@@ -10,8 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -24,8 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.swamphacks.swamphacks_android.R;
-import com.swamphacks.swamphacks_android.announcements.AnnouncementsFragment;
-import com.swamphacks.swamphacks_android.sponsors.SponsorDetailFragment;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -39,9 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import data.models.Countdown;
 import data.models.Event;
-import data.models.SponsorRep;
 
 public class CountdownFragment extends Fragment {
     private static final String TAG = "MD/CountdownFrag";
@@ -155,15 +149,11 @@ public class CountdownFragment extends Fragment {
 
         if (curTime < startTime) {
             // If so, it's not hack time just yet
-            topTitle = res.getString(R.string.countdown_toptitle_beforestart);
-            bottomTitle = res.getString(R.string.countdown_bottomtitle_normal);
 
             topTime = dateTimeFormatter.print(localStartDT);
             bottomTime = dateTimeFormatter.print(localEndDT);
         } else if (curTime < endTime) {
             // If so, hacking already started
-            topTitle = res.getString(R.string.countdown_toptitle_normal);
-            bottomTitle = res.getString(R.string.countdown_bottomtitle_normal);
 
             topTime = dateTimeFormatter.print(localStartDT);
             bottomTime = dateTimeFormatter.print(localEndDT);
@@ -177,8 +167,6 @@ public class CountdownFragment extends Fragment {
             timer.start();
         } else {
             // Otherwise, hacking already ended =<
-            topTitle = res.getString(R.string.countdown_toptitle_normal);
-            bottomTitle = res.getString(R.string.countdown_bottomtitle_done);
 
             topTime = dateTimeFormatter.print(localStartDT);
             bottomTime = dateTimeFormatter.print(localEndDT);
@@ -189,9 +177,7 @@ public class CountdownFragment extends Fragment {
         }
 
         // Display the Strings in their respective TextViews
-        mTopTitleText.setText(topTitle);
         mTopTimeText.setText(topTime);
-        mBottomTitleText.setText(bottomTitle);
         mBottomTimeText.setText(bottomTime);
     }
 

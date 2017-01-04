@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#62dcec</color>
+    <color name="colorPrimaryDark">#4bd8ef</color>
+    <color name="colorAccent">#bcbec0</color>
 
     <color name="ow_drawer_background">#FAFAFA</color>
 
-    <!-- Swamphacks Colors -->
+    <color name="gradient_start">#4bd8ef</color>
+    <color name="gradient_end">#62dcec</color>
 
     <!-- Event type colors -->
     <color name="event_red">#E23052</color>

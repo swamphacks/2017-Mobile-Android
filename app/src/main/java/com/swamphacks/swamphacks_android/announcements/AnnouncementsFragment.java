@@ -3,6 +3,8 @@ package com.swamphacks.swamphacks_android.announcements;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -175,10 +177,9 @@ public class AnnouncementsFragment extends Fragment {
         // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(ViewHolder viewHolder, int i) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
+            AssetManager am = mContext.getApplicationContext().getAssets();
+            Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
 
-            // Get the current announcement item
             Announcement announcement = mAnnouncementsList.get(i);
 
             // Set this item's views based off of the announcement data
@@ -212,6 +213,10 @@ public class AnnouncementsFragment extends Fragment {
             Date date = new Date(announcement.getTime() * 1000);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
             viewHolder.dateView.setText(simpleDateFormat.format(date));
+
+            viewHolder.titleView.setTypeface(face);
+            viewHolder.descriptionView.setTypeface(face);
+            viewHolder.dateView.setTypeface(face);
         }
 
         @Override

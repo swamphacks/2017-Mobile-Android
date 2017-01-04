@@ -15,16 +15,18 @@
             android:id="@+id/week_view"
             />
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="match_parent"
+        <Button
+            android:text="Check In"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            app:fabSize="mini"
-            app:srcCompat="@android:drawable/ic_input_add"
+            android:layout_marginBottom="41dp"
             android:id="@+id/checkin_button"
+            android:layout_marginRight="98dp"
+            android:layout_marginEnd="98dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="57dp" />
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -59,7 +60,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     // Declares the EventDetailsFragment
     private EventDetailFragment eventDetailFragment;
 
-    private FloatingActionButton checkinButton;
+    private Button checkinButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
-        checkinButton = (FloatingActionButton) view.findViewById(R.id.checkin_button);
+        checkinButton = (Button) view.findViewById(R.id.checkin_button);
 
         checkinButton.setOnClickListener(new View.OnClickListener() {
             @Override
