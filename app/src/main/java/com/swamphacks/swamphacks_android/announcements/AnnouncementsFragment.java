@@ -164,8 +164,7 @@ public class AnnouncementsFragment extends Fragment {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
             // Create the view for this row
-            View row = LayoutInflater.from(mContext)
-                    .inflate(R.layout.announcement_list_item, viewGroup, false);
+            View row = LayoutInflater.from(mContext).inflate(R.layout.announcement_list_item, viewGroup, false);
 
             // Create a new viewHolder which caches all the views that needs to be saved
             ViewHolder viewHolder = new ViewHolder(row);

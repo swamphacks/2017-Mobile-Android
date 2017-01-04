@@ -134,7 +134,7 @@ public class SponsorDetailFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
-    class MainNavAdapter extends RecyclerView.Adapter<SponsorDetailFragment.MainNavAdapter.ViewHolder> {
+    public class MainNavAdapter extends RecyclerView.Adapter<SponsorDetailFragment.MainNavAdapter.ViewHolder> {
         Context mContext;
 
         // Default constructor
@@ -142,7 +142,7 @@ public class SponsorDetailFragment extends Fragment {
             this.mContext = context;
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder{
             public TextView nameView;
             public TextView titleView;
 
