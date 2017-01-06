@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Build;
@@ -63,6 +65,13 @@ public class LoginActivity extends AppCompatActivity {
                 attemptLogin();
             }
         });
+
+        AssetManager am = getApplicationContext().getAssets();
+        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+
+        mEmailView.setTypeface(face);
+        mPasswordView.setTypeface(face);
+        mEmailSignInButton.setTypeface(face);
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);

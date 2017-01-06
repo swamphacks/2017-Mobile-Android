@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.swamphacks.swamphacks_android.LoginActivity">
+    tools:context="com.swamphacks.swamphacks_android.LoginActivity"
+    android:background="@color/colorPrimary">
 
     <!-- Login progress -->
 
@@ -20,60 +22,72 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
-    <ScrollView
-        android:id="@+id/login_form"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/login_form">
 
-        <LinearLayout
-            android:id="@+id/email_login_form"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/logo_image"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/email_sign_in_button"
+            style="?android:textAppearanceSmall"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Submit Email"
+            android:textStyle="bold"
+            android:layout_marginBottom="41dp"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:layout_alignParentBottom="true"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/button_blue_white_border"
+            android:textAllCaps="false"
+            android:layout_width="250dp" />
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/password"
+            android:layout_height="30dp"
+            android:hint="@string/prompt_password"
+            android:imeActionId="@+id/login"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionUnspecified"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:background="@drawable/rounded_textedit"
+            android:textSize="14sp"
+            android:layout_above="@+id/email_sign_in_button"
+            android:layout_alignLeft="@+id/email_sign_in_button"
+            android:layout_alignStart="@+id/email_sign_in_button"
+            android:layout_marginBottom="69dp"
+            android:gravity="center"
+            android:layout_width="250dp" />
 
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+        <EditText
+            android:id="@+id/email"
+            android:layout_height="30dp"
+            android:hint="@string/prompt_email"
+            android:imeActionId="@+id/login"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionUnspecified"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:background="@drawable/rounded_textedit"
+            android:textSize="14sp"
+            android:layout_marginBottom="21dp"
+            android:gravity="center"
+            android:layout_above="@+id/password"
+            android:layout_alignLeft="@+id/password"
+            android:layout_alignStart="@+id/password"
+            android:layout_width="250dp"
+            android:inputType="textEmailAddress" />
 
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Sign in"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 
 </LinearLayout>
