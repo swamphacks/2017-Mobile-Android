@@ -1,8 +1,12 @@
 package com.swamphacks.swamphacks_android.countdown;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -37,6 +41,7 @@ import java.util.TimeZone;
 
 import data.models.Event;
 
+@TargetApi(Build.VERSION_CODES.M)
 public class CountdownFragment extends Fragment {
     private static final String TAG = "MD/CountdownFrag";
 
@@ -44,10 +49,10 @@ public class CountdownFragment extends Fragment {
 
     // Countdown views
     private ProgressBar mCircularProgress;
-    private TextView mCountdownTextView;
+    private TextView mCountdownTextView, mHappeningNowTextView;
 
     // Title textViews
-    TextView mTopTitleText, mTopTimeText, mBottomTitleText, mBottomTimeText;
+    TextView mTopTimeText, mBottomTimeText;
 
     // For testing the countdown timer
     private final long countdownLength = 10 * 1000;
@@ -69,6 +74,13 @@ public class CountdownFragment extends Fragment {
         // Cache the views that need to be edited later on
         mCircularProgress = (ProgressBar) view.findViewById(R.id.progressbar_counter);
         mCountdownTextView = (TextView) view.findViewById(R.id.timer_text);
+        mHappeningNowTextView = (TextView) view.findViewById(R.id.happening_text);
+
+        AssetManager am = getContext().getApplicationContext().getAssets();
+        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+
+        mCountdownTextView.setTypeface(face);
+        mHappeningNowTextView.setTypeface(face);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.list_happening_now);
 
@@ -264,6 +276,12 @@ public class CountdownFragment extends Fragment {
             // Set this item's views based off of the announcement data
             viewHolder.nameView.setText(event.getName());
             viewHolder.locationView.setText(event.getLocation());
+
+            AssetManager am = mContext.getApplicationContext().getAssets();
+            Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+
+            viewHolder.nameView.setTypeface(face);
+            viewHolder.locationView.setTypeface(face);
 
             String category = event.getCategory();
 

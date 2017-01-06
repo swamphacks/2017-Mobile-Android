@@ -26,14 +26,16 @@
                 android:orientation="vertical">
 
                 <FrameLayout android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="28dp">
 
                     <TextView android:layout_width="wrap_content" android:layout_height="25dp"
                         android:id="@+id/event_name"
-                        android:layout_margin="5dp"
-                        android:layout_gravity="start|left"
+                        android:layout_gravity="left|start"
                         android:textColor="@color/black"
-                        android:text="Event Title"/>
+                        android:text="Event Title"
+                        android:layout_margin="12dp"
+                        android:textSize="16sp"
+                        android:textStyle="normal|bold" />
 
                 </FrameLayout>
 
@@ -41,8 +43,11 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/event_location"
                     android:text="Event description goes here..."
-                    android:layout_margin="7dp"
-                    android:paddingLeft="5dp" />
+                    android:layout_margin="5dp"
+                    android:paddingLeft="8dp"
+                    android:textSize="12sp"
+                    android:textColorLink="@color/black"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
