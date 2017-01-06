@@ -11,42 +11,102 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:text="Confirm"
+        <TextView
+            android:text="School"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/confirm_button"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="39dp" />
+            android:id="@+id/registrant_school"
+            android:layout_marginTop="60dp"
+            android:layout_below="@+id/registrant_name"
+            android:layout_alignLeft="@+id/registrant_name"
+            android:layout_alignStart="@+id/registrant_name"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:text="Name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/registrant_name"
+            android:layout_marginLeft="55dp"
+            android:layout_marginStart="55dp"
+            android:layout_marginTop="80dp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:text="School"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/registrant_school"
-            android:layout_marginTop="43dp"
-            android:layout_below="@+id/registrant_name"
-            android:layout_alignLeft="@+id/registrant_name"
-            android:layout_alignStart="@+id/registrant_name" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="20sp"
+            android:textColor="@color/black" />
 
         <TextView
             android:text="Email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/registrant_email"
-            android:layout_marginTop="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/registrant_school"
+            android:layout_alignStart="@+id/registrant_school"
             android:layout_below="@+id/registrant_school"
-            android:layout_alignRight="@+id/registrant_name"
-            android:layout_alignEnd="@+id/registrant_name" />
+            android:layout_marginTop="60dp"
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/name_label"
+            android:textSize="12sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignBottom="@+id/registrant_name"
+            android:layout_alignLeft="@+id/registrant_name"
+            android:layout_alignStart="@+id/registrant_name"
+            android:layout_marginBottom="25dp" />
+
+        <TextView
+            android:text="School"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/school_label"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:layout_alignBottom="@+id/registrant_school"
+            android:layout_alignLeft="@+id/registrant_school"
+            android:layout_alignStart="@+id/registrant_school"
+            android:layout_marginBottom="25dp" />
+
+        <TextView
+            android:text="Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/email_label"
+            android:textSize="12sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignBottom="@+id/registrant_email"
+            android:layout_alignLeft="@+id/registrant_email"
+            android:layout_alignStart="@+id/registrant_email"
+            android:layout_marginBottom="25dp" />
+
+        <Button
+            android:text="Confirm Attendee"
+            android:id="@+id/confirm_button"
+            android:layout_marginBottom="39dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:background="@drawable/button_blue_white_border"
+            android:textAllCaps="false"
+            android:layout_height="40dp"
+            android:layout_width="180dp" />
+
+        <TextView
+            android:text="correct info?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/correct_label"
+            android:textSize="14sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_above="@+id/confirm_button"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
 </FrameLayout>

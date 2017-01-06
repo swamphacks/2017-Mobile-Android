@@ -1,5 +1,9 @@
 package com.swamphacks.swamphacks_android.profile;
 
+import android.annotation.TargetApi;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -24,7 +28,7 @@ public class RegistrationFragment extends Fragment {
     private View registrationView;
 
     private String name, email, school, dbKey;
-    private TextView nameTV, emailTV, schoolTV;
+    private TextView nameTV, emailTV, schoolTV, nameLabel, schoolLabel, emailLabel, correctLabel;
     private Button confirmButton;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -79,6 +83,7 @@ public class RegistrationFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,8 +92,24 @@ public class RegistrationFragment extends Fragment {
         nameTV = (TextView) registrationView.findViewById(R.id.registrant_name);
         emailTV = (TextView) registrationView.findViewById(R.id.registrant_email);
         schoolTV = (TextView) registrationView.findViewById(R.id.registrant_school);
+        nameLabel = (TextView) registrationView.findViewById(R.id.name_label);
+        emailLabel = (TextView) registrationView.findViewById(R.id.email_label);
+        schoolLabel = (TextView) registrationView.findViewById(R.id.school_label);
+        correctLabel = (TextView) registrationView.findViewById(R.id.correct_label);
 
         confirmButton = (Button) registrationView.findViewById(R.id.confirm_button);
+
+        AssetManager am = getContext().getApplicationContext().getAssets();
+        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+
+        nameTV.setTypeface(face);
+        nameLabel.setTypeface(face);
+        schoolLabel.setTypeface(face);
+        schoolTV.setTypeface(face);
+        emailTV.setTypeface(face);
+        emailLabel.setTypeface(face);
+        correctLabel.setTypeface(face);
+        confirmButton.setTypeface(face);
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
