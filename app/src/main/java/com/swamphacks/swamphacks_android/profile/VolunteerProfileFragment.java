@@ -1,7 +1,11 @@
 package com.swamphacks.swamphacks_android.profile;
 
+import android.annotation.TargetApi;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
@@ -40,6 +44,7 @@ public class VolunteerProfileFragment extends Fragment {
 
     private RegistrationFragment registrationFragment;
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +56,18 @@ public class VolunteerProfileFragment extends Fragment {
         final TextView nameView = (TextView) volunteerProfileView.findViewById(R.id.profile_name);
         final TextView emailView = (TextView) volunteerProfileView.findViewById(R.id.profile_email);
 
+        Button cameraButton = (Button) volunteerProfileView.findViewById(R.id.volunteer_cam_button);
+        Button volunteerEmailButton = (Button) volunteerProfileView.findViewById(R.id.volunteer_email_confirm);
+
+        AssetManager am = getContext().getApplicationContext().getAssets();
+        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+
+        nameView.setTypeface(face);
+        emailView.setTypeface(face);
+        cameraButton.setTypeface(face);
+        volunteerEmailButton.setTypeface(face);
+        emailET.setTypeface(face);
+
         final String email = user.getEmail();
         String dbKey = email.replace("@", "").replace(".", "");
 
@@ -60,7 +77,7 @@ public class VolunteerProfileFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 nameView.setText(dataSnapshot.getValue(String.class));
-                emailView.setText("VOLLLL");
+                emailView.setText(email);
             }
 
             @Override
@@ -68,9 +85,6 @@ public class VolunteerProfileFragment extends Fragment {
                 Log.d("some error", error.toString());
             }
         });
-
-        Button cameraButton = (Button) volunteerProfileView.findViewById(R.id.volunteer_cam_button);
-        Button volunteerEmailButton = (Button) volunteerProfileView.findViewById(R.id.volunteer_email_confirm);
 
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,12 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.swamphacks.swamphacks_android.profile.VolunteerProfileFragment">
+    tools:context="com.swamphacks.swamphacks_android.profile.VolunteerProfileFragment"
+    android:background="@color/colorPrimary">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="113dp"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:layout_height="145dp"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
@@ -19,16 +21,20 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="false"
             android:layout_alignParentStart="false"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="25dp"
+            android:textSize="18sp"
+            android:textColor="@color/black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:id="@+id/profile_email"
             android:layout_below="@+id/profile_name"
-            android:layout_alignLeft="@+id/profile_name"
-            android:layout_alignStart="@+id/profile_name"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/black" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -43,28 +49,47 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="73dp"
-            android:id="@+id/volunteer_cam_button" />
+            android:id="@+id/volunteer_cam_button"
+            android:background="@drawable/button_blue_white_border"
+            android:textColor="@color/white"
+            android:textAllCaps="false"/>
 
         <Button
             android:text="Submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/volunteer_email_confirm"
+            android:layout_marginBottom="50dp"
             android:layout_alignParentBottom="true"
             android:layout_alignLeft="@+id/volunteer_cam_button"
             android:layout_alignStart="@+id/volunteer_cam_button"
-            android:layout_marginBottom="88dp" />
+            android:background="@drawable/button_blue_white_border"
+            android:textColor="@color/white"
+            android:textAllCaps="false"/>
 
         <EditText
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:inputType="textEmailAddress"
             android:ems="10"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/volunteer_email_text"
+            android:hint="email address"
+            android:background="@drawable/rounded_textedit"
+            android:gravity="center_vertical|center"
             android:layout_above="@+id/volunteer_email_confirm"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="7dp"
-            android:id="@+id/volunteer_email_text"
-            android:hint="email address" />
+            android:textSize="14sp" />
+
+        <TextView
+            android:text="or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_below="@+id/volunteer_cam_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="41dp"
+            android:textColor="@color/white" />
     </RelativeLayout>
 
 </FrameLayout>
