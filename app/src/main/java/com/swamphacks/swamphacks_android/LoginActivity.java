@@ -73,6 +73,9 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView.setTypeface(face);
         mEmailSignInButton.setTypeface(face);
 
+        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setTitle("");
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }

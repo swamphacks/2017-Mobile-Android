@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void initView(){
         updateFragment(countdownFragment, false);
         countdownFragment.getEvents();
+        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setTitle("");
     }
 
     @Override
@@ -172,11 +174,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_countdown) {
             updateFragment(countdownFragment, true);
-            toolbar.setTitle("Countdown");
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(false);
             countdownFragment.getEvents();
+            getSupportActionBar().setElevation(0);
+            getSupportActionBar().setTitle("");
+            setTheme(R.style.LoginActivity);
         } else if (id == R.id.nav_events) {
             updateFragment(eventsFragment, true);
             toolbar.setTitle("Events");
