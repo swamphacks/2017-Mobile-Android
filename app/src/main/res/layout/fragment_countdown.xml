@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.swamphacks.swamphacks_android.countdown.CountdownFragment">
+    tools:context="com.swamphacks.swamphacks_android.countdown.CountdownFragment"
+    android:background="@color/colorPrimary">
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
@@ -12,57 +13,60 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="39dp"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:background="@color/white">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/textView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:id="@+id/list_happening_now" />
+            android:id="@+id/list_happening_now"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_height="130dp" />
 
         <TextView
             android:text="Happening Now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView"
-            android:layout_marginLeft="29dp"
-            android:layout_marginStart="29dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignLeft="@+id/list_happening_now"
+            android:layout_alignStart="@+id/list_happening_now"
+            android:layout_marginTop="20dp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="333dp">
 
-        <ProgressBar
-            android:id="@+id/progressbar_counter"
-            android:layout_width="match_parent"
-            android:layout_height="331dp"
-            android:progressDrawable="@drawable/progressbar_circular_progressdraw"
-            android:background="@drawable/progressbar_circular_background"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:max="100"
-            android:progress="0"
-            android:indeterminate="false"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
         <TextView
             android:id="@+id/timer_text"
             android:text="@string/countdown_timer_default"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_countdown_timertext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="126dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
+
+        <ProgressBar
+            android:id="@+id/progressbar_counter"
+            android:progressDrawable="@drawable/progressbar_circular_progressdraw"
+            android:background="@drawable/progressbar_circular_background"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:max="100"
+            android:progress="0"
+            android:indeterminate="false"
+            android:layout_height="331dp"
+            android:layout_width="300dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="13dp" />
 
     </RelativeLayout>
 

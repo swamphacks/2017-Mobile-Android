@@ -40,8 +40,9 @@
                 <TextView android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/event_location"
-                    android:layout_margin="5dp"
-                    android:text="Event description goes here..." />
+                    android:text="Event description goes here..."
+                    android:layout_margin="7dp"
+                    android:paddingLeft="5dp" />
 
             </LinearLayout>
 
