@@ -8,36 +8,36 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="361dp"
-        android:id="@+id/fragment_hacker_profile">
+        android:id="@+id/fragment_hacker_profile"
+        android:background="@color/colorPrimary">
+
+        <Button
+            android:text="Add to Google Wallet"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/google_wallet_button"
+            android:layout_marginTop="27dp"
+            android:background="@drawable/button_blue_white_border"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:layout_below="@+id/qr_image"
+            android:layout_centerHorizontal="true" />
 
         <ImageView
             android:layout_width="248dp"
             android:layout_height="234dp"
             app:srcCompat="@android:drawable/picture_frame"
             android:id="@+id/qr_image"
-            android:layout_alignParentTop="false"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentLeft="false"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentEnd="false" />
-
-        <Button
-            android:text="Add to Google Wallet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/google_wallet_button"
-            android:layout_below="@+id/qr_image"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="7dp" />
+            android:layout_marginTop="22dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="113dp"
-        android:layout_gravity="bottom">
+        android:layout_gravity="bottom"
+        android:layout_height="150dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -49,7 +49,10 @@
             android:layout_alignParentLeft="false"
             android:layout_alignParentRight="false"
             android:layout_alignParentStart="false"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="25dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +61,10 @@
             android:layout_below="@+id/profile_name"
             android:layout_alignLeft="@+id/profile_name"
             android:layout_alignStart="@+id/profile_name"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp" />
     </RelativeLayout>
 
 </FrameLayout>

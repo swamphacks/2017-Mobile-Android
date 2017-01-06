@@ -211,10 +211,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 updateFragment(hackerProfileFragment, true);
             else {
                 updateFragment(volunteerProfileFragment, true);
-                Log.d("didit", "" + isVolunteer);
             }
 
-            toolbar.setTitle("Profile");
+            toolbar.setTitle("");
             toolbar.getMenu().getItem(0).setVisible(true);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(false);
