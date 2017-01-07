@@ -3,6 +3,7 @@ package com.swamphacks.swamphacks_android;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -33,6 +34,9 @@ import com.swamphacks.swamphacks_android.profile.HackerProfileFragment;
 import com.swamphacks.swamphacks_android.profile.VolunteerProfileFragment;
 import com.swamphacks.swamphacks_android.sponsors.SponsorsFragment;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FilterListener{
 
     private Toolbar toolbar;
@@ -54,6 +58,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Metropolis-Regular.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+
+        //Font hacking
+        FontOverride.setDefaultFont(this, "DEFAULT", "fonts/Metropolis-Regular.otf");
+        FontOverride.setDefaultFont(this, "MONOSPACE", "fonts/Metropolis-Regular.otf");
+        FontOverride.setDefaultFont(this, "SERIF", "fonts/Metropolis-Regular.otf");
+        FontOverride.setDefaultFont(this, "SANS_SERIF", "fonts/Metropolis-Regular.otf");
+
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -106,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         countdownFragment.getEvents();
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setTitle("");
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

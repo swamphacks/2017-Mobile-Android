@@ -38,6 +38,7 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.4.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
