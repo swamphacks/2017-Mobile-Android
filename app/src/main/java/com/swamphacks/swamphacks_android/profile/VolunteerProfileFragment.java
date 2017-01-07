@@ -43,6 +43,7 @@ public class VolunteerProfileFragment extends Fragment {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     private RegistrationFragment registrationFragment;
+    private boolean registrationOpen = false;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Nullable
@@ -158,14 +159,17 @@ public class VolunteerProfileFragment extends Fragment {
                 .addToBackStack(null)
                 .add(R.id.drawer_layout, registrationFragment)
                 .commit();
+        registrationOpen = true;
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
     }
 
     public void closeRegistrationConfirmation(){
-        getActivity().getFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
+        if(registrationOpen) {
+            getActivity().getFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
+        }
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }

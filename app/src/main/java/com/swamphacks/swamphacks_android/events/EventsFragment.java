@@ -309,10 +309,11 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     }
 
     public void closeEventDetails() {
-        //Close the EventDetailsFragment
-        getActivity().getFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
+        if(eventDetailsOpen) {
+            getActivity().getFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
+        }
         setEventDetailsOpened(false);
     }
 
