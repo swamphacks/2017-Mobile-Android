@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.swamphacks.swamphacks_android.LoginActivity"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/gradient_background">
 
     <!-- Login progress -->
 
@@ -26,14 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/login_form">
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/logo_image"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
 
         <Button
             android:id="@+id/email_sign_in_button"
@@ -87,6 +79,15 @@
             android:layout_alignStart="@+id/password"
             android:layout_width="250dp"
             android:inputType="textEmailAddress" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/logo_image"
+            android:layout_marginTop="16dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 

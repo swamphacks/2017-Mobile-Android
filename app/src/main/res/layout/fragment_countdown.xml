@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.swamphacks.swamphacks_android.countdown.CountdownFragment"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/gradient_background">
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
