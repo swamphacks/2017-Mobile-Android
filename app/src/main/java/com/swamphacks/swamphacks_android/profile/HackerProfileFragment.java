@@ -47,7 +47,6 @@ public class HackerProfileFragment extends Fragment {
         hackerProfileFragmentView = inflater.inflate(R.layout.fragment_hacker_profile, container, false);
 
         ImageView qrCode = (ImageView) hackerProfileFragmentView.findViewById(R.id.qr_image);
-        Button googleWallet = (Button) hackerProfileFragmentView.findViewById(R.id.google_wallet_button);
         final TextView nameView = (TextView) hackerProfileFragmentView.findViewById(R.id.profile_name);
         final TextView emailView = (TextView) hackerProfileFragmentView.findViewById(R.id.profile_email);
 
@@ -56,7 +55,6 @@ public class HackerProfileFragment extends Fragment {
 
         nameView.setTypeface(face);
         emailView.setTypeface(face);
-        googleWallet.setTypeface(face);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
