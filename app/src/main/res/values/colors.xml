@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#62dcec</color>
-    <color name="colorPrimaryDark">#4bd8ef</color>
+    <color name="colorPrimaryDark">#62dcec</color>
     <color name="colorAccent">#bcbec0</color>
 
     <color name="ow_drawer_background">#FAFAFA</color>
