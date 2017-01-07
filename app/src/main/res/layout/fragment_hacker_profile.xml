@@ -59,8 +59,6 @@
             android:layout_height="30dp"
             android:id="@+id/profile_email"
             android:layout_below="@+id/profile_name"
-            android:layout_alignLeft="@+id/profile_name"
-            android:layout_alignStart="@+id/profile_name"
             android:layout_centerHorizontal="true"
             android:textSize="16sp"
             android:textColor="@color/black"
