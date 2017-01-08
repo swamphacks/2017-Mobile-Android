@@ -36,7 +36,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignLeft="@+id/list_happening_now"
             android:layout_alignStart="@+id/list_happening_now"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorPrimary" />
     </RelativeLayout>
 
     <RelativeLayout

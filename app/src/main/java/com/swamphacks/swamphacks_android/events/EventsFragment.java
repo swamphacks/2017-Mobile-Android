@@ -206,7 +206,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
                     Event event = postSnapshot.getValue(Event.class);
                     mEvents.add(event);
                 }
-                Log.d(TAG, "got " + mEvents.size() + " events");
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -249,7 +248,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
             id++;
         }
 
-        Log.d(TAG, "created " + weekViewEvents.size() + " events");
         return weekViewEvents;
     }
 
