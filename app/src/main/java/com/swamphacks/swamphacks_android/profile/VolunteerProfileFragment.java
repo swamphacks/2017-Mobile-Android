@@ -4,7 +4,17 @@ import android.annotation.TargetApi;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -59,6 +69,10 @@ public class VolunteerProfileFragment extends Fragment {
 
         Button cameraButton = (Button) volunteerProfileView.findViewById(R.id.volunteer_cam_button);
         Button volunteerEmailButton = (Button) volunteerProfileView.findViewById(R.id.volunteer_email_confirm);
+
+        Bitmap cameraImage = BitmapFactory.decodeResource(getResources(), R.drawable.camera_icon);
+        Drawable drawableCamera = new BitmapDrawable(getResources(), getRoundedCornerBitmap(cameraImage, 40));
+        cameraButton.setBackground(drawableCamera);
 
         AssetManager am = getContext().getApplicationContext().getAssets();
         Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
@@ -172,6 +186,28 @@ public class VolunteerProfileFragment extends Fragment {
         }
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+    }
+
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                .getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = pixels;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
     }
 
     @Override

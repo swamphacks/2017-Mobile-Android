@@ -1,7 +1,9 @@
 package com.swamphacks.swamphacks_android.sponsors;
 
+import android.annotation.TargetApi;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.Nullable;
@@ -23,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.swamphacks.swamphacks_android.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import data.models.Sponsor;
 
@@ -126,6 +130,19 @@ public class SponsorsFragment extends Fragment {
                     Log.d("reps", sponsor.getReps().get("rep1").get("name"));
                     mSponsorsList.add(sponsor);
                 }
+
+                Comparator<Sponsor> priorityBasedComparator = new Comparator<Sponsor>() {
+                    @TargetApi(Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public int compare(Sponsor s1, Sponsor s2) {
+                        int priority1 = s1.getPriority();
+                        int priority2 = s2.getPriority();
+                        return Integer.compare(priority1, priority2);
+                    }
+                };
+
+                Collections.sort(mSponsorsList, priorityBasedComparator);
+
                 updateSponsors();
             }
 
@@ -185,22 +202,22 @@ public class SponsorsFragment extends Fragment {
             Sponsor sponsor = mSponsorsList.get(i);
 
             viewHolder.nameView.setText(sponsor.getName());
+            String tier = sponsor.getTier();
 
-            //Todo colors for different tiers
-//            switch (tier) {
-//                case "heron":
-//                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_red));
-//                    break;
-//                case "turtle":
-//                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_blue));
-//                    break;
-//                case "lilypad":
-//                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_yellow));
-//                    break;
-//                case "other":
-//                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_purple));
-//                    break;
-//            }
+            switch (tier) {
+                case "heron":
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_red));
+                    break;
+                case "turtle":
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_blue));
+                    break;
+                case "lilypad":
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_yellow));
+                    break;
+                case "other":
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_purple));
+                    break;
+            }
         }
 
         @Override
