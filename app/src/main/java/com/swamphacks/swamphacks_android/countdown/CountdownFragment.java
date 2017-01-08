@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -57,7 +58,6 @@ public class CountdownFragment extends Fragment {
 
     private final long SwamphacksStart = 1484874000;
     private final long SwamphacksDurationSeconds = 60 * 60 * 36;
-
 
     private Date startDate;
     private long duration;
@@ -259,6 +259,17 @@ public class CountdownFragment extends Fragment {
                 this.locationView = (TextView) itemView.findViewById(R.id.event_location);
                 this.colorView = (FrameLayout) itemView.findViewById(R.id.event_color);
             }
+        }
+
+        public void clear() {
+            nowEvents.clear();
+            notifyDataSetChanged();
+        }
+
+        // Add a list of items
+        public void addAll(List<Event> list) {
+            nowEvents.addAll(list);
+            notifyDataSetChanged();
         }
 
         @Override

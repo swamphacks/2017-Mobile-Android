@@ -5,72 +5,72 @@
     tools:context="com.swamphacks.swamphacks_android.countdown.CountdownFragment"
     android:background="@color/colorPrimary">
 
-    <!-- TODO: Update blank fragment layout -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_alignTop="@+id/timer_text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="39dp"
-        android:layout_gravity="bottom"
-        android:background="@color/white">
-
-        <android.support.v7.widget.RecyclerView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:id="@+id/list_happening_now"
-            android:layout_alignParentBottom="true"
+            android:layout_height="180dp"
+            android:layout_alignTop="@+id/timer_text"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_height="130dp" />
+            android:layout_marginTop="39dp"
+            android:layout_gravity="bottom"
+            android:background="@color/white">
 
-        <TextView
-            android:text="Happening Now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/happening_text"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignLeft="@+id/list_happening_now"
-            android:layout_alignStart="@+id/list_happening_now"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/colorPrimary" />
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:id="@+id/list_happening_now"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_height="130dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="333dp">
 
-        <TextView
-            android:id="@+id/timer_text"
-            android:text="@string/countdown_timer_default"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_countdown_timertext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="126dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            <TextView
+                android:text="Happening Now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/happening_text"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/list_happening_now"
+                android:layout_alignStart="@+id/list_happening_now"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorPrimary" />
+        </RelativeLayout>
 
-        <ProgressBar
-            android:id="@+id/progressbar_counter"
-            android:progressDrawable="@drawable/progressbar_circular_progressdraw"
-            android:background="@drawable/progressbar_circular_background"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:max="100"
-            android:progress="0"
-            android:indeterminate="false"
-            android:layout_height="331dp"
-            android:layout_width="300dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="13dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="333dp">
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/timer_text"
+                android:text="@string/countdown_timer_default"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_countdown_timertext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="126dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
 
-    <!-- ViewGroup for top titles -->
+            <ProgressBar
+                android:id="@+id/progressbar_counter"
+                android:progressDrawable="@drawable/progressbar_circular_progressdraw"
+                android:background="@drawable/progressbar_circular_background"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:max="100"
+                android:progress="0"
+                android:indeterminate="false"
+                android:layout_height="331dp"
+                android:layout_width="300dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="13dp" />
+
+        </RelativeLayout>
+
+
 
 </FrameLayout>
