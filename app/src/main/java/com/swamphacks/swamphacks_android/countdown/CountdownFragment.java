@@ -51,12 +51,13 @@ public class CountdownFragment extends Fragment {
     private ProgressBar mCircularProgress;
     private TextView mCountdownTextView, mHappeningNowTextView;
 
-    // Title textViews
-    TextView mTopTimeText, mBottomTimeText;
-
     // For testing the countdown timer
     private final long countdownLength = 10 * 1000;
     private final long countdownUpdateIntervals = 1 * 750;
+
+    private final long SwamphacksStart = 1484874000;
+    private final long SwamphacksDurationSeconds = 60 * 60 * 36;
+
 
     private Date startDate;
     private long duration;
@@ -113,6 +114,7 @@ public class CountdownFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        initCountdownIfNecessary(new Date(SwamphacksStart), SwamphacksDurationSeconds);
         initList();
     }
 
@@ -144,12 +146,8 @@ public class CountdownFragment extends Fragment {
 
         // Get the current, start, and end times in millis
         long curTime = localDateTime.getMillis();
-        long startTime = startDate.getTime();
-        long endTime = startTime + duration;
-
-        Log.d(TAG, "Start Date Orig: " + startDate.toString() + " | " + startDate.getTime() + " | Duration: " + duration);
-        Log.d(TAG, "Joda Start Date: " + localStartDT.toString() + " | " + localStartDT.getMillis());
-        Log.d(TAG, "Joda End Date: " + localEndDT.toString() + " | " + localEndDT.getMillis() + " | Supposed: " + endTime);
+        long startTime = startDate.getTime()*1000;
+        long endTime = startTime + duration*1000;
 
         // Get a resources reference, to get the necessary display strings
         Resources res = getActivity().getResources();
@@ -174,6 +172,12 @@ public class CountdownFragment extends Fragment {
             long timeRemaining = endTime - curTime;
             long totalHackingTime = endTime - startTime;
 
+//            Log.d("Curr", ""+ curTime);
+//            Log.d("Start", ""+ startTime);
+//            Log.d("End", ""+ endTime);
+//            Log.d("Remaining", ""+ timeRemaining);
+//            Log.d("Total", ""+ totalHackingTime);
+
             // Start the countdown timer
             HackingCountdownTimer timer = new HackingCountdownTimer(timeRemaining, totalHackingTime);
             timer.start();
@@ -187,10 +191,6 @@ public class CountdownFragment extends Fragment {
             mCircularProgress.setProgress(100);
             mCountdownTextView.setText("Done!");
         }
-
-        // Display the Strings in their respective TextViews
-        mTopTimeText.setText(topTime);
-        mBottomTimeText.setText(bottomTime);
     }
 
     private class HackingCountdownTimer extends CountDownTimer {
@@ -202,10 +202,8 @@ public class CountdownFragment extends Fragment {
         public HackingCountdownTimer(long millisInFuture, long totalHackingTimeInMillis) {
             super(millisInFuture, countdownUpdateIntervals);
 
-            // Cache the total hacking time to determine progress later
             this.totalHackingTimeInMillis = totalHackingTimeInMillis;
 
-            // Set up the formatter, to display the time remaining prettily later
             outFormat = new SimpleDateFormat("HH:mm:ss");
             outFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         }
@@ -220,7 +218,11 @@ public class CountdownFragment extends Fragment {
             String hrs, min, sec;
             hrs = (hours < 10) ? "0" + String.valueOf(hours) : String.valueOf(hours);
             min = (minutes < 10) ? "0" + String.valueOf(minutes) : String.valueOf(minutes);
-            sec = (seconds < 10) ? "0" + String.valueOf(seconds) : String.valueOf(seconds);
+            sec = (seconds < 10000) ? "0" + String.valueOf(seconds) : String.valueOf(seconds);
+
+//           Log.d("sec", ""+ seconds);
+//           Log.d("min", ""+ minutes);
+//           Log.d("hours", ""+ hours);
 
             // Update the countdown timer textView
             mCountdownTextView.setText(hrs + ":" + min + (":" + sec).substring(0, 3));

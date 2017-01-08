@@ -68,9 +68,10 @@ public class FilterDialogFragment extends DialogFragment{
         Button cancelButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         ListView listView = alertDialog.getListView();
 
+        //TODO Likely make the background white, make the checkboxes blue, and make new buttons that look better. black text too
         okButton.setBackground(getResources().getDrawable(R.drawable.button_blue_white_border));
         cancelButton.setBackground(getResources().getDrawable(R.drawable.button_blue_white_border));
-        listView.setBackgroundColor(R.color.gradient_start);
+//        listView.setBackgroundColor(R.color.gradient_start);
 
         return alertDialog;
     }
