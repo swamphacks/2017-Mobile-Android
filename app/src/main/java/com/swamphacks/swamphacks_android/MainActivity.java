@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SponsorsFragment sponsorsFragment;
     private HackerProfileFragment hackerProfileFragment;
     private VolunteerProfileFragment volunteerProfileFragment;
-    
+
     Fragment state;
 
     //0 -> logistics, 1 -> social, 2 -> food, 3 -> tech talk, 4 -> sponsor, 5 -> other
@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(DataSnapshot dataSnapshot) {
                 isVolunteer = dataSnapshot.getValue(Boolean.class);
                 if(isVolunteer){
+                    eventsFragment.setVol(isVolunteer);
                     TextView textView = (TextView) findViewById(R.id.user_title);
                     if(textView != null)
                         textView.setText("Volunteer");

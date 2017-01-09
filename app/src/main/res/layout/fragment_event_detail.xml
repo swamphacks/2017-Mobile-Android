@@ -27,7 +27,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="350dp"
+        android:visibility="visible">
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:id="@+id/details_time"
@@ -81,6 +82,88 @@
             android:layout_below="@+id/details_location"
             android:layout_centerHorizontal="true"
             android:layout_height="180dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/count_view">
+
+        <TextView
+            android:text="Attendee Count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:id="@+id/attendee_count_label"
+            android:textSize="12sp" />
+
+        <TextView
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:id="@+id/attendee_count"
+            android:layout_below="@+id/attendee_count_label"
+            android:textColor="@color/black"
+            android:textSize="48sp" />
+
+        <ImageButton
+            app:srcCompat="@drawable/minus_button"
+            android:layout_alignBottom="@+id/attendee_count"
+            android:layout_toLeftOf="@+id/attendee_count_label"
+            android:layout_toStartOf="@+id/attendee_count_label"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/imageButton2"
+            android:scaleType="centerCrop"
+            android:background="@color/dev_light_red"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <ImageButton
+            app:srcCompat="@drawable/plus_button"
+            android:id="@+id/imageButton"
+            android:background="@color/bright_green"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@+id/attendee_count"
+            android:layout_toRightOf="@+id/attendee_count_label"
+            android:layout_toEndOf="@+id/attendee_count_label"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:scaleType="fitStart" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rating_view"
+        android:visibility="gone">
+
+        <TextView
+            android:text="How was your experience?"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:id="@+id/rating_label"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/black" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rating_label"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/rating_bar"
+            android:progressTint="@color/event_yellow"
+            android:progressBackgroundTint="@color/gray"
+            android:secondaryProgressTint="@color/event_yellow" />
     </RelativeLayout>
 
 </LinearLayout>
