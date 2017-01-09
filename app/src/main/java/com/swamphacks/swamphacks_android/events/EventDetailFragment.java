@@ -23,7 +23,7 @@ public class EventDetailFragment extends Fragment {
 
     // Decalre Views.
     private View mEventDetailFragView;
-    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV;
+    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV, eventTimeHourTV;
     private View colorBlock;
 
     // Event Details
@@ -79,6 +79,7 @@ public class EventDetailFragment extends Fragment {
         //Instantiate TextViews
         eventNameTV = (TextView) mEventDetailFragView.findViewById(R.id.event_title);
         eventTimeTV = (TextView) mEventDetailFragView.findViewById(R.id.details_time);
+        eventTimeHourTV = (TextView) mEventDetailFragView.findViewById(R.id.details_hourtime);
         eventLocationNameTV = (TextView) mEventDetailFragView.findViewById(R.id.details_location);
         eventInfoTV = (TextView) mEventDetailFragView.findViewById(R.id.details_description);
 
@@ -96,7 +97,8 @@ public class EventDetailFragment extends Fragment {
 
     public void setEventDetails() {
         eventNameTV.setText(eventName);
-        eventTimeTV.setText(formatDate(eventStartTime, eventEndTime));
+        eventTimeTV.setText(formatDate(eventStartTime));
+        eventTimeHourTV.setText(formatTime(eventStartTime));
         eventLocationNameTV.setText(eventLocation);
 
         // Can be empty
@@ -106,12 +108,17 @@ public class EventDetailFragment extends Fragment {
         if (!locationName.isEmpty()) eventLocationNameTV.setText(locationName);
     }
 
-    public String formatDate (Date startTime, Date endTime) {
+    public String formatDate (Date startTime) {
         //Todo Redo
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE, MMM d", Locale.US);
+
+        return dayFormat.format(startTime);
+    }
+
+    public String formatTime(Date startTime){
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
 
-        return dayFormat.format(startTime) + "\n" +  timeFormat.format(startTime);
+        return timeFormat.format(startTime);
     }
 
     @Override
