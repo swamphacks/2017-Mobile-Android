@@ -4,9 +4,15 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -48,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SponsorsFragment sponsorsFragment;
     private HackerProfileFragment hackerProfileFragment;
     private VolunteerProfileFragment volunteerProfileFragment;
-
+    
     Fragment state;
 
     //0 -> logistics, 1 -> social, 2 -> food, 3 -> tech talk, 4 -> sponsor, 5 -> other
@@ -209,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setTheme(R.style.LoginActivity);
         } else if (id == R.id.nav_events) {
             updateFragment(eventsFragment, true);
-            toolbar.setTitle("Events");
+            setToolbarTitle("Events");
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(true);
@@ -218,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setOverflowIcon(drawable);
         } else if (id == R.id.nav_announcements) {
             updateFragment(announcementsFragment, true);
-            toolbar.setTitle("Announcements");
+            setToolbarTitle("Announcements");
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(true);
             toolbar.getMenu().getItem(2).setVisible(false);
@@ -227,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.setOverflowIcon(drawable);
         } else if (id == R.id.nav_sponsors) {
             updateFragment(sponsorsFragment, true);
-            toolbar.setTitle("Sponsors");
+            setToolbarTitle("Sponsors");
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(false);
@@ -251,6 +257,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void setToolbarTitle(String title){
+        SpannableString s = new SpannableString(title);
+        s.setSpan(new TypefaceSpan("Metropolis-Regular.otf"), 0, s.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        toolbar.setTitle(s);
     }
 
     @Override
