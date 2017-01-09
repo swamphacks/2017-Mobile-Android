@@ -61,6 +61,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     private EventDetailFragment eventDetailFragment;
 
     private Button checkinButton;
+    private boolean isVol = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         View view = inflater.inflate(R.layout.fragment_events, container, false);
 
         checkinButton = (Button) view.findViewById(R.id.checkin_button);
-
         checkinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +85,10 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         setUpWeekView();
 
         return view;
+    }
+
+    public void setVol(boolean isVol){
+        this.isVol = isVol;
     }
 
     public void openEventCheckinView(){
@@ -320,9 +324,9 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         if (!eventDetailsOpen) {
-            eventDetailFragment =
-                    EventDetailFragment.newInstance(mEvents.get((int) event.getId()), event.getColor());
+            eventDetailFragment = EventDetailFragment.newInstance(mEvents.get((int) event.getId()), event.getColor());
             eventDetailFragment.setParent(this);
+            eventDetailFragment.setVol(isVol);
             getActivity().getFragmentManager()
                     .beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

@@ -8,8 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.swamphacks.swamphacks_android.R;
 import data.models.Event;
 
@@ -21,10 +25,13 @@ public class EventDetailFragment extends Fragment {
 
     private static final String TAG = "EventDetailsFragment";
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     // Decalre Views.
     private View mEventDetailFragView;
     private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV, eventTimeHourTV;
     private View colorBlock;
+    private RatingBar ratingBar;
 
     // Event Details
     private String eventName;
@@ -34,6 +41,8 @@ public class EventDetailFragment extends Fragment {
     private int eventColor;
 
     private Fragment parent;
+    private boolean isVol = false;
+    private boolean hasRating = false;
 
     public static EventDetailFragment newInstance(Event event, int color) {
         EventDetailFragment eventDetailFragment = new EventDetailFragment();
@@ -43,7 +52,6 @@ public class EventDetailFragment extends Fragment {
         args.putString("description", event.getDescription());
         args.putString("location", event.getLocation());
         args.putLong("startTime", event.getStart());
-//        args.putLong("duration", event.getDuration());
         args.putInt("color", color);
         eventDetailFragment.setArguments(args);
 
@@ -64,7 +72,18 @@ public class EventDetailFragment extends Fragment {
             eventColor = args.getInt("color");
         }
 
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                hasRating = true;
+            }
+        });
+
         super.onCreate(savedInstanceState);
+    }
+
+    public void setVol(boolean isVol){
+        this.isVol = isVol;
     }
 
     public void setParent(Fragment parent) {
@@ -82,6 +101,8 @@ public class EventDetailFragment extends Fragment {
         eventTimeHourTV = (TextView) mEventDetailFragView.findViewById(R.id.details_hourtime);
         eventLocationNameTV = (TextView) mEventDetailFragView.findViewById(R.id.details_location);
         eventInfoTV = (TextView) mEventDetailFragView.findViewById(R.id.details_description);
+
+        ratingBar = (RatingBar) mEventDetailFragView.findViewById(R.id.rating_bar);
 
         //Instantiate color header block
         colorBlock = mEventDetailFragView.findViewById(R.id.header_color_block);
@@ -109,7 +130,6 @@ public class EventDetailFragment extends Fragment {
     }
 
     public String formatDate (Date startTime) {
-        //Todo Redo
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE, MMM d", Locale.US);
 
         return dayFormat.format(startTime);
@@ -125,5 +145,15 @@ public class EventDetailFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        submitRatingOrCount();
+    }
+
+    public void submitRatingOrCount(){
+        if(!isVol && hasRating) {
+            String userKey = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace("@", "").replace(".", "");
+            DatabaseReference eventRatingRef = database.getReference().child("events").child(eventName).child("ratings");
+
+            eventRatingRef.child(userKey).setValue(ratingBar.getRating());
+        }
     }
 }
