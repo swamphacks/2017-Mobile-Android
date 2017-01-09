@@ -181,18 +181,19 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         //Set up visuals of the calendar
         mWeekView.setBackgroundColor(Color.WHITE);
         mWeekView.setEventTextColor(Color.WHITE);
-        mWeekView.setNumberOfVisibleDays(2);
+        mWeekView.setNumberOfVisibleDays(1);
         mWeekView.setTextSize(22);
-        mWeekView.setHourHeight(120);
-        mWeekView.setHeaderColumnPadding(8);
-        mWeekView.setHeaderRowPadding(16);
-        mWeekView.setColumnGap(8);
+        mWeekView.setHourHeight(200);
+        mWeekView.setHeaderColumnPadding(20);
+        mWeekView.setHeaderRowPadding(40);
+        mWeekView.setColumnGap(20);
         mWeekView.setHourSeparatorColor(Color.WHITE);
-        mWeekView.setHourSeparatorHeight(4);
+        mWeekView.setHourSeparatorHeight(10);
         mWeekView.setHeaderColumnBackgroundColor(Color.WHITE);
         mWeekView.setHeaderColumnBackgroundColor(Color.BLACK);
         mWeekView.setOverlappingEventGap(2);
-
+        mWeekView.setEventMarginVertical(5);
+        mWeekView.goToHour(100.5);
     }
 
     public void getEvents() {
@@ -240,6 +241,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
 
             // Create a WeekViewEvent
             WeekViewEvent weekViewEvent = new WeekViewEvent(id, event.getName(), startTime, endTime);
+            weekViewEvent.setLocation(event.getLocation());
             weekViewEvent.setColor(color);
 
             if (startTime.get(Calendar.MONTH) == month)

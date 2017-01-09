@@ -94,7 +94,7 @@ public class SponsorsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if(mSponsorsList == null) {
-            mSponsorsList = new ArrayList<Sponsor>();
+            mSponsorsList = new ArrayList<>();
         }
 
         initList();

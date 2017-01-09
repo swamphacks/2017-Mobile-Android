@@ -62,7 +62,7 @@ public class CountdownFragment extends Fragment {
     private final long countdownLength = 10 * 1000;
     private final long countdownUpdateIntervals = 1 * 750;
 
-    private final long SwamphacksStart = 1484874000;
+    private final long SwamphacksStart = 1484967600;
     private final long SwamphacksDurationSeconds = 60 * 60 * 36;
 
     private Date startDate;

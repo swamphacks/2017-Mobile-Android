@@ -116,7 +116,7 @@ public class EventDetailFragment extends Fragment {
     }
 
     public String formatTime(Date startTime){
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.US);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a", Locale.US);
 
         return timeFormat.format(startTime);
     }

@@ -19,13 +19,16 @@
             android:text="Check In"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="41dp"
+            android:layout_marginBottom="30dp"
             android:id="@+id/checkin_button"
-            android:layout_marginRight="98dp"
-            android:layout_marginEnd="98dp"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:textAllCaps="false"
+            android:background="@drawable/button_white_blue_border"
+            android:textColor="@color/colorPrimary" />
 
     </RelativeLayout>
 

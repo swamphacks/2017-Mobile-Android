@@ -70,7 +70,8 @@
             android:layout_marginTop="21dp"
             android:layout_below="@+id/details_hourtime"
             android:layout_alignLeft="@+id/details_time"
-            android:layout_alignStart="@+id/details_time" />
+            android:layout_alignStart="@+id/details_time"
+            android:textSize="18sp" />
 
         <ImageView
             app:srcCompat="@android:drawable/picture_frame"
