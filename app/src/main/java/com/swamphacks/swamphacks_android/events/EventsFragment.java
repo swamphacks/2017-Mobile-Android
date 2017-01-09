@@ -211,12 +211,16 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
                     Event event = postSnapshot.getValue(Event.class);
                     mEvents.add(event);
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mWeekView.notifyDatasetChanged();
-                    }
-                });
+                try {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mWeekView.notifyDatasetChanged();
+                        }
+                    });
+                } catch(Error error){
+                    Log.d("Error: ", error.toString());
+                }
             }
 
             @Override

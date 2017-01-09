@@ -1,20 +1,31 @@
 package data.models;
 
+import java.util.Map;
+
 public class Event {
     public String name;
     public String description;
     public String location;
     public long startTime;
     public long endTime;
+    public Map<String, Long> ratings;
     public String type;
 
     //Todo Do image stuff with Bitmap,
     public String map;
 
-    //Todo Do rating stuff with numAttendees and avgRating
     public int numAttendees;
     public double avgRating;
 //    public boolean  approved;
+
+
+    public Map<String, Long> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Map<String, Long> ratings) {
+        this.ratings = ratings;
+    }
 
     public String getName() {
         return name;

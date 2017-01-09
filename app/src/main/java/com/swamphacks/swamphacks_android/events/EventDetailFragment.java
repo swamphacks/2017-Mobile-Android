@@ -4,11 +4,13 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +31,8 @@ public class EventDetailFragment extends Fragment {
 
     // Decalre Views.
     private View mEventDetailFragView;
-    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV, eventTimeHourTV;
+    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV, eventTimeHourTV,ratingTextLabel;
+    private RelativeLayout ratingView, countView;
     private View colorBlock;
     private RatingBar ratingBar;
 
@@ -72,13 +75,6 @@ public class EventDetailFragment extends Fragment {
             eventColor = args.getInt("color");
         }
 
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                hasRating = true;
-            }
-        });
-
         super.onCreate(savedInstanceState);
     }
 
@@ -102,7 +98,25 @@ public class EventDetailFragment extends Fragment {
         eventLocationNameTV = (TextView) mEventDetailFragView.findViewById(R.id.details_location);
         eventInfoTV = (TextView) mEventDetailFragView.findViewById(R.id.details_description);
 
+        ratingView = (RelativeLayout) mEventDetailFragView.findViewById(R.id.rating_view);
+        countView = (RelativeLayout) mEventDetailFragView.findViewById(R.id.count_view);
+
         ratingBar = (RatingBar) mEventDetailFragView.findViewById(R.id.rating_bar);
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                hasRating = true;
+            }
+        });
+
+        if(isVol){
+            ratingView.setVisibility(View.GONE);
+            countView.setVisibility(View.VISIBLE);
+        } else {
+            ratingView.setVisibility(View.VISIBLE);
+            ratingView.setVisibility(View.GONE);
+        }
 
         //Instantiate color header block
         colorBlock = mEventDetailFragView.findViewById(R.id.header_color_block);
@@ -149,10 +163,12 @@ public class EventDetailFragment extends Fragment {
     }
 
     public void submitRatingOrCount(){
+        Log.d("destroy", " view");
+        Log.d("isVol", ""+isVol);
+        Log.d("hasRating", ""+hasRating);
         if(!isVol && hasRating) {
             String userKey = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace("@", "").replace(".", "");
             DatabaseReference eventRatingRef = database.getReference().child("events").child(eventName).child("ratings");
-
             eventRatingRef.child(userKey).setValue(ratingBar.getRating());
         }
     }

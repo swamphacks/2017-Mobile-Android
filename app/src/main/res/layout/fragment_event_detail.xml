@@ -27,7 +27,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp">
+        android:layout_height="350dp"
+        android:visibility="visible">
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:id="@+id/details_time"
@@ -81,13 +82,53 @@
             android:layout_below="@+id/details_location"
             android:layout_centerHorizontal="true"
             android:layout_height="180dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/count_view">
+
+        <TextView
+            android:text="Attendee Count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:id="@+id/attendee_count_label"
+            android:textSize="12sp" />
+
+        <TextView
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:id="@+id/attendee_count"
+            android:layout_below="@+id/attendee_count_label"
+            android:textColor="@color/black"
+            android:textSize="48sp" />
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/minus_button"
+            android:layout_alignBottom="@+id/attendee_count"
+            android:layout_toLeftOf="@+id/attendee_count_label"
+            android:layout_toStartOf="@+id/attendee_count_label"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
+            android:id="@+id/imageButton" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/rating_view"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:text="How was your experience?"
@@ -104,7 +145,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/rating_label"
             android:layout_centerHorizontal="true"
-            android:id="@+id/rating_bar" />
+            android:id="@+id/rating_bar"
+            android:progressTint="@color/event_yellow"
+            android:progressBackgroundTint="@color/gray"
+            android:secondaryProgressTint="@color/event_yellow" />
     </RelativeLayout>
 
 </LinearLayout>
