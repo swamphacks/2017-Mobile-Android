@@ -2,6 +2,7 @@ package com.swamphacks.swamphacks_android.countdown;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.swamphacks.swamphacks_android.R;
+import com.swamphacks.swamphacks_android.events.EventDetailFragment;
+import com.swamphacks.swamphacks_android.sponsors.RecyclerItemClickListener;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -48,6 +52,8 @@ public class CountdownFragment extends Fragment {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+    private EventDetailFragment eventDetailFragment;
+
     // Countdown views
     private ProgressBar mCircularProgress;
     private TextView mCountdownTextView, mHappeningNowTextView;
@@ -64,6 +70,7 @@ public class CountdownFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CountdownFragment.MainNavAdapter mListAdapter;
+    private boolean detailEventOpen;
 
     private List<Event> nowEvents = new ArrayList<>();
 
@@ -83,9 +90,43 @@ public class CountdownFragment extends Fragment {
         mCountdownTextView.setTypeface(face);
         mHappeningNowTextView.setTypeface(face);
 
+        detailEventOpen = false;
         recyclerView = (RecyclerView) view.findViewById(R.id.list_happening_now);
 
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this.getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        pushToDetailView(position);
+                        TextView tv = (TextView) view.findViewById(R.id.sponsor_name);
+                    }
+                })
+        );
+
         return view;
+    }
+
+    public void pushToDetailView(int position){
+        if(!detailEventOpen) {
+            eventDetailFragment = EventDetailFragment.newInstance(nowEvents.get(position), 1);
+            eventDetailFragment.setParent(this);
+            getActivity().getFragmentManager()
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null) //IMPORTANT. Allows the EventDetailsFragment to be closed.
+                    .add(R.id.drawer_layout, eventDetailFragment)
+                    .commit();
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+            detailEventOpen = true;
+        }
+    }
+
+    public void closeEventDetail() {
+        if(detailEventOpen) {
+            getActivity().getFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .remove(getFragmentManager().findFragmentById(R.id.drawer_layout)).commit();
+        }
+        detailEventOpen = false;
     }
 
     public void getEvents() {

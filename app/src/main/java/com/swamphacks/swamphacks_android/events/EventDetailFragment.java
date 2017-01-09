@@ -33,7 +33,7 @@ public class EventDetailFragment extends Fragment {
     private Date eventStartTime, eventEndTime;
     private int eventColor;
 
-    private EventsFragment parent;
+    private Fragment parent;
 
     public static EventDetailFragment newInstance(Event event, int color) {
         EventDetailFragment eventDetailFragment = new EventDetailFragment();
@@ -67,7 +67,7 @@ public class EventDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void setParent(EventsFragment parent) {
+    public void setParent(Fragment parent) {
         this.parent = parent;
     }
 

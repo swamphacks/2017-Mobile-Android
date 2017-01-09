@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isVolunteer = dataSnapshot.getValue(Boolean.class);
                 if(isVolunteer){
                     TextView textView = (TextView) findViewById(R.id.user_title);
-                    textView.setText("Volunteer");
+                    if(textView != null)
+                        textView.setText("Volunteer");
                 }
             }
 
@@ -143,6 +144,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             eventsFragment.closeEventDetails();
         else if(state == volunteerProfileFragment)
             volunteerProfileFragment.closeRegistrationConfirmation();
+        else if(state == countdownFragment) {
+            countdownFragment.closeEventDetail();
+            updateFragment(eventsFragment, true);
+        }
     }
 
     @Override
