@@ -113,15 +113,30 @@
             android:textSize="48sp" />
 
         <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
             app:srcCompat="@drawable/minus_button"
             android:layout_alignBottom="@+id/attendee_count"
             android:layout_toLeftOf="@+id/attendee_count_label"
             android:layout_toStartOf="@+id/attendee_count_label"
             android:layout_marginRight="20dp"
             android:layout_marginEnd="20dp"
-            android:id="@+id/imageButton" />
+            android:id="@+id/imageButton2"
+            android:scaleType="centerCrop"
+            android:background="@color/dev_light_red"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <ImageButton
+            app:srcCompat="@drawable/plus_button"
+            android:id="@+id/imageButton"
+            android:background="@color/bright_green"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignBottom="@+id/attendee_count"
+            android:layout_toRightOf="@+id/attendee_count_label"
+            android:layout_toEndOf="@+id/attendee_count_label"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:scaleType="fitStart" />
     </RelativeLayout>
 
     <RelativeLayout
