@@ -7,7 +7,7 @@
     android:layout_marginRight="2dp"
     android:background="@color/white"
     app:cardCornerRadius="2dp"
-    app:cardElevation="3dp">
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
@@ -18,15 +18,16 @@
             android:layout_margin="5dp"
             android:layout_gravity="start|left"
             android:textColor="@color/black"
-            android:text="Event Title"
-            android:paddingLeft="60dp" />
+            android:text="Rep Name"
+            android:paddingLeft="60dp"
+            android:textSize="20sp" />
 
         <TextView android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/rep_title"
-            android:layout_margin="5dp"
-            android:text="Event description goes here..."
-            android:paddingLeft="60dp" />
+            android:layout_margin="0dp"
+            android:text="Rep Title"
+            android:paddingLeft="67dp" />
 
     </LinearLayout>
 

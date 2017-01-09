@@ -12,49 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_lock_lock"
-            android:layout_marginTop="16dp"
-            android:id="@+id/sponsor_logo"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:text="Name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sponsor_name"
-            android:layout_below="@+id/sponsor_logo"
-            android:layout_toLeftOf="@+id/sponsor_logo"
-            android:layout_toStartOf="@+id/sponsor_logo" />
-
-        <TextView
-            android:text="Location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sponsor_location"
-            android:layout_below="@+id/sponsor_logo"
-            android:layout_toRightOf="@+id/sponsor_logo"
-            android:layout_toEndOf="@+id/sponsor_logo" />
-
-        <TextView
-            android:text="Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sponsor_description"
-            android:layout_below="@+id/sponsor_name"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="28dp" />
-
         <Button
             android:text="Learn More"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sponsor_link"
             android:layout_marginBottom="24dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textAllCaps="false"
+            android:background="@drawable/button_blue_white_border"
+            android:textColor="@color/white"
+            android:layout_width="150dp"
+            android:elevation="0dp" />
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
@@ -62,9 +31,48 @@
             android:layout_below="@+id/sponsor_description"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="114dp"
+            android:layout_marginTop="70dp"
             android:layout_above="@+id/sponsor_link"
-            android:id="@+id/list_reps" />
+            android:id="@+id/list_reps"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="50dp" />
+
+        <TextView
+            android:text="Description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sponsor_description"
+            android:layout_marginTop="28dp"
+            android:layout_below="@+id/sponsor_name"
+            android:layout_centerHorizontal="true"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            app:srcCompat="@android:drawable/ic_lock_lock"
+            android:layout_marginTop="25dp"
+            android:id="@+id/sponsor_logo"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:text="Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sponsor_name"
+            android:textSize="12sp"
+            android:layout_alignBottom="@+id/sponsor_location"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/sponsor_logo"
+            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_centerInParent="true" />
 
     </RelativeLayout>
 

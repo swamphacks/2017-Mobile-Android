@@ -1,15 +1,19 @@
 package com.swamphacks.swamphacks_android.sponsors;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.swamphacks.swamphacks_android.R;
@@ -25,7 +29,8 @@ public class SponsorDetailFragment extends Fragment {
     private static List<SponsorRep> repList = new ArrayList<>();
 
     private View mSponsorDetailFragView;
-    private TextView sponsorNameTV, sponsorLocationTV, sponsorDescriptionTV;
+    private TextView sponsorNameTV, sponsorDescriptionTV;
+    private Button learnMore;
     private View colorBlock;
 
     // Event Details
@@ -89,8 +94,20 @@ public class SponsorDetailFragment extends Fragment {
 
         //Instantiate TextViews
         sponsorNameTV = (TextView) mSponsorDetailFragView.findViewById(R.id.sponsor_name);
-        sponsorLocationTV = (TextView) mSponsorDetailFragView.findViewById(R.id.sponsor_location);
         sponsorDescriptionTV = (TextView) mSponsorDetailFragView.findViewById(R.id.sponsor_description);
+
+        learnMore = (Button) mSponsorDetailFragView.findViewById(R.id.sponsor_link);
+
+        learnMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = sponsorLink;
+                if (!url.startsWith("http://") && !url.startsWith("https://"))
+                    url = "http://" + url;
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+            }
+        });
 
         //Instantiate color header block
 //        colorBlock = mEventDetailFragView.findViewById(R.id.header_color_block);
@@ -121,9 +138,9 @@ public class SponsorDetailFragment extends Fragment {
     }
 
     public void setSponsorDetails() {
-        sponsorNameTV.setText(sponsorName);
+        sponsorNameTV.setText(sponsorName + ", " + sponsorLocation);
         sponsorDescriptionTV.setText(sponsorDescription);
-        sponsorLocationTV.setText(sponsorLocation);
+//        sponsorLocationTV.setText(sponsorLocation);
 
     }
 
