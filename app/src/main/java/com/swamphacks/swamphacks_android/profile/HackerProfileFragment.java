@@ -84,8 +84,7 @@ public class HackerProfileFragment extends Fragment {
     }
 
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-                .getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
 
         final int color = 0xff424242;

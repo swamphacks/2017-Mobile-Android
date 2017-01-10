@@ -56,7 +56,6 @@ public class SponsorsFragment extends Fragment {
                     @Override public void onItemClick(View view, int position) {
                         pushToDetailView(position);
                         TextView tv = (TextView) view.findViewById(R.id.sponsor_name);
-                        Log.d(""+tv.getText(), "SDLJKASLJALSKD"+position);
                     }
                 })
         );
@@ -127,7 +126,6 @@ public class SponsorsFragment extends Fragment {
                 mSponsorsList = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Sponsor sponsor = postSnapshot.getValue(Sponsor.class);
-                    Log.d("reps", sponsor.getReps().get("rep1").get("name"));
                     mSponsorsList.add(sponsor);
                 }
 
