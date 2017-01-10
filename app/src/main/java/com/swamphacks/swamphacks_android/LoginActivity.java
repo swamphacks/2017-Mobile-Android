@@ -60,20 +60,30 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView = (EditText) findViewById(R.id.password);
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mGuestSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("clicked ", "button");
-                attemptLogin();
+                attemptLogin("blah", "blah");
             }
         });
 
-        AssetManager am = getApplicationContext().getAssets();
-        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+        mGuestSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("clicked ", "button");
+                attemptLogin("guest@swamphacks.com", "swamphacks");
+            }
+        });
 
-        mEmailView.setTypeface(face);
-        mPasswordView.setTypeface(face);
-        mEmailSignInButton.setTypeface(face);
+//        AssetManager am = getApplicationContext().getAssets();
+//        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+//
+//        mEmailView.setTypeface(face);
+//        mPasswordView.setTypeface(face);
+//        mEmailSignInButton.setTypeface(face);
 
         getSupportActionBar().setTitle("");
         getSupportActionBar().setElevation(0);
@@ -98,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void attemptLogin() {
+    private void attemptLogin(String username, String pass) {
         if (mAuth == null) {
             return;
         }
@@ -106,8 +116,15 @@ public class LoginActivity extends AppCompatActivity {
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String email, password;
+
+        if(username.equals("blah") && pass.equals("blah")) {
+            email = mEmailView.getText().toString();
+            password = mPasswordView.getText().toString();
+        } else {
+            email = username;
+            password = pass;
+        }
 
         boolean cancel = false;
         View focusView = null;
