@@ -50,11 +50,11 @@ public class HackerProfileFragment extends Fragment {
         final TextView nameView = (TextView) hackerProfileFragmentView.findViewById(R.id.profile_name);
         final TextView emailView = (TextView) hackerProfileFragmentView.findViewById(R.id.profile_email);
 
-        AssetManager am = getContext().getApplicationContext().getAssets();
-        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
-
-        nameView.setTypeface(face);
-        emailView.setTypeface(face);
+//        AssetManager am = getContext().getApplicationContext().getAssets();
+//        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+//
+//        nameView.setTypeface(face);
+//        emailView.setTypeface(face);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

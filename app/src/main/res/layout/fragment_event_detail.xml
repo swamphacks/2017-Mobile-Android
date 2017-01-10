@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -110,7 +111,8 @@
             android:id="@+id/attendee_count"
             android:layout_below="@+id/attendee_count_label"
             android:textColor="@color/black"
-            android:textSize="48sp" />
+            android:textSize="48sp"
+            tools:text="0" />
 
         <ImageButton
             app:srcCompat="@drawable/minus_button"
@@ -119,7 +121,7 @@
             android:layout_toStartOf="@+id/attendee_count_label"
             android:layout_marginRight="20dp"
             android:layout_marginEnd="20dp"
-            android:id="@+id/imageButton2"
+            android:id="@+id/minus_button"
             android:scaleType="centerCrop"
             android:background="@color/dev_light_red"
             android:layout_width="60dp"
@@ -127,7 +129,7 @@
 
         <ImageButton
             app:srcCompat="@drawable/plus_button"
-            android:id="@+id/imageButton"
+            android:id="@+id/plus_button"
             android:background="@color/bright_green"
             android:layout_width="60dp"
             android:layout_height="60dp"

@@ -73,6 +73,7 @@ public class CountdownFragment extends Fragment {
     private boolean detailEventOpen;
 
     private List<Event> nowEvents = new ArrayList<>();
+    private List<Event> allEvents = new ArrayList<>();
 
     @Nullable
     @Override
@@ -138,10 +139,10 @@ public class CountdownFragment extends Fragment {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Event event = postSnapshot.getValue(Event.class);
                     long current = System.currentTimeMillis();
+                    allEvents.add(event);
                     if(current < event.getEnd()*1000 && current > event.getStart())
                         nowEvents.add(event);
                 }
-                Log.d(TAG, "got " + nowEvents.size() + " events");
             }
 
             @Override
@@ -149,6 +150,15 @@ public class CountdownFragment extends Fragment {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+    }
+
+    public void refreshEvents(){
+        nowEvents.clear();
+        for(Event event : allEvents){
+            long current = System.currentTimeMillis();
+            if(current < event.getEnd()*1000 && current > event.getStart())
+                nowEvents.add(event);
+        }
     }
 
     @Override

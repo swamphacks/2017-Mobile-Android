@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,8 +32,9 @@ public class EventDetailFragment extends Fragment {
 
     // Decalre Views.
     private View mEventDetailFragView;
-    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV, eventTimeHourTV,ratingTextLabel;
+    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV, eventTimeHourTV,counterTV;
     private RelativeLayout ratingView, countView;
+    private ImageButton minus, plus;
     private View colorBlock;
     private RatingBar ratingBar;
 
@@ -46,6 +48,7 @@ public class EventDetailFragment extends Fragment {
     private Fragment parent;
     private boolean isVol = false;
     private boolean hasRating = false;
+    private int numAttendees = 0;
 
     public static EventDetailFragment newInstance(Event event, int color) {
         EventDetailFragment eventDetailFragment = new EventDetailFragment();
@@ -91,15 +94,49 @@ public class EventDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mEventDetailFragView = inflater.inflate(R.layout.fragment_event_detail, container, false);
 
+        ratingView = (RelativeLayout) mEventDetailFragView.findViewById(R.id.rating_view);
+        countView = (RelativeLayout) mEventDetailFragView.findViewById(R.id.count_view);
+
+        if(isVol){
+            ratingView.setVisibility(View.GONE);
+            countView.setVisibility(View.VISIBLE);
+        } else {
+            ratingView.setVisibility(View.VISIBLE);
+            countView.setVisibility(View.GONE);
+        }
+
         //Instantiate TextViews
         eventNameTV = (TextView) mEventDetailFragView.findViewById(R.id.event_title);
         eventTimeTV = (TextView) mEventDetailFragView.findViewById(R.id.details_time);
         eventTimeHourTV = (TextView) mEventDetailFragView.findViewById(R.id.details_hourtime);
         eventLocationNameTV = (TextView) mEventDetailFragView.findViewById(R.id.details_location);
         eventInfoTV = (TextView) mEventDetailFragView.findViewById(R.id.details_description);
+        counterTV = (TextView) mEventDetailFragView.findViewById(R.id.attendee_count);
 
-        ratingView = (RelativeLayout) mEventDetailFragView.findViewById(R.id.rating_view);
-        countView = (RelativeLayout) mEventDetailFragView.findViewById(R.id.count_view);
+        minus = (ImageButton) mEventDetailFragView.findViewById(R.id.minus_button);
+        plus = (ImageButton) mEventDetailFragView.findViewById(R.id.plus_button);
+
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int val = Integer.parseInt(counterTV.getText().toString());
+                if(val > 0){
+                    val--;
+                    numAttendees = val;
+                    counterTV.setText(String.valueOf(val));
+                }
+            }
+        });
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int val = Integer.parseInt(counterTV.getText().toString());
+                val++;
+                numAttendees = val;
+                counterTV.setText(String.valueOf(val));
+            }
+        });
 
         ratingBar = (RatingBar) mEventDetailFragView.findViewById(R.id.rating_bar);
 
@@ -109,14 +146,6 @@ public class EventDetailFragment extends Fragment {
                 hasRating = true;
             }
         });
-
-        if(isVol){
-            ratingView.setVisibility(View.GONE);
-            countView.setVisibility(View.VISIBLE);
-        } else {
-            ratingView.setVisibility(View.VISIBLE);
-            ratingView.setVisibility(View.GONE);
-        }
 
         //Instantiate color header block
         colorBlock = mEventDetailFragView.findViewById(R.id.header_color_block);
@@ -135,6 +164,7 @@ public class EventDetailFragment extends Fragment {
         eventTimeTV.setText(formatDate(eventStartTime));
         eventTimeHourTV.setText(formatTime(eventStartTime));
         eventLocationNameTV.setText(eventLocation);
+        counterTV.setText("0");
 
         // Can be empty
         if (eventInfo.length() != 0) eventInfoTV.setText(eventInfo);
@@ -163,13 +193,14 @@ public class EventDetailFragment extends Fragment {
     }
 
     public void submitRatingOrCount(){
-        Log.d("destroy", " view");
-        Log.d("isVol", ""+isVol);
-        Log.d("hasRating", ""+hasRating);
         if(!isVol && hasRating) {
             String userKey = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace("@", "").replace(".", "");
             DatabaseReference eventRatingRef = database.getReference().child("events").child(eventName).child("ratings");
             eventRatingRef.child(userKey).setValue(ratingBar.getRating());
+        } else if(isVol && numAttendees > 0){
+            String userKey = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace("@", "").replace(".", "");
+            DatabaseReference eventRatingRef = database.getReference().child("events").child(eventName).child("attendeeNum");
+            eventRatingRef.child(userKey).setValue(numAttendees);
         }
     }
 }

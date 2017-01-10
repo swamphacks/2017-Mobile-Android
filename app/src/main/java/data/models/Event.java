@@ -8,7 +8,8 @@ public class Event {
     public String location;
     public long startTime;
     public long endTime;
-    public Map<String, Long> ratings;
+    public Map<String, Float> ratings;
+    public Map<String, Integer> attendeeNum;
     public String type;
 
     //Todo Do image stuff with Bitmap,
@@ -19,11 +20,19 @@ public class Event {
 //    public boolean  approved;
 
 
-    public Map<String, Long> getRatings() {
+    public Map<String, Integer> getAttendeeNum() {
+        return attendeeNum;
+    }
+
+    public void setAttendeeNum(Map<String, Integer> attendeeNum) {
+        this.attendeeNum = attendeeNum;
+    }
+
+    public Map<String, Float> getRatings() {
         return ratings;
     }
 
-    public void setRatings(Map<String, Long> ratings) {
+    public void setRatings(Map<String, Float> ratings) {
         this.ratings = ratings;
     }
 

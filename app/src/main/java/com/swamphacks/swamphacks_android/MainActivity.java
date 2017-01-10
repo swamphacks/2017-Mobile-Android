@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             toolbar.getMenu().getItem(0).setVisible(false);
             toolbar.getMenu().getItem(1).setVisible(false);
             toolbar.getMenu().getItem(2).setVisible(false);
-            countdownFragment.getEvents();
+            countdownFragment.refreshEvents();
             getSupportActionBar().setElevation(0);
             getSupportActionBar().setTitle("");
             setTheme(R.style.LoginActivity);

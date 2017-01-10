@@ -87,6 +87,16 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         return view;
     }
 
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(mEvents == null) {
+            mEvents = new ArrayList<>();
+        }
+
+        getEvents();
+    }
+
     public void setVol(boolean isVol){
         this.isVol = isVol;
     }
@@ -211,16 +221,17 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
                     Event event = postSnapshot.getValue(Event.class);
                     mEvents.add(event);
                 }
-                try {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mWeekView.notifyDatasetChanged();
-                        }
-                    });
-                } catch(Error error){
-                    Log.d("Error: ", error.toString());
-                }
+                mWeekView.notifyDatasetChanged();
+//                try {
+//                    getActivity().runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mWeekView.notifyDatasetChanged();
+//                        }
+//                    });
+//                } catch(Error error){
+//                    Log.d("Error: ", error.toString());
+//                }
             }
 
             @Override
@@ -312,9 +323,9 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         eventDetailsOpen = bool;
     }
 
-    public void refreshEvents() {
-        getEvents();
-    }
+//    public void refreshEvents() {
+//        getEvents();
+//    }
 
     public void closeEventDetails() {
         if(eventDetailsOpen) {
