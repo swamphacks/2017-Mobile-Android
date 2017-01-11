@@ -301,10 +301,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         eventDetailsOpen = bool;
     }
 
-//    public void refreshEvents() {
-//        getEvents();
-//    }
-
     public void closeEventDetails() {
         if(eventDetailsOpen) {
             getActivity().getFragmentManager().beginTransaction()

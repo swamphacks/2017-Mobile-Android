@@ -18,6 +18,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.swamphacks.swamphacks_android.R;
+
+import org.joda.time.DateTime;
+
 import data.models.Event;
 
 import java.text.SimpleDateFormat;
@@ -47,6 +50,7 @@ public class EventDetailFragment extends Fragment {
 
     private Fragment parent;
     private boolean isVol = false;
+    private boolean eventStarted = false;
     private boolean hasRating = false;
     private int numAttendees = 0;
 
@@ -102,6 +106,14 @@ public class EventDetailFragment extends Fragment {
             countView.setVisibility(View.VISIBLE);
         } else {
             ratingView.setVisibility(View.VISIBLE);
+            countView.setVisibility(View.GONE);
+        }
+
+        DateTime localDateTime = new DateTime();
+        long curr = localDateTime.getMillis();
+
+        if(curr < eventStartTime.getTime()){
+            ratingView.setVisibility(View.GONE);
             countView.setVisibility(View.GONE);
         }
 
