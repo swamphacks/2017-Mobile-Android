@@ -60,21 +60,12 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView = (EditText) findViewById(R.id.password);
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        Button mGuestSignInButton = (Button) findViewById(R.id.email_sign_in_button);
 
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("clicked ", "button");
-                attemptLogin("blah", "blah");
-            }
-        });
-
-        mGuestSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("clicked ", "button");
-                attemptLogin("guest@swamphacks.com", "swamphacks");
+                attemptLogin();
             }
         });
 
@@ -108,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void attemptLogin(String username, String pass) {
+    private void attemptLogin() {
         if (mAuth == null) {
             return;
         }
@@ -117,14 +108,8 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView.setError(null);
 
         String email, password;
-
-        if(username.equals("blah") && pass.equals("blah")) {
-            email = mEmailView.getText().toString();
-            password = mPasswordView.getText().toString();
-        } else {
-            email = username;
-            password = pass;
-        }
+        email = mEmailView.getText().toString();
+        password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
