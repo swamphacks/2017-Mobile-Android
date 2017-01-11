@@ -77,8 +77,13 @@ public class HackerProfileFragment extends Fragment {
             }
         });
 
-        Bitmap qr = QRCode.from(user.getEmail()).bitmap();
-        qrCode.setImageBitmap(getRoundedCornerBitmap(qr, 10));
+        if(!email.equals("guest@swamphacks.com")) {
+            Bitmap qr = QRCode.from(email).bitmap();
+            qrCode.setImageBitmap(getRoundedCornerBitmap(qr, 10));
+        } else {
+            qrCode.setVisibility(View.INVISIBLE);
+            emailView.setVisibility(View.INVISIBLE);
+        }
 
         return hackerProfileFragmentView;
     }
