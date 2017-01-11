@@ -78,12 +78,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-//        AssetManager am = getApplicationContext().getAssets();
-//        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
-//
-//        mEmailView.setTypeface(face);
-//        mPasswordView.setTypeface(face);
-//        mEmailSignInButton.setTypeface(face);
+        AssetManager am = getApplicationContext().getAssets();
+        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+
+        mEmailView.setTypeface(face);
+        mPasswordView.setTypeface(face);
+        mEmailSignInButton.setTypeface(face);
 
         getSupportActionBar().setTitle("");
         getSupportActionBar().setElevation(0);
