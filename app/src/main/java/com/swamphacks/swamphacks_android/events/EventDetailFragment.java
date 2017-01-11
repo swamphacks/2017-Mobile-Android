@@ -195,11 +195,11 @@ public class EventDetailFragment extends Fragment {
     public void submitRatingOrCount(){
         if(!isVol && hasRating) {
             String userKey = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace("@", "").replace(".", "");
-            DatabaseReference eventRatingRef = database.getReference().child("events").child(eventName).child("ratings");
+            DatabaseReference eventRatingRef = database.getReference().child("event_stats").child(eventName).child("ratings");
             eventRatingRef.child(userKey).setValue(ratingBar.getRating());
         } else if(isVol && numAttendees > 0){
             String userKey = FirebaseAuth.getInstance().getCurrentUser().getEmail().replace("@", "").replace(".", "");
-            DatabaseReference eventRatingRef = database.getReference().child("events").child(eventName).child("attendeeNum");
+            DatabaseReference eventRatingRef = database.getReference().child("event_stats").child(eventName).child("attendeeNum");
             eventRatingRef.child(userKey).setValue(numAttendees);
         }
     }

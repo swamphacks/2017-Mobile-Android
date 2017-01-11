@@ -122,41 +122,19 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
-                toast = "Cancelled from fragment";
+                toast = "Closed scanner";
             } else if(isEvent(result.getContents())){
-                final String event = result.getContents();
+                String event = result.getContents();
+                int pointVal = getPointValue(event);
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                final String email = user.getEmail();
+                String email = user.getEmail();
                 String dbKey = email.replace("@", "").replace(".", "");
 
-                final DatabaseReference userEventsRef = database.getReference().child("confirmed").child(dbKey).child("events");
-
-                userEventsRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        boolean has = false;
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            if(postSnapshot.getKey() == event){
-                                has = true;
-                                break;
-                            }
-                        }
-                        if(!has){
-                            userEventsRef.child(event).setValue(getPointValue(event));
-                        }
-                        else {
-                            toast = "Already checked into event!";
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        Log.d("some error", error.toString());
-                    }
-                });
+                DatabaseReference userEventsRef = database.getReference().child("attendee_events").child(dbKey);
+                userEventsRef.child(event).setValue(pointVal);
             } else {
                 toast = "Failed to scan event";
             }
