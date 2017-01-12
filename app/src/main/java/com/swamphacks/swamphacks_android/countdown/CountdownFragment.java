@@ -56,7 +56,7 @@ public class CountdownFragment extends Fragment {
 
     // Countdown views
     private ProgressBar mCircularProgress;
-    private TextView mCountdownTextView, mHappeningNowTextView;
+    private TextView mCountdownTextView, mHappeningNowTextView, infoLabel;
 
     // For testing the countdown timer
     private final long countdownLength = 10 * 1000;
@@ -64,9 +64,7 @@ public class CountdownFragment extends Fragment {
 
     private final long SwamphacksStart = 1484967600;
     private final long SwamphacksDurationSeconds = 60 * 60 * 36;
-
-    private Date startDate;
-    private long duration;
+    private boolean isBeforeSwamphacks = false;
 
     private RecyclerView recyclerView;
     private CountdownFragment.MainNavAdapter mListAdapter;
@@ -80,10 +78,14 @@ public class CountdownFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_countdown, container, false);
 
+        //Crash testing code
+//        mCountdownTextView.setText("ye");
+
         // Cache the views that need to be edited later on
         mCircularProgress = (ProgressBar) view.findViewById(R.id.progressbar_counter);
         mCountdownTextView = (TextView) view.findViewById(R.id.timer_text);
         mHappeningNowTextView = (TextView) view.findViewById(R.id.happening_text);
+        infoLabel = (TextView) view.findViewById(R.id.info_title);
 
         AssetManager am = getContext().getApplicationContext().getAssets();
         Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
@@ -118,6 +120,16 @@ public class CountdownFragment extends Fragment {
                     .commit();
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
             detailEventOpen = true;
+        }
+    }
+
+    public void setIsBefore(){
+        DateTime localDateTime = new DateTime();
+        long curr = localDateTime.getMillis();
+        if(curr < SwamphacksStart){
+            isBeforeSwamphacks = true;
+        } else {
+            isBeforeSwamphacks = false;
         }
     }
 
