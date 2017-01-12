@@ -64,7 +64,7 @@ public class CountdownFragment extends Fragment {
 
     private final long SwamphacksStart = 1484967600;
     private final long SwamphacksDurationSeconds = 60 * 60 * 36;
-    private boolean isBeforeSwamphacks = false;
+    private boolean isBeforeSwamphacks = true;
 
     private RecyclerView recyclerView;
     private CountdownFragment.MainNavAdapter mListAdapter;
@@ -85,7 +85,7 @@ public class CountdownFragment extends Fragment {
         mCircularProgress = (ProgressBar) view.findViewById(R.id.progressbar_counter);
         mCountdownTextView = (TextView) view.findViewById(R.id.timer_text);
         mHappeningNowTextView = (TextView) view.findViewById(R.id.happening_text);
-        infoLabel = (TextView) view.findViewById(R.id.info_title);
+        infoLabel = (TextView) view.findViewById(R.id.timer_info);
 
         AssetManager am = getContext().getApplicationContext().getAssets();
         Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
@@ -123,16 +123,6 @@ public class CountdownFragment extends Fragment {
         }
     }
 
-    public void setIsBefore(){
-        DateTime localDateTime = new DateTime();
-        long curr = localDateTime.getMillis();
-        if(curr < SwamphacksStart){
-            isBeforeSwamphacks = true;
-        } else {
-            isBeforeSwamphacks = false;
-        }
-    }
-
     public void closeEventDetail() {
         if(detailEventOpen) {
             getActivity().getFragmentManager().beginTransaction()
@@ -165,6 +155,14 @@ public class CountdownFragment extends Fragment {
     }
 
     public void refreshEvents(){
+//        Log.d("current time: ", ""+ System.currentTimeMillis());
+//        Log.d("swamp time: ", ""+ SwamphacksStart*1000);
+//        Log.d("isBefore? ", ""+isBeforeSwamphacks);
+//        if(isBeforeSwamphacks && System.currentTimeMillis() > SwamphacksStart*1000)
+//            initCountdownIfNecessary(new Date(SwamphacksStart), SwamphacksDurationSeconds);
+//        if(DateTime.now().getMillis() > SwamphacksStart*1000){
+//            isBeforeSwamphacks = false;
+//        }
         nowEvents.clear();
         for(Event event : allEvents){
             long current = System.currentTimeMillis();
@@ -192,6 +190,7 @@ public class CountdownFragment extends Fragment {
     }
 
     private void initCountdownIfNecessary(Date startDate, long duration) {
+        Log.d("making ", "new timer");
         // Get the local date+time
         DateTime localDateTime = new DateTime();
 
@@ -220,29 +219,27 @@ public class CountdownFragment extends Fragment {
         // Returns date times in the format similar to "DayName, MonthName DD, YYYY at HH:MM AM/PM."
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEEE, MMMM d, yyyy 'at' hh:mm a.");
 
+        long timeRemainingBefore = startTime - curTime;
+        long totalHackingTimeBefore = 1000*60*60*24*14;
+        HackingCountdownTimer timerBefore = new HackingCountdownTimer(timeRemainingBefore, totalHackingTimeBefore);
+
         if (curTime < startTime) {
             // If so, it's not hack time just yet
 
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
+            infoLabel.setText("Time til hacking starts");
+            timerBefore.start();
+
         } else if (curTime < endTime) {
             // If so, hacking already started
-
-            topTime = dateTimeFormatter.print(localStartDT);
-            bottomTime = dateTimeFormatter.print(localEndDT);
 
             // Calculate the time remaining and the total time of hacking
             long timeRemaining = endTime - curTime;
             long totalHackingTime = endTime - startTime;
 
-//            Log.d("Curr", ""+ curTime);
-//            Log.d("Start", ""+ startTime);
-//            Log.d("End", ""+ endTime);
-//            Log.d("Remaining", ""+ timeRemaining);
-//            Log.d("Total", ""+ totalHackingTime);
-
             // Start the countdown timer
+            infoLabel.setText("Hacking Time");
             HackingCountdownTimer timer = new HackingCountdownTimer(timeRemaining, totalHackingTime);
+//            timerBefore.cancel();
             timer.start();
         } else {
             // Otherwise, hacking already ended =<
@@ -251,6 +248,7 @@ public class CountdownFragment extends Fragment {
             bottomTime = dateTimeFormatter.print(localEndDT);
 
             // Set the counter to its "finished" state
+            infoLabel.setText("");
             mCircularProgress.setProgress(100);
             mCountdownTextView.setText("Done!");
         }
@@ -282,10 +280,6 @@ public class CountdownFragment extends Fragment {
             hrs = (hours < 10) ? "0" + String.valueOf(hours) : String.valueOf(hours);
             min = (minutes < 10) ? "0" + String.valueOf(minutes) : String.valueOf(minutes);
             sec = (seconds < 10000) ? "0" + String.valueOf(seconds) : String.valueOf(seconds);
-
-//           Log.d("sec", ""+ seconds);
-//           Log.d("min", ""+ minutes);
-//           Log.d("hours", ""+ hours);
 
             // Update the countdown timer textView
             mCountdownTextView.setText(hrs + ":" + min + (":" + sec).substring(0, 3));
