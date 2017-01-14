@@ -40,6 +40,7 @@ public class SponsorDetailFragment extends Fragment {
 
     private View mSponsorDetailFragView;
     private TextView sponsorNameTV, sponsorDescriptionTV;
+    private ImageView sponsorLogoImage;
     private Button learnMore;
     private View colorBlock;
 
@@ -48,6 +49,7 @@ public class SponsorDetailFragment extends Fragment {
     private String sponsorLocation;
     private String sponsorDescription;
     private String sponsorLink;
+    private String sponsorLogo;
     private String sponsorTier;
 
     RecyclerView recyclerView;
@@ -64,6 +66,7 @@ public class SponsorDetailFragment extends Fragment {
         args.putString("description", sponsor.getDescription());
         args.putString("link", sponsor.getLink());
         args.putString("tier", sponsor.getTier());
+        args.putString("logo", sponsor.getLogo());
         sponsorDetailFragment.setArguments(args);
         for(String s : sponsor.getReps().keySet()){
             SponsorRep sponsorRep = new SponsorRep();
@@ -86,6 +89,7 @@ public class SponsorDetailFragment extends Fragment {
             sponsorLink = args.getString("link");
             sponsorTier = args.getString("tier");
             sponsorLocation = args.getString("location");
+            sponsorLogo = args.getString("logo");
         }
 
         super.onCreate(savedInstanceState);
@@ -105,6 +109,8 @@ public class SponsorDetailFragment extends Fragment {
         //Instantiate TextViews
         sponsorNameTV = (TextView) mSponsorDetailFragView.findViewById(R.id.sponsor_name);
         sponsorDescriptionTV = (TextView) mSponsorDetailFragView.findViewById(R.id.sponsor_description);
+
+        sponsorLogoImage = (ImageView) mSponsorDetailFragView.findViewById(R.id.sponsor_logo);
 
         learnMore = (Button) mSponsorDetailFragView.findViewById(R.id.sponsor_link);
 
@@ -150,6 +156,11 @@ public class SponsorDetailFragment extends Fragment {
     public void setSponsorDetails() {
         sponsorNameTV.setText(sponsorName + ", " + sponsorLocation);
         sponsorDescriptionTV.setText(sponsorDescription);
+        if(sponsorLogo.length() > 50){
+            byte[] decodedString = Base64.decode(sponsorLogo, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            sponsorLogoImage.setImageBitmap(decodedByte);
+        }
 //        sponsorLocationTV.setText(sponsorLocation);
 
     }
