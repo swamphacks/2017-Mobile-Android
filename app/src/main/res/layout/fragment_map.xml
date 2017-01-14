@@ -8,9 +8,43 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/map_image"
-        android:id="@+id/map_view" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/map_image"
+            android:id="@+id/map_view"
+            android:layout_marginTop="60dp"
+            android:layout_centerInParent="false"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="  First Floor "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/first_floor_button"
+            android:layout_marginStart="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_blue_white_border"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:text="Basement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/basement_button"
+            android:background="@drawable/button_blue_white_border"
+            android:textColor="@color/white"
+            android:layout_marginRight="21dp"
+            android:layout_marginTop="10dp"
+            android:textAllCaps="false"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
 </FrameLayout>

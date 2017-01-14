@@ -214,9 +214,12 @@ public class SponsorDetailFragment extends Fragment {
 
             String imageString = sponsorRep.getImage();
             if(imageString.length() > 50){
+                Log.d("Length ", "" + imageString.length());
                 byte[] decodedString = Base64.decode(imageString, Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                viewHolder.pictureView.setImageBitmap(getRoundedCornerBitmap(decodedByte, 1000));
+                if(decodedByte != null) {
+                    viewHolder.pictureView.setImageBitmap(getRoundedCornerBitmap(decodedByte, 1000));
+                }
             }
         }
 
