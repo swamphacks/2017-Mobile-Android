@@ -143,7 +143,7 @@ public class VolunteerProfileFragment extends Fragment {
                 toast = "Closed Scanner";
             } else {
                 Log.d("person email: ", result.getContents());
-                String dbKey = result.getContents().replace("@", "").replace(".", "");
+                String dbKey = result.getContents().replace("@", "").replace(".", "").toLowerCase();
 
                 DatabaseReference myRef = database.getReference().child("confirmed").child(dbKey);
 
