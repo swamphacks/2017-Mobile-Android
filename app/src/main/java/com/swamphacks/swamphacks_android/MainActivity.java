@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isVolunteer = dataSnapshot.getValue(Boolean.class);
                 if(isVolunteer){
                     eventsFragment.setVol(isVolunteer);
+                    countdownFragment.isVolunteer = isVolunteer;
                     TextView textView = (TextView) findViewById(R.id.user_title);
                     if(textView != null)
                         textView.setText("Volunteer");

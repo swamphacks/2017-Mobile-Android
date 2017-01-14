@@ -120,12 +120,13 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        Log.d("Scan", result.getContents());
         if(result != null) {
             if(result.getContents() == null) {
                 toast = "Closed scanner";
-            } else if(isEvent(result.getContents())){
+            } else if(!isEvent(result.getContents()).equals("")){
                 String event = result.getContents();
-                int pointVal = getPointValue(event);
+                String pointVal = isEvent(event);
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -143,26 +144,43 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
         }
     }
 
-    public boolean isEvent(String name){
+    public String isEvent(String name){
         switch (name){
-            case "":
-                return true;
-            case "a":
-                return  true;
+            case "Pancake Art":
+                return "main";
+            case "Brain Bowl":
+                return  "main";
+            case "Musical Chairs":
+                return "main";
+            case "Balloon Battle":
+                return  "main";
+            case "Ping Pong":
+                return "main";
+            case "Stepping Challenge":
+                return  "main";
+            case "Paper Airplane":
+                return  "main";
+            case "Youtube Karaoke":
+                return "mini";
+            case "Rock Paper Scissors":
+                return "mini";
+            case "Cup Stacking":
+                return "mini";
+            case "Bubble Wrap":
+                return "mini";
+            case "Branding Competition":
+                return "mini";
+            case "Smash Bros":
+                return "mini";
+            case "Yoga":
+                return "mini";
+            case "Soylent Art":
+                return "mini";
+            case "Cornhole":
+                return "mini";
         }
 
-        return false;
-    }
-
-    public int getPointValue(String name){
-        switch (name){
-            case "":
-                return 10;
-            case "a":
-                return 20;
-        }
-
-        return 0;
+        return "";
     }
 
     private void setUpWeekView() {

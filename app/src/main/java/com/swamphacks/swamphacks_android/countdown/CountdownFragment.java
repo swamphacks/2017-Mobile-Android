@@ -73,6 +73,8 @@ public class CountdownFragment extends Fragment {
     private List<Event> nowEvents = new ArrayList<>();
     private List<Event> allEvents = new ArrayList<>();
 
+    public boolean isVolunteer = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,6 +114,7 @@ public class CountdownFragment extends Fragment {
         if(!detailEventOpen) {
             eventDetailFragment = EventDetailFragment.newInstance(nowEvents.get(position), 1);
             eventDetailFragment.setParent(this);
+            eventDetailFragment.setVol(isVolunteer);
             getActivity().getFragmentManager()
                     .beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
