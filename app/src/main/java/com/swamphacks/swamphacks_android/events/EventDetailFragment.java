@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class EventDetailFragment extends Fragment {
     // Decalre Views.
     private View mEventDetailFragView;
     private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV, eventTimeHourTV,counterTV;
+    private ImageView mapImageView;
     private RelativeLayout ratingView, countView;
     private ImageButton minus, plus;
     private View colorBlock;
@@ -124,6 +126,9 @@ public class EventDetailFragment extends Fragment {
         eventLocationNameTV = (TextView) mEventDetailFragView.findViewById(R.id.details_location);
         eventInfoTV = (TextView) mEventDetailFragView.findViewById(R.id.details_description);
         counterTV = (TextView) mEventDetailFragView.findViewById(R.id.attendee_count);
+        mapImageView = (ImageView) mEventDetailFragView.findViewById(R.id.map_image);
+
+        mapImageView.setVisibility(View.INVISIBLE);
 
         minus = (ImageButton) mEventDetailFragView.findViewById(R.id.minus_button);
         plus = (ImageButton) mEventDetailFragView.findViewById(R.id.plus_button);
