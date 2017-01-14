@@ -120,7 +120,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        Log.d("Scan", result.getContents());
         if(result != null) {
             if(result.getContents() == null) {
                 toast = "Closed scanner";

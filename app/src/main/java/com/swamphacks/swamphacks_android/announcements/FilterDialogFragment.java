@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.LauncherActivity;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,7 +33,7 @@ public class FilterDialogFragment extends DialogFragment{
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Log.d("filterlist", "" + selected[0] + " " + selected[1]);
         mSelectedItems = new ArrayList();
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.FilterAlertTheme);
         builder.setTitle("Filter")
                 // Specify the list array, the items to be selected by default, and the listener through which to receive callbacks when items are selected
                 .setMultiChoiceItems(R.array.announcements, selected,

@@ -140,7 +140,7 @@ public class VolunteerProfileFragment extends Fragment {
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
-                toast = "Cancelled from fragment";
+                toast = "Closed Scanner";
             } else {
                 Log.d("person email: ", result.getContents());
                 String dbKey = result.getContents().replace("@", "").replace(".", "");
@@ -158,6 +158,7 @@ public class VolunteerProfileFragment extends Fragment {
                         Log.d("Failed to read value.", error.toString());
                     }
                 });
+                toast = "Signed in: " + result.getContents();
             }
 
             displayToast();
