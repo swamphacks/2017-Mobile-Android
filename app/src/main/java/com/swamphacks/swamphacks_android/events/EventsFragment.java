@@ -136,6 +136,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
 
                 DatabaseReference userEventsRef = database.getReference().child("attendee_events").child(dbKey);
                 userEventsRef.child(event).setValue(pointVal);
+                toast = "Scanned into " + event;
             } else {
                 toast = "Failed to scan event";
             }

@@ -36,6 +36,7 @@ import com.swamphacks.swamphacks_android.announcements.FilterDialogFragment;
 import com.swamphacks.swamphacks_android.announcements.FilterListener;
 import com.swamphacks.swamphacks_android.countdown.CountdownFragment;
 import com.swamphacks.swamphacks_android.events.EventsFragment;
+import com.swamphacks.swamphacks_android.events.MapFragment;
 import com.swamphacks.swamphacks_android.profile.HackerProfileFragment;
 import com.swamphacks.swamphacks_android.profile.VolunteerProfileFragment;
 import com.swamphacks.swamphacks_android.sponsors.SponsorsFragment;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SponsorsFragment sponsorsFragment;
     private HackerProfileFragment hackerProfileFragment;
     private VolunteerProfileFragment volunteerProfileFragment;
+    private MapFragment mapFragment;
 
     Fragment state;
 
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sponsorsFragment = new SponsorsFragment();
         hackerProfileFragment = new HackerProfileFragment();
         volunteerProfileFragment = new VolunteerProfileFragment();
+        mapFragment = new MapFragment();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -181,6 +184,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FilterDialogFragment filterDialogFragment = new FilterDialogFragment();
             filterDialogFragment.setListener(this);
             filterDialogFragment.show(getFragmentManager(), "filter");
+            return true;
+        }
+
+        if(id == R.id.action_map){
+            updateFragment(mapFragment, true);
             return true;
         }
 
