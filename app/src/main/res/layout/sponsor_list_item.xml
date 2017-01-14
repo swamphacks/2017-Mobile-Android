@@ -28,17 +28,13 @@
                 android:orientation="vertical"
                 android:layout_weight="1">
 
-                <TextView android:layout_width="match_parent"
-                    android:id="@+id/sponsor_name"
-                    android:layout_margin="5dp"
-                    android:layout_gravity="left|start"
-                    android:textColor="@color/black"
-                    android:text="Sponsor"
+                <ImageView
+                    android:layout_width="match_parent"
+                    app:srcCompat="@drawable/progressbar_circular_colorful"
+                    android:id="@+id/logo_image"
                     android:layout_height="50dp"
-                    android:paddingTop="10dp"
-                    android:textSize="24sp"
-                    android:paddingLeft="5dp" />
-
+                    android:layout_marginTop="7dp"
+                    android:layout_marginBottom="7dp" />
             </LinearLayout>
 
             <ImageView

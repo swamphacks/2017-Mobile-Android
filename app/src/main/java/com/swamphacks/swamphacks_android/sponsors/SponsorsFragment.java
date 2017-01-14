@@ -3,6 +3,8 @@ package com.swamphacks.swamphacks_android.sponsors;
 import android.annotation.TargetApi;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -10,11 +12,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -169,6 +173,7 @@ public class SponsorsFragment extends Fragment {
             public TextView nameView;
             public TextView locationView;
             public TextView descriptionView;
+            public ImageView logoView;
             public FrameLayout colorView;
 
             // Default constructor, itemView holds all the views that need to be saved
@@ -176,10 +181,11 @@ public class SponsorsFragment extends Fragment {
                 super(itemView);
 
                 // Save the TextViews
-                this.nameView = (TextView) itemView.findViewById(R.id.sponsor_name);
+//                this.nameView = (TextView) itemView.findViewById(R.id.sponsor_name);
                 this.locationView = (TextView) itemView.findViewById(R.id.sponsor_location);
-                this.descriptionView = (TextView) itemView.findViewById(R.id.sponsor_location);
+                this.descriptionView = (TextView) itemView.findViewById(R.id.sponsor_description);
                 this.colorView = (FrameLayout) itemView.findViewById(R.id.sponsor_color);
+                this.logoView = (ImageView) itemView.findViewById(R.id.logo_image);
             }
         }
 
@@ -199,18 +205,22 @@ public class SponsorsFragment extends Fragment {
         public void onBindViewHolder(SponsorsFragment.MainNavAdapter.ViewHolder viewHolder, int i) {
             Sponsor sponsor = mSponsorsList.get(i);
 
-            viewHolder.nameView.setText(sponsor.getName());
+            if(sponsor.getLogo().length() > 50){
+                byte[] decodedString = Base64.decode(sponsor.getLogo(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                viewHolder.logoView.setImageBitmap(decodedByte);
+            }
             String tier = sponsor.getTier();
 
             switch (tier) {
                 case "heron":
-                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_red));
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_orange));
                     break;
                 case "turtle":
                     viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_blue));
                     break;
                 case "lilypad":
-                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_yellow));
+                    viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_green));
                     break;
                 case "other":
                     viewHolder.colorView.setBackgroundColor(getResources().getColor(R.color.event_purple));

@@ -10,12 +10,12 @@
     <color name="gradient_end">#62dcec</color>
 
     <!-- Event type colors -->
-    <color name="event_red">#E23052</color>
-    <color name="event_orange">#F78B31</color>
-    <color name="event_yellow">#FFCA0B</color>
-    <color name="event_green">#4D9973</color>
-    <color name="event_blue">#385DD6</color>
-    <color name="event_purple">#A86EDB</color>
+    <color name="event_red">#f9a7a7</color>
+    <color name="event_orange">#ffc379</color>
+    <color name="event_yellow">#f6f6b3</color>
+    <color name="event_green">#c0f4b8</color>
+    <color name="event_blue">#afeff9</color>
+    <color name="event_purple">#adb2fb</color>
 
     <!-- Basic colors, laziness -->
     <color name="white">#FFF</color>
