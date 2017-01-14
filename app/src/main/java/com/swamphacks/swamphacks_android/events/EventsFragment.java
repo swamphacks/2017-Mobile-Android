@@ -276,7 +276,7 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
                 return 1;
             case "food":
                 return 2;
-            case "tech talk":
+            case "techtalk":
                 return 3;
             case "other":
                 return 4;
@@ -297,9 +297,9 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
     public int getEventColor(int eventType) {
         switch (eventType) {
             case 0: // Logistics
-                return ContextCompat.getColor(getActivity(), R.color.event_blue);
-            case 1: // Social
                 return ContextCompat.getColor(getActivity(), R.color.event_red);
+            case 1: // Social
+                return ContextCompat.getColor(getActivity(), R.color.event_green);
             case 2: // Food
                 return ContextCompat.getColor(getActivity(), R.color.event_orange);
             case 3: // Tech Talk
