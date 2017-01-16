@@ -33,7 +33,7 @@ public class MapFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                ((BitmapDrawable)mapView.getDrawable()).getBitmap().recycle();
-                mapView.setImageResource(R.drawable.map_image_firstfloor);
+                mapView.setImageResource(R.drawable.firstfloor_image);
             }
         });
 
@@ -41,7 +41,7 @@ public class MapFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                ((BitmapDrawable)mapView.getDrawable()).getBitmap().recycle();
-                mapView.setImageResource(R.drawable.map_image);
+                mapView.setImageResource(R.drawable.basement_image);
             }
         });
 
