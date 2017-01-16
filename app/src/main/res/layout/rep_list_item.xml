@@ -10,7 +10,7 @@
     app:cardElevation="0dp">
 
     <ImageView
-        app:srcCompat="@mipmap/ic_launcher"
+        app:srcCompat="@mipmap/ic_appicon"
         android:id="@+id/rep_image"
         android:layout_marginTop="5dp"
         android:layout_width="50dp"

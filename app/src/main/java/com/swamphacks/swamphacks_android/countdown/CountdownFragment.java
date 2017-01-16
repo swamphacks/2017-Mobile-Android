@@ -176,14 +176,6 @@ public class CountdownFragment extends Fragment {
     }
 
     public void refreshEvents(){
-//        Log.d("current time: ", ""+ System.currentTimeMillis());
-//        Log.d("swamp time: ", ""+ SwamphacksStart*1000);
-//        Log.d("isBefore? ", ""+isBeforeSwamphacks);
-//        if(isBeforeSwamphacks && System.currentTimeMillis() > SwamphacksStart*1000)
-//            initCountdownIfNecessary(new Date(SwamphacksStart), SwamphacksDurationSeconds);
-//        if(DateTime.now().getMillis() > SwamphacksStart*1000){
-//            isBeforeSwamphacks = false;
-//        }
         nowEvents.clear();
         for(Event event : allEvents){
             long current = System.currentTimeMillis();
@@ -241,7 +233,7 @@ public class CountdownFragment extends Fragment {
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("EEEE, MMMM d, yyyy 'at' hh:mm a.");
 
         long timeRemainingBefore = startTime - curTime;
-        long totalHackingTimeBefore = 1000*60*60*24*14;
+        long totalHackingTimeBefore = 1000*60*60*24*7;
         HackingCountdownTimer timerBefore = new HackingCountdownTimer(timeRemainingBefore, totalHackingTimeBefore);
 
         if (curTime < startTime) {

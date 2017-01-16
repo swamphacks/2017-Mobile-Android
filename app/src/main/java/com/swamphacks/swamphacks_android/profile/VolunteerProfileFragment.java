@@ -158,7 +158,6 @@ public class VolunteerProfileFragment extends Fragment {
                         Log.d("Failed to read value.", error.toString());
                     }
                 });
-                toast = "Signed in: " + result.getContents();
             }
 
             displayToast();
