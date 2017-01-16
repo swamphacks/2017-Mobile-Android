@@ -12,13 +12,20 @@ public class Event {
     public Map<String, Integer> attendeeNum;
     public String type;
 
-    //Todo Do image stuff with Bitmap,
     public String map;
 
     public int numAttendees;
     public double avgRating;
 //    public boolean  approved;
 
+
+    public String getMap() {
+        return map;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
 
     public Map<String, Integer> getAttendeeNum() {
         return attendeeNum;

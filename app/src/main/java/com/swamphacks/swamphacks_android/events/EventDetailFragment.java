@@ -1,9 +1,12 @@
 package com.swamphacks.swamphacks_android.events;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +39,7 @@ public class EventDetailFragment extends Fragment {
 
     // Decalre Views.
     private View mEventDetailFragView;
-    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV, eventTimeHourTV,counterTV;
+    private TextView eventNameTV, eventTimeTV, eventLocationNameTV, eventInfoTV, eventTimeHourTV, counterTV;
     private ImageView mapImageView;
     private RelativeLayout ratingView, countView;
     private ImageButton minus, plus;
@@ -44,9 +47,7 @@ public class EventDetailFragment extends Fragment {
     private RatingBar ratingBar;
 
     // Event Details
-    private String eventName;
-    private String eventInfo;
-    private String eventLocation;
+    private String eventName, eventInfo, eventLocation, eventMap;
     private Date eventStartTime, eventEndTime;
     private int eventColor;
 
@@ -64,6 +65,7 @@ public class EventDetailFragment extends Fragment {
         args.putString("description", event.getDescription());
         args.putString("location", event.getLocation());
         args.putLong("startTime", event.getStart());
+        args.putString("map", event.getMap());
         args.putInt("color", color);
         eventDetailFragment.setArguments(args);
 
@@ -82,6 +84,7 @@ public class EventDetailFragment extends Fragment {
             eventStartTime = new Date(args.getLong("startTime"));
             eventEndTime = new Date(args.getLong("endTime"));
             eventColor = args.getInt("color");
+            eventMap = args.getString("map");
         }
 
         super.onCreate(savedInstanceState);
@@ -127,8 +130,6 @@ public class EventDetailFragment extends Fragment {
         eventInfoTV = (TextView) mEventDetailFragView.findViewById(R.id.details_description);
         counterTV = (TextView) mEventDetailFragView.findViewById(R.id.attendee_count);
         mapImageView = (ImageView) mEventDetailFragView.findViewById(R.id.map_image);
-
-        mapImageView.setVisibility(View.INVISIBLE);
 
         minus = (ImageButton) mEventDetailFragView.findViewById(R.id.minus_button);
         plus = (ImageButton) mEventDetailFragView.findViewById(R.id.plus_button);
@@ -182,6 +183,16 @@ public class EventDetailFragment extends Fragment {
         eventTimeHourTV.setText(formatTime(eventStartTime));
         eventLocationNameTV.setText(eventLocation);
         counterTV.setText("0");
+
+        if(eventMap.length() > 50){
+            byte[] decodedString = Base64.decode(eventMap, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            if(decodedByte != null) {
+                mapImageView.setImageBitmap(decodedByte);
+            }
+        } else {
+            mapImageView.setVisibility(View.INVISIBLE);
+        }
 
         // Can be empty
         if (eventInfo.length() != 0) eventInfoTV.setText(eventInfo);
