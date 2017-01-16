@@ -44,16 +44,15 @@ public class SponsorsFragment extends Fragment {
 
     ArrayList<Sponsor> mSponsorsList;
 
-    // Caches the listView layout
     RecyclerView mRecyclerView;
-    // Adapter for the listView
+
     SponsorsFragment.MainNavAdapter mListAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_announcements, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.list_cards);
+        View view = inflater.inflate(R.layout.fragment_sponsors, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.list_cards_sponsors);
 
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this.getActivity(), new RecyclerItemClickListener.OnItemClickListener() {

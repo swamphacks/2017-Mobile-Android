@@ -115,7 +115,6 @@ public class AnnouncementsFragment extends Fragment {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Announcement announcement = postSnapshot.getValue(Announcement.class);
                     int numType = convertTypeToInt(announcement.getType());
-//                    Log.d("Now: " + System.currentTimeMillis(), "Ann: " + announcement.getTime()*1000);
                     if(filterList[numType] == true && System.currentTimeMillis() > announcement.getTime()*1000)
                         mAnnouncementsList.add(announcement);
                     updateAnnouncements();

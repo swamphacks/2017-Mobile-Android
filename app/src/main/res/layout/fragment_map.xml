@@ -12,15 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/map_image"
-            android:id="@+id/map_view"
-            android:layout_marginTop="60dp"
-            android:layout_centerInParent="false"
-            android:layout_centerHorizontal="true" />
-
         <Button
             android:text="  First Floor "
             android:layout_width="wrap_content"
@@ -45,6 +36,16 @@
             android:layout_marginTop="10dp"
             android:textAllCaps="false"
             android:layout_alignParentRight="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/map_image"
+            android:id="@+id/map_view"
+            android:layout_centerInParent="false"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="25dp" />
     </RelativeLayout>
 
 </FrameLayout>
