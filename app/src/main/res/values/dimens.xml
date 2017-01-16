@@ -23,7 +23,7 @@
     <dimen name="text_countdown_timertext">50sp</dimen>
 
     <!-- Parameters -->
-    <dimen name="countdown_progressbar_thickness">15dp</dimen>
+    <dimen name="countdown_progressbar_thickness">20dp</dimen>
     <dimen name="nav_icon_height">48dp</dimen>
 
     <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:

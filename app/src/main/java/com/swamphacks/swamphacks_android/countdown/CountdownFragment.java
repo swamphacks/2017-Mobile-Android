@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -112,7 +113,7 @@ public class CountdownFragment extends Fragment {
 
     public void pushToDetailView(int position){
         if(!detailEventOpen) {
-            eventDetailFragment = EventDetailFragment.newInstance(nowEvents.get(position), 1);
+            eventDetailFragment = EventDetailFragment.newInstance(nowEvents.get(position), convertTypeToInt(nowEvents.get(position).getCategory()));
             eventDetailFragment.setParent(this);
             eventDetailFragment.setVol(isVolunteer);
             getActivity().getFragmentManager()
@@ -123,6 +124,23 @@ public class CountdownFragment extends Fragment {
                     .commit();
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
             detailEventOpen = true;
+        }
+    }
+
+    public int convertTypeToInt(String s){
+        switch (s) {
+            case "logistics":
+                return ContextCompat.getColor(getActivity(), R.color.event_red);
+            case "social":
+                return ContextCompat.getColor(getActivity(), R.color.event_green);
+            case "food":
+                return ContextCompat.getColor(getActivity(), R.color.event_orange);
+            case "techtalk":
+                return ContextCompat.getColor(getActivity(), R.color.event_purple);
+            case "other":
+                return ContextCompat.getColor(getActivity(), R.color.event_green);
+            default:
+                return ContextCompat.getColor(getActivity(), R.color.event_yellow);
         }
     }
 
