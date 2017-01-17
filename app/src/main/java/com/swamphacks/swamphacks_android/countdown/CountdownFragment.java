@@ -203,7 +203,6 @@ public class CountdownFragment extends Fragment {
     }
 
     private void initCountdownIfNecessary(Date startDate, long duration) {
-        Log.d("making ", "new timer");
         // Get the local date+time
         DateTime localDateTime = new DateTime();
 

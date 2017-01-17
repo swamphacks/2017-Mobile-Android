@@ -31,7 +31,6 @@ public class FilterDialogFragment extends DialogFragment{
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Log.d("filterlist", "" + selected[0] + " " + selected[1]);
         mSelectedItems = new ArrayList();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.FilterAlertTheme);
         builder.setTitle("Filter")

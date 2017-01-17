@@ -104,7 +104,6 @@ public class VolunteerProfileFragment extends Fragment {
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("clicked ", "camera button");
                 openVolunteerCameraView();
             }
         });
@@ -142,7 +141,6 @@ public class VolunteerProfileFragment extends Fragment {
             if(result.getContents() == null) {
                 toast = "Closed Scanner";
             } else {
-                Log.d("person email: ", result.getContents());
                 String dbKey = result.getContents().replace("@", "").replace(".", "").toLowerCase();
 
                 DatabaseReference myRef = database.getReference().child("confirmed").child(dbKey);

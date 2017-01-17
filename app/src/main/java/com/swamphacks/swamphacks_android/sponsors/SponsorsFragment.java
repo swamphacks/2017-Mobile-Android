@@ -170,7 +170,6 @@ public class SponsorsFragment extends Fragment {
         // Simple class that holds all the views that need to be reused
         class ViewHolder extends RecyclerView.ViewHolder{
             public TextView nameView;
-            public TextView locationView;
             public TextView descriptionView;
             public ImageView logoView;
             public FrameLayout colorView;
@@ -180,8 +179,7 @@ public class SponsorsFragment extends Fragment {
                 super(itemView);
 
                 // Save the TextViews
-//                this.nameView = (TextView) itemView.findViewById(R.id.sponsor_name);
-                this.locationView = (TextView) itemView.findViewById(R.id.sponsor_location);
+                this.nameView = (TextView) itemView.findViewById(R.id.sponsor_name);
                 this.descriptionView = (TextView) itemView.findViewById(R.id.sponsor_description);
                 this.colorView = (FrameLayout) itemView.findViewById(R.id.sponsor_color);
                 this.logoView = (ImageView) itemView.findViewById(R.id.logo_image);
