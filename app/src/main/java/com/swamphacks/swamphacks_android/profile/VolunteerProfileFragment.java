@@ -74,14 +74,16 @@ public class VolunteerProfileFragment extends Fragment {
         Drawable drawableCamera = new BitmapDrawable(getResources(), getRoundedCornerBitmap(cameraImage, 40));
         cameraButton.setBackground(drawableCamera);
 
-        AssetManager am = getContext().getApplicationContext().getAssets();
-        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            AssetManager am = getContext().getApplicationContext().getAssets();
+            Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
 
-        nameView.setTypeface(face);
-        emailView.setTypeface(face);
-        cameraButton.setTypeface(face);
-        volunteerEmailButton.setTypeface(face);
-        emailET.setTypeface(face);
+            nameView.setTypeface(face);
+            emailView.setTypeface(face);
+            cameraButton.setTypeface(face);
+            volunteerEmailButton.setTypeface(face);
+            emailET.setTypeface(face);
+        }
 
         final String email = user.getEmail();
         String dbKey = email.replace("@", "").replace(".", "");

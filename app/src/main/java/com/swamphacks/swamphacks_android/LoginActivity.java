@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -50,9 +54,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -73,9 +74,14 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView.setTypeface(face);
         mEmailSignInButton.setTypeface(face);
 
-        getSupportActionBar().setTitle("");
-        getSupportActionBar().setElevation(0);
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62dcec")));
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            ActionBar actionBar = getSupportActionBar();
+            if(actionBar != null) {
+                actionBar.setTitle("");
+                actionBar.setElevation(0);
+                actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#62dcec")));
+            }
+        }
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);

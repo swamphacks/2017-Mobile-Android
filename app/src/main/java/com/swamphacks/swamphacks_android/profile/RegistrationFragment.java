@@ -120,17 +120,19 @@ public class RegistrationFragment extends Fragment {
 
         confirmButton = (Button) registrationView.findViewById(R.id.confirm_button);
 
-        AssetManager am = getContext().getApplicationContext().getAssets();
-        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            AssetManager am = getContext().getApplicationContext().getAssets();
+            Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
 
-        nameTV.setTypeface(face);
-        nameLabel.setTypeface(face);
-        schoolLabel.setTypeface(face);
-        schoolTV.setTypeface(face);
-        emailTV.setTypeface(face);
-        emailLabel.setTypeface(face);
-        correctLabel.setTypeface(face);
-        confirmButton.setTypeface(face);
+            nameTV.setTypeface(face);
+            nameLabel.setTypeface(face);
+            schoolLabel.setTypeface(face);
+            schoolTV.setTypeface(face);
+            emailTV.setTypeface(face);
+            emailLabel.setTypeface(face);
+            correctLabel.setTypeface(face);
+            confirmButton.setTypeface(face);
+        }
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override

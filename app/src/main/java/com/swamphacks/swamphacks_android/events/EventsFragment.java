@@ -218,16 +218,6 @@ public class EventsFragment extends Fragment implements WeekView.EventClickListe
                     mEvents.add(event);
                 }
                 mWeekView.notifyDatasetChanged();
-                try {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mWeekView.notifyDatasetChanged();
-                        }
-                    });
-                } catch(Error error){
-                    Log.d("Error: ", error.toString());
-                }
             }
 
             @Override

@@ -90,11 +90,13 @@ public class CountdownFragment extends Fragment {
         mHappeningNowTextView = (TextView) view.findViewById(R.id.happening_text);
         infoLabel = (TextView) view.findViewById(R.id.timer_info);
 
-        AssetManager am = getContext().getApplicationContext().getAssets();
-        Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            AssetManager am = getContext().getApplicationContext().getAssets();
+            Typeface face = Typeface.createFromAsset(am, "fonts/Metropolis-Regular.otf");
 
-        mCountdownTextView.setTypeface(face);
-        mHappeningNowTextView.setTypeface(face);
+            mCountdownTextView.setTypeface(face);
+            mHappeningNowTextView.setTypeface(face);
+        }
 
         detailEventOpen = false;
         recyclerView = (RecyclerView) view.findViewById(R.id.list_happening_now);
