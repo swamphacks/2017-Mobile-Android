@@ -101,13 +101,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                isVolunteer = dataSnapshot.getValue(Boolean.class);
-                if(isVolunteer){
-                    eventsFragment.setVol(isVolunteer);
-                    countdownFragment.isVolunteer = isVolunteer;
-                    TextView textView = (TextView) findViewById(R.id.user_title);
-                    if(textView != null)
-                        textView.setText("Volunteer");
+                if(dataSnapshot != null) {
+                    isVolunteer = dataSnapshot.getValue(Boolean.class);
+                    if (isVolunteer) {
+                        eventsFragment.setVol(isVolunteer);
+                        countdownFragment.isVolunteer = isVolunteer;
+                        TextView textView = (TextView) findViewById(R.id.user_title);
+                        if (textView != null)
+                            textView.setText("Volunteer");
+                    }
                 }
             }
 
